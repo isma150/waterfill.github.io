@@ -38,7 +38,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 | F8 | Media | **Bonus perfecto del 15 %** sin recibir daño. El criterio del original sigue sin estar claro, y en todos los resultados que vi sale 0. | [Cód] `m.perfect=m.damageTaken===0?…` | [Obs] "Per-Fect Bonus (0/-)" con valor 0 en todos los resultados vistos. |
 | F9 | Baja | **El botón inferior central muestra "!" y no un contador de bombas.** | [Cód] `ell(210,681…)` con `!` | [Obs] El dial muestra un icono de bomba y un número (0, 2, 3). |
 | F10 | Baja | **Los iconos de la garaje y la tienda son emojis** (🔒, ✓, ◉, 🔒 en botones) y dependen de la fuente del sistema. | [Cód] `txt('🔒',…)`, `txt('✓',…)` | No aplica. |
-| F11 | Baja | **Dos menús de tienda con pestañas iguales** (Car, Driver, Assist, Pet, Coin/Key) y la pestaña Coin/Key muestra "COMING SOON". | [Cód] `lists[4]` con `locked:true`. | [Obs] Coin/Key/Jewelry existe en el original. |
+| F11 | Baja | **La pestaña Coin/Key de la tienda no tiene contenido**: muestra "COMING SOON" y no hay nada que comprar. | [Cód] `lists[4]` con `locked:true`. | [Obs] Coin/Key/Jewelry existe en el original. |
 
 ---
 
@@ -50,8 +50,8 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 |---|---|---|---|
 | M1 | **Burbujas de tutorial dentro de la primera ola**, que pausan la escena | [Obs] "Bank robber" (0:12), "Drive!" con flechas (0:14), "Police" con corchetes (0:22), "Dodge!" (0:24), "Auto attack when you go near an enemy" (0:36), "get a weapons" (0:48), "get a Coin" (0:58), "Good job! Eat this!" (1:04), "auto drive to touch off! touch to drive yourself!" (1:28), túnel con monedas dobles (1:30). Verificado: la escena no avanza mientras hay burbuja. | Falta. La base tiene un tutorial en 4 pantallas antes de jugar, pero nada dentro de la partida. |
 | M2 | **Consejo de carga antes de cada banco** (calle BANK + texto) | [Obs] 4 consejos literales (sección 9 del ANALISIS). | Falta. |
-| M3 | **Pantalla de jefe en negro con "BOSS" y destello radial** | [Obs] 1:50 y en cada nivel. | Falta. La base muestra un banner "BOSS WAVE!" sobre la escena. |
-| M4 | **"LEVEL ↑" con una mejora** al vencer al jefe | [Obs] "Firing rate Up" tras los niveles 1 y 2. | Falta. Victoria directa a resultados. |
+| M3 | **Pantalla de jefe en negro con "BOSS" y destello radial** | [Obs] 2:20 en el nivel 1 y antes del jefe de cada nivel. | Falta. La base muestra un banner "BOSS WAVE!" sobre la escena. |
+| M4 | **"LEVEL ↑" con una mejora** al vencer al jefe | [Obs] "Firing rate Up" tras varios niveles. | Falta. Victoria directa a resultados. |
 | M5 | **Pantalla de fin de ola con cuenta atrás del tiempo sobrante** y "x 2 Bonus" | [Obs] 17 → 11 → 4 → 0 en negro. | Falta (ver F4). |
 | M6 | **Coche dorado** con la llave dorada | [Obs] "If you use the golden key while playing. The golden car shows up on your game play." | Falta. Las llaves no tienen efecto (F1). |
 | M7 | **Túnel**: monedas dobles si recoges todas | [Obs] Texto en el tutorial. | Falta. |
@@ -112,7 +112,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 - **Carretera:** la base es asfalto gris oscuro con arcenes. El original es blanco con arcos de lápiz.
 - **Enemigos:** la base usa policía, furgoneta blindada y ambulancia con aspecto de taxi. El original tiene policía, camión blanco, sedán azul y jefes de camión.
 - **Bonus perfecto:** la base da el 15 % sin daño. El original no tiene un criterio conocido.
-- **Dificultad:** la base tiene 15 bancos. El original, en lo visto, tiene 6 o más.
+- **Progresión:** la base tiene 15 bancos. En el material del original se ven 6 o más, con el mapa de 15 posibles no confirmado.
 
 ---
 
