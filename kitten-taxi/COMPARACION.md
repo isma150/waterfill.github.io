@@ -20,7 +20,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 
 | # | Problema | Evidencia | Acción |
 |---|---|---|---|
-| R1 | Los bancos llevan nombres de personas reales (Bernard Arnault, S. Robson Walton, Alice Walton, Stefan Persson, Liliane Bettencourt) y el juego permite robarles. | [Cód] líneas `name:'…'` del array `BANKS` | Sustituir por nombres ficticios. Ya está publicado en la versión 4. |
+| R1 | Los primeros bancos llevan nombres de personas reales y el juego permite robarles. | [Cód] líneas `name:'…'` del array `BANKS` | Sustituidos por nombres ficticios (Banco Lunar, Banco Mirador, Banco del Puerto, Banco Solano, Banco Ceniza). |
 
 ---
 
