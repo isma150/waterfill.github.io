@@ -1,0 +1,1487 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Kitten Taxi: versión HTML no oficial de conducción y disparo por oleadas, hecha desde cero.">
+<title>Kitten Taxi (HTML)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap">
+<style>
+:root{
+  --paper:#f7f5ef; --ink:#1d1d1d; --muted:#6d6a63; --panel:#fffdf7; --line:#2b2b2b;
+  --taxi:#f2b705; --go:#4caf32; --stop:#e0523b;
+  --font:"Patrick Hand","Comic Sans MS",cursive,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#1b1b1b;--ink:#f2f2f2;--muted:#a8a8a8;--panel:#262626;--line:#e6e6e6}
+}
+:root[data-theme="dark"]{--paper:#1b1b1b;--ink:#f2f2f2;--muted:#a8a8a8;--panel:#262626;--line:#e6e6e6}
+html,body{margin:0;height:100%;background:#111;overflow:hidden}
+#wrap{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden}
+#stage{position:relative;width:390px;height:844px;flex:none;transform:scale(var(--k,1));background:var(--paper);color:var(--ink);font-family:var(--font);font-size:20px;user-select:none;-webkit-user-select:none;touch-action:none;overflow:hidden}
+#game{position:absolute;left:0;top:0;width:390px;height:844px}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:18px;box-sizing:border-box;background:var(--paper)}
+.screen.on{display:flex}
+.screen.over{background:rgba(10,10,10,.55)}
+.panel{background:var(--panel);border:3px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:4px 4px 0 var(--line);width:100%;max-width:350px;box-sizing:border-box}
+.btn{font:inherit;font-size:22px;color:var(--ink);background:var(--panel);border:3px solid var(--line);border-radius:12px;padding:8px 16px;min-width:140px;cursor:pointer;box-shadow:3px 3px 0 var(--line)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.btn.go{background:var(--go);color:#fff}
+.btn.warn{background:var(--stop);color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.sm{font-size:18px;min-width:0;padding:4px 10px}
+.btn.on{background:var(--taxi)}
+.logo{font-size:68px;line-height:.95;font-weight:700;text-align:center;transform:rotate(-4deg);text-shadow:4px 4px 0 var(--taxi)}
+.logo.small{font-size:44px}
+.muted{color:var(--muted)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:22px;padding:4px 0;border-bottom:2px dashed var(--muted)}
+.row:last-child{border-bottom:0}
+.row.total{font-weight:700;font-size:26px}
+.col{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.tabs{display:flex;gap:6px;width:100%;max-width:350px}
+.tabs .btn{flex:1;min-width:0;font-size:18px;padding:6px 4px}
+.bar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:350px}
+.pill{background:var(--panel);border:2px solid var(--line);border-radius:999px;padding:2px 10px;font-size:20px}
+.card{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+#shopBody{width:100%;max-width:350px;display:flex;flex-direction:column;gap:10px;overflow:auto;max-height:620px;box-sizing:border-box;padding-bottom:6px}
+#map{justify-content:flex-start;padding:0}
+#mapSvg{position:absolute;left:0;top:0;width:390px;height:844px;pointer-events:none}
+#mapNodes{position:absolute;left:0;top:0;width:390px;height:844px}
+.node{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:3px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:24px;cursor:pointer;box-shadow:3px 3px 0 var(--line);padding:0}
+.node.locked{opacity:.4;cursor:default}
+.node.done{background:var(--taxi)}
+.node.sel{outline:4px solid var(--go);outline-offset:3px}
+#mapTop{position:absolute;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;align-items:center}
+#mapInfo{position:absolute;left:14px;right:14px;bottom:14px;width:auto;max-width:none}
+#wheelCanvas{width:280px;height:280px}
+#tip{cursor:pointer}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="stage">
+  <canvas id="game" width="390" height="844"></canvas>
+
+  <!-- Título -->
+  <section id="title" class="screen">
+    <div class="logo">Kitten<br>Taxi</div>
+    <div class="muted">versión HTML · no oficial</div>
+    <button class="btn go" id="btnPlay">Jugar</button>
+    <button class="btn" id="btnToShop">Tienda</button>
+    <button class="btn" id="btnWheelTitle">Rueda</button>
+    <button class="btn sm" id="btnSettings">Ajustes</button>
+    <div class="muted" style="font-size:17px;text-align:center;max-width:320px;line-height:1.25">
+      Arrastra para conducir · AUTO = conducción automática (toca para apagarla) · bomba: botón central o espacio · P = pausa.
+    </div>
+  </section>
+
+  <!-- Mapa de bancos -->
+  <section id="map" class="screen">
+    <svg id="mapSvg" viewBox="0 0 390 844" aria-hidden="true"></svg>
+    <div id="mapNodes"></div>
+    <div id="mapTop">
+      <button class="btn sm" id="btnBackTitle">← Menú</button>
+      <span class="pill" id="mapCoins"></span>
+    </div>
+    <div id="mapInfo" class="panel">
+      <div class="row"><b id="infoName"></b><span id="infoLevel" class="muted"></span></div>
+      <div class="row"><span>Saldo del banco</span><b id="infoBal"></b></div>
+      <div class="row"><span id="infoStatus" class="muted"></span></div>
+      <div class="col" style="flex-direction:row;justify-content:space-between;margin-top:10px">
+        <button class="btn sm" id="btnMapShop">Tienda</button>
+        <button class="btn sm" id="btnMapWheel">Rueda</button>
+        <button class="btn go" id="btnStart">Empezar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consejo antes de empezar -->
+  <section id="tip" class="screen">
+    <div class="panel" style="text-align:center;font-size:26px">
+      <div id="tipBank" class="muted"></div>
+      <p id="tipText" style="margin:14px 0;line-height:1.2"></p>
+      <div class="muted" style="font-size:18px">Toca para empezar</div>
+    </div>
+  </section>
+
+  <!-- Pausa -->
+  <section id="pause" class="screen over">
+    <div class="panel" style="text-align:center">
+      <div class="logo small">Pausa</div>
+      <div class="col">
+        <button class="btn go" id="btnResume">Seguir</button>
+        <button class="btn warn" id="btnQuit">Abandonar el banco</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Muerte -->
+  <section id="dead" class="screen over">
+    <div class="panel" style="text-align:center">
+      <div class="logo small" id="deadTitle">¡Te han parado!</div>
+      <p class="muted" id="deadMsg" style="font-size:22px"></p>
+      <div class="col">
+        <button class="btn go" id="btnContinue">Reintentar (1 gema)</button>
+        <button class="btn" id="btnGiveUp">Rendirse</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resultado -->
+  <section id="result" class="screen">
+    <div class="logo small" id="resTitle">Resultado</div>
+    <div class="panel">
+      <div class="row"><span>Robado del banco</span><b id="resStolen"></b></div>
+      <div class="row"><span>Ganado destruyendo</span><b id="resDestroyed"></b></div>
+      <div class="row"><span>Bonus perfecto (saldo a 0)</span><b id="resPerfect"></b></div>
+      <div class="row total"><span>Total</span><b id="resTotal"></b></div>
+      <div class="row"><span>Gemas recogidas</span><b id="resGems"></b></div>
+      <div class="row"><span>Saldo restante del banco</span><b id="resBal"></b></div>
+    </div>
+    <button class="btn go" id="btnBackMap">Volver al mapa</button>
+  </section>
+
+  <!-- Tienda -->
+  <section id="shop" class="screen">
+    <div class="bar"><button class="btn sm" id="btnShopBack">← Volver</button><span class="pill" id="shopCoins"></span></div>
+    <div class="tabs" id="shopTabs"></div>
+    <div id="shopBody"></div>
+  </section>
+
+  <!-- Rueda -->
+  <section id="wheel" class="screen">
+    <div class="bar"><button class="btn sm" id="btnWheelBack">← Volver</button><span class="pill" id="wheelCoins"></span></div>
+    <canvas id="wheelCanvas" width="560" height="560"></canvas>
+    <div id="wheelInfo" class="muted" style="text-align:center;min-height:28px;max-width:330px"></div>
+    <button class="btn go" id="btnSpin">Girar</button>
+  </section>
+
+  <!-- Ajustes -->
+  <section id="settings" class="screen">
+    <div class="panel" style="text-align:center">
+      <div class="logo small">Ajustes</div>
+      <p class="muted" style="font-size:20px">El progreso se guarda en este navegador.</p>
+      <button class="btn warn" id="btnReset">Borrar progreso</button>
+    </div>
+    <button class="btn" id="btnSettingsBack">Volver</button>
+  </section>
+</div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= Constantes ================= */
+const W = 390, H = 844;
+const HORIZON = 300, PLAYER_Y = 700, ROAD_HALF = 150, ZMAX = 66;
+const BASE_SPEED = 14;
+const PROJ_K = 0.075;
+const SAVE_KEY = 'kitten-taxi-html-v1';
+
+const BANKS = [
+  { name: 'Banco Lunar',      x: 110, y: 520 },
+  { name: 'Banco Mirador',    x: 275, y: 440 },
+  { name: 'Banco del Puerto', x: 120, y: 360 },
+  { name: 'Banco Solano',     x: 275, y: 280 },
+  { name: 'Banco Ceniza',     x: 120, y: 200 },
+  { name: 'Banco Estrella',   x: 260, y: 130 },
+];
+const WEAPONS = {
+  pistol:  { name: 'Pistola',       rate: 4.0, dmg: 3,   range: 42, lat: 0.55, price: 0 },
+  shot:    { name: 'Escopeta',      rate: 1.1, dmg: 2,   range: 30, lat: 0.45, price: 1500 },
+  machine: { name: 'Ametralladora', rate: 9.0, dmg: 1.2, range: 44, lat: 0.6,  price: 3000 },
+};
+const BOMB = { name: 'Bomba de arcilla', price: 800, dmg: 14, lvlBonus: 0.3 };
+const BOMB_BTN = { x: 236, y: 770, r: 32 };
+const ENEMY = {
+  police: { hp: 6,  vz: 2.5, reward: 10, fire: 2.6, ram: false, color: '#3d6fd1' },
+  sedan:  { hp: 8,  vz: 5.0, reward: 12, fire: 0,   ram: true,  color: '#7aa3dc' },
+  van:    { hp: 16, vz: 1.4, reward: 22, fire: 3.0, ram: false, color: '#f4f4f0' },
+};
+const HAZARD = new Set(['bottle', 'dumpster', 'clay']);
+const PRIZES = [
+  { t: '50',           coins: 50 },
+  { t: '100',          coins: 100 },
+  { t: 'Gema',         gems: 1 },
+  { t: '200',          coins: 200 },
+  { t: 'Llave dorada', key: 1 },
+  { t: '500',          coins: 500 },
+  { t: 'Gema',         gems: 1 },
+  { t: '30',           coins: 30 },
+];
+const TIPS = [
+  'La llave dorada hace aparecer el coche dorado: las monedas valen el doble.',
+  'La bomba de arcilla verde frena tu coche durante unos segundos.',
+  'Mejora un arma en la tienda para despejar las fases con más facilidad.',
+  'La escopeta y la ametralladora alcanzan a varios enemigos a la vez.',
+];
+const PALETTES = [
+  { sky1: '#ffffff', sky2: '#e4e8ec', ground: '#fbfbfb', far: '#9aa3ad', skyline: 'city' },
+  { sky1: '#8fd0f5', sky2: '#eef9ff', ground: '#ffffff', far: '#6fb0d6', skyline: 'clouds' },
+  { sky1: '#7fbfe8', sky2: '#e6f5ff', ground: '#ffffff', far: '#4a92c0', skyline: 'mountains' },
+  { sky1: '#f6a77a', sky2: '#fde0c0', ground: '#fffaf3', far: '#c8607a', skyline: 'mountains' },
+  { sky1: '#8fd0f5', sky2: '#eef9ff', ground: '#ffffff', far: '#3f7fb0', skyline: 'mountains' },
+  { sky1: '#c9b6f0', sky2: '#f4eeff', ground: '#ffffff', far: '#7a68b8', skyline: 'city' },
+];
+
+/* ================= Utilidades ================= */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const fmt = n => Math.round(n).toLocaleString('es-ES');
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+/* ================= Guardado ================= */
+function defaultSave() {
+  return {
+    coins: 300, gems: 2, goldenKeys: 0, spins: 0,
+    owned: { pistol: true, shot: false, machine: false, bomb: false },
+    lvl:   { pistol: 1, shot: 1, machine: 1, bomb: 1 },
+    active: 'pistol',
+    carHp: 1, magnet: 1, shield: 0, pet: 0,
+    banks: BANKS.map((b, i) => ({ level: 1, balance: 100 + 50 * i, unlocked: i === 0, done: false })),
+  };
+}
+function loadSave() {
+  const d = defaultSave();
+  try {
+    const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+    if (s && typeof s === 'object') {
+      Object.assign(d, s);
+      d.owned = Object.assign(defaultSave().owned, s.owned || {});
+      d.lvl = Object.assign(defaultSave().lvl, s.lvl || {});
+      if (!Array.isArray(s.banks) || s.banks.length !== BANKS.length) d.banks = defaultSave().banks;
+    }
+  } catch (e) { /* sin almacenamiento disponible: partida nueva */ }
+  return d;
+}
+let save = loadSave();
+function persist() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* ignorar */ }
+}
+
+/* ================= Estadísticas y costes ================= */
+const maxHp = () => 50 + 30 * (save.carHp - 1);
+const magnetR = () => 0.18 + 0.07 * (save.magnet - 1);
+const weaponPower = id => WEAPONS[id].dmg * (1 + 0.25 * (save.lvl[id] - 1)) * (1 + 0.08 * save.pet);
+const weaponRate = id => WEAPONS[id].rate * (1 + 0.1 * (save.lvl[id] - 1));
+const bombDmg = () => BOMB.dmg * (1 + BOMB.lvlBonus * (save.lvl.bomb - 1));
+const coinValue = () => 1 + save.pet;
+const costs = {
+  weapon: id => Math.round(500 * Math.pow(save.lvl[id], 1.25)),
+  bomb: () => Math.round(500 * Math.pow(save.lvl.bomb, 1.25)),
+  spin: () => Math.min(1500, 500 + 225 * save.spins),
+};
+const UPG = {
+  carHp:  { cost: () => Math.round(400 * Math.pow(save.carHp, 1.2)), apply: () => { save.carHp++; } },
+  magnet: { cost: () => 300 * save.magnet,                          apply: () => { save.magnet++; } },
+  shield: { cost: () => 500 * (save.shield + 1),                    apply: () => { save.shield++; } },
+  pet:    { cost: () => 600 * (save.pet + 1),                       apply: () => { save.pet++; } },
+};
+
+/* ================= Canvas y proyección ================= */
+const canvas = $('game');
+const ctx = canvas.getContext('2d');
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+canvas.width = W * DPR;
+canvas.height = H * DPR;
+ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+// x en [-1, 1] = ancho del carril; z = distancia (0 = coche, ZMAX = horizonte)
+function proj(x, z) {
+  const s = 1 / (1 + z * PROJ_K);
+  return { sx: W / 2 + x * ROAD_HALF * s, sy: HORIZON + (PLAYER_Y - HORIZON) * s, s };
+}
+
+// Decorado fijo (generado una vez)
+const SKY = {
+  city: Array.from({ length: 12 }, (_, i) => ({ x: i * 36 + rnd(-6, 6), w: rnd(26, 44), h: rnd(60, 130) })),
+  mountains: Array.from({ length: 8 }, (_, i) => ({ x: i * 60 - 20, y: HORIZON - rnd(40, 110) })),
+  clouds: Array.from({ length: 6 }, () => ({ x: rnd(0, W), y: rnd(40, 200), r: rnd(20, 40) })),
+};
+const SPEED_LINES = Array.from({ length: 40 }, () => ({ x: rnd(-1.8, 1.8), p: Math.random(), len: rnd(0.5, 1.3) }));
+
+/* ================= Estado de la partida ================= */
+let app = 'title';          // title | map | shop | wheel | settings | run | result
+let returnTo = 'title';
+let selBank = 0;
+let shopTab = 'weapons';
+const keys = {};
+let G = null;
+
+function newRun(bi) {
+  const bank = save.banks[bi];
+  if (bank.balance <= 0) bank.balance = 100 + 50 * bi;
+  const golden = save.goldenKeys > 0;
+  if (golden) { save.goldenKeys--; persist(); }
+  const hpMax = maxHp();
+  G = {
+    bi, level: bank.level, bankLeft: bank.balance, golden,
+    phase: 'tip', phaseT: 0, wave: 0, t: 0,
+    px: 0, targetX: 0, auto: true,
+    hp: hpMax, hpMax, hpBonus: 0, rateBonus: 1, magnetBonus: 0,
+    slowT: 0, slowMul: 1, shake: 0,
+    cd: 0, boostT: 0, boostId: null,
+    bombs: save.owned.bomb ? 2 : 0,
+    stolen: 0, destroyed: 0, gemsRun: 0,
+    enemies: [], bullets: [], objs: [], fx: [], texts: [], warnings: [],
+    tm: { coin: 0.8, crate: 6, bottle: 2.5, dump: 8, clay: 12 },
+    spawnLeft: 0, spawnT: 0, remaining: 0, timeLeft: 0, waveTotal: 0,
+    boss: false, bossDone: false, shieldLeft: 0,
+    tallyLeft: 0, tallyStart: 0, tallyT: 0, levelUpText: '', prePause: 'play',
+  };
+  app = 'run';
+  selBank = bi;
+  $('tipBank').textContent = BANKS[bi].name + ' · nivel ' + bank.level;
+  $('tipText').textContent = pick(TIPS);
+  show('tip');
+  setTimeout(() => {
+    if (app === 'run' && G && G.phase === 'tip') { show(null); startWave(1); }
+  }, 2200);
+}
+
+function startWave(n) {
+  const g = G, d = g.level, boss = n === 6;
+  g.wave = n;
+  g.boss = boss;
+  g.bossDone = false;
+  g.waveTotal = boss ? 4 : 5 + n + d;
+  g.spawnLeft = g.waveTotal;
+  g.spawnT = 0.6;
+  g.remaining = g.waveTotal + (boss ? 1 : 0);
+  g.timeLeft = boss ? 45 : 24 + d * 1.5 + n * 1.2;
+  g.shieldLeft = save.shield;
+  g.hp = Math.min(g.hpMax, g.hp + 12);   // recuperación al empezar cada ola
+  if (save.owned.bomb) g.bombs += 1;
+  g.phase = 'intro';
+  g.phaseT = boss ? 1.8 : 1.2;
+  g.introText = boss ? 'BOSS' : 'OLA ' + n;
+}
+
+function spawnEnemy() {
+  const g = G, d = g.level;
+  const r = Math.random();
+  let type;
+  if (g.wave === 1) type = r < 0.8 ? 'police' : 'sedan';
+  else type = r < 0.45 ? 'police' : r < 0.7 ? 'sedan' : 'van';
+  const st = ENEMY[type];
+  const hp = st.hp * (1 + 0.25 * (d - 1));
+  g.enemies.push({
+    type, x: rnd(-0.8, 0.8), z: ZMAX, vz: st.vz, hp, maxHp: hp,
+    reward: Math.round(st.reward * (1 + 0.1 * (d - 1))),
+    fire: st.fire, fireT: rnd(1, 2.5), ram: st.ram, color: st.color, flash: 0, dead: false,
+  });
+}
+
+function spawnBoss() {
+  const g = G, d = g.level;
+  const hp = 140 * (1 + 0.3 * (d - 1));
+  g.enemies.push({
+    type: 'boss', x: 0, z: 18, vz: 0, hp, maxHp: hp, reward: 300 * d,
+    fire: 2.0, fireT: 1.5, ram: false, color: '#e8b640', flash: 0, dead: false,
+  });
+}
+
+function spawnCoinRow() {
+  const g = G;
+  if (Math.random() < 0.15) { g.objs.push({ kind: 'gem', x: rnd(-0.75, 0.75), z: ZMAX, dead: false }); return; }
+  const x = rnd(-0.75, 0.75);
+  for (let k = 0; k < 4; k++) g.objs.push({ kind: 'coin', x, z: ZMAX - k * 3.2, dead: false });
+}
+
+function spawnTick(dt) {
+  const g = G, tm = g.tm;
+  tm.coin -= dt;   if (tm.coin <= 0)   { tm.coin = rnd(1.5, 2.3); spawnCoinRow(); }
+  tm.crate -= dt;  if (tm.crate <= 0)  { tm.crate = rnd(9, 12); g.objs.push({ kind: 'crate', x: rnd(-0.75, 0.75), z: ZMAX, dead: false }); }
+  tm.bottle -= dt; if (tm.bottle <= 0) { tm.bottle = rnd(2.6, 4); g.objs.push({ kind: 'bottle', x: rnd(-0.8, 0.8), z: ZMAX, dead: false }); }
+  tm.dump -= dt;   if (tm.dump <= 0)   { tm.dump = rnd(10, 14); g.objs.push({ kind: 'dumpster', x: rnd(-0.7, 0.7), z: ZMAX, dead: false }); }
+  tm.clay -= dt;   if (tm.clay <= 0)   { tm.clay = rnd(13, 18); g.objs.push({ kind: 'clay', x: rnd(-0.7, 0.7), z: ZMAX, dead: false }); }
+  if (g.spawnLeft > 0) {
+    g.spawnT -= dt;
+    if (g.spawnT <= 0) {
+      g.spawnT = Math.max(0.6, 1.2 - 0.05 * g.level);
+      g.spawnLeft--;
+      spawnEnemy();
+    }
+  }
+}
+
+/* ================= Eventos de juego ================= */
+function hurt(d) {
+  const g = G;
+  if (!g || g.phase !== 'play') return;
+  g.hp = Math.max(0, g.hp - d);
+  g.shake = 0.35;
+  if (g.hp <= 0) {
+    g.phase = 'dead';
+    showDead('¡Te han parado!', 'Tu coche no aguanta más.');
+  }
+}
+
+function slow(sec, mul) { G.slowT = Math.max(G.slowT, sec); G.slowMul = mul; }
+
+function hitObstacle(o) {
+  if (o.kind === 'bottle') { hurt(6); slow(0.6, 0.6); addWorldText(o.x, 2, '¡Ay!', '#c0392b'); }
+  else if (o.kind === 'dumpster') { hurt(12); addWorldText(o.x, 2, '¡Choque!', '#c0392b'); }
+  else if (o.kind === 'clay') { slow(2.5, 0.5); addWorldText(o.x, 2, 'Arcilla', '#3c8a3c'); }
+}
+
+function collect(o) {
+  const g = G;
+  if (o.kind === 'coin') {
+    const left = g.bankLeft - g.stolen;
+    const v = Math.min(coinValue() * (g.golden ? 2 : 1), Math.max(0, left));
+    if (v > 0) { g.stolen += v; addText(W / 2 + g.px * ROAD_HALF, PLAYER_Y - 90, '+' + v, '#8a6200'); }
+    else addText(W / 2 + g.px * ROAD_HALF, PLAYER_Y - 90, 'Banco vacío', '#6d6a63');
+  } else if (o.kind === 'gem') {
+    g.gemsRun++;
+    addText(W / 2 + g.px * ROAD_HALF, PLAYER_Y - 90, '+1 gema', '#1a87b5');
+  } else if (o.kind === 'crate') {
+    const opts = ['shot', 'machine'].filter(id => save.owned[id]);
+    if (opts.length) {
+      g.boostId = pick(opts);
+      g.boostT = 10;
+      addText(W / 2, PLAYER_Y - 110, WEAPONS[g.boostId].name + '!', '#1d1d1d');
+    } else if (save.owned.bomb) {
+      g.bombs++;
+      addText(W / 2, PLAYER_Y - 110, '+1 bomba', '#1d1d1d');
+    } else {
+      g.destroyed += 20;
+      addText(W / 2, PLAYER_Y - 110, '+20', '#8a6200');
+    }
+  }
+}
+
+function hitEnemy(e, dmg) {
+  if (e.dead) return;
+  e.hp -= dmg;
+  e.flash = 0.08;
+  if (e.hp <= 0) {
+    e.dead = true;
+    G.remaining--;
+    G.destroyed += e.reward;
+    boom(e.x, e.z, e.type === 'boss' ? 2.5 : 1);
+    addWorldText(e.x, e.z, '+' + e.reward, '#8a6200');
+    if (e.type === 'boss') G.bossDone = true;
+  }
+}
+
+function fireAt(e, off) {
+  const g = G;
+  const tt = Math.max(0.2, e.z / (BASE_SPEED * g.slowMul + 26));
+  const x0 = e.x + off;
+  const vx = ((g.px - x0) / tt) * 0.7;
+  g.bullets.push({ x: x0, z: e.z, vx, dmg: e.type === 'boss' ? 6 : 5, dead: false });
+  g.warnings.push({ x: clamp(x0 + vx * tt, -0.95, 0.95), t: 0 });
+}
+
+function useBomb() {
+  const g = G;
+  if (app !== 'run' || !g || g.phase !== 'play' || g.bombs <= 0) return;
+  let t = null, bd = 1e9;
+  for (const e of g.enemies) if (!e.dead && e.z <= 34 && e.z < bd) { bd = e.z; t = e; }
+  if (!t) return;
+  g.bombs--;
+  const cx = t.x, cz = t.z;
+  for (const e of g.enemies) if (!e.dead && Math.abs(e.z - cz) <= 8 && Math.abs(e.x - cx) <= 0.35) hitEnemy(e, bombDmg());
+  boom(cx, cz, 2);
+}
+
+function autoSteer() {
+  const g = G;
+  let best = null, bd = 1e9;
+  for (const e of g.enemies) if (!e.dead && e.z > 2 && e.z < bd) { bd = e.z; best = e; }
+  if (!best) {
+    for (const o of g.objs) {
+      if (!o.dead && (o.kind === 'coin' || o.kind === 'gem' || o.kind === 'crate') && o.z < bd) { bd = o.z; best = o; }
+    }
+  }
+  g.targetX = best ? clamp(best.x, -0.9, 0.9) : 0;
+}
+
+function updateWeapon(dt) {
+  const g = G;
+  const id = g.boostId || save.active;
+  const w = WEAPONS[id];
+  g.cd -= dt;
+  if (g.cd > 0) return;
+  let t = null, bd = 1e9;
+  for (const e of g.enemies) {
+    if (e.dead || e.z > w.range || e.z < 1.2 || Math.abs(e.x - g.px) > w.lat) continue;
+    if (e.z < bd) { bd = e.z; t = e; }
+  }
+  if (!t) { g.cd = 0; return; }
+  g.cd = 1 / (weaponRate(id) * g.rateBonus);
+  const pw = weaponPower(id);
+  if (id === 'shot') {
+    for (const e of g.enemies) if (!e.dead && Math.abs(e.z - t.z) < 6 && Math.abs(e.x - t.x) < 0.22) hitEnemy(e, pw * 2);
+    addTracer(t, '#555');
+  } else {
+    hitEnemy(t, pw);
+    addTracer(t, id === 'machine' ? '#777' : '#222');
+  }
+}
+
+function updateEnemies(dt, spd) {
+  const g = G;
+  for (const e of g.enemies) {
+    if (e.dead) continue;
+    e.flash = Math.max(0, e.flash - dt);
+    if (e.type === 'boss') {
+      e.x = Math.sin(g.t * 0.8) * 0.5;
+      e.fireT -= dt;
+      if (e.fireT <= 0) { e.fireT = e.fire; for (const o of [-0.25, 0, 0.25]) fireAt(e, o); }
+      continue;
+    }
+    e.z -= (spd + e.vz) * dt;
+    if (e.ram && e.z < 26) e.x += clamp(g.px - e.x, -1, 1) * 0.5 * dt;
+    e.x = clamp(e.x, -0.95, 0.95);
+    if (e.fire > 0) {
+      e.fireT -= dt;
+      if (e.fireT <= 0 && e.z < 48 && e.z > 8) { e.fireT = e.fire; fireAt(e, 0); }
+    }
+    if (e.z <= 1.6 && Math.abs(e.x - g.px) < 0.24) {
+      e.dead = true; g.remaining--; boom(e.x, e.z, 1); hurt(10);
+    } else if (e.z <= 0) {
+      e.dead = true; g.remaining--;
+    }
+  }
+}
+
+function updateBullets(dt, spd) {
+  const g = G;
+  for (const b of g.bullets) {
+    if (b.dead) continue;
+    b.z -= (spd + 26) * dt;
+    b.x += b.vx * dt;
+    if (b.z <= 1.2 && Math.abs(b.x - g.px) < 0.17) {
+      b.dead = true;
+      if (g.shieldLeft > 0) { g.shieldLeft--; addText(W / 2 + g.px * ROAD_HALF, PLAYER_Y - 90, 'Bloqueado', '#2b6cb0'); }
+      else hurt(b.dmg);
+    } else if (b.z < -1) b.dead = true;
+  }
+}
+
+function updateObjs(dt, spd) {
+  const g = G, mr = magnetR() + g.magnetBonus;
+  for (const o of g.objs) {
+    if (o.dead) continue;
+    o.z -= spd * dt;
+    if ((o.kind === 'coin' || o.kind === 'gem') && o.z < 24 && Math.abs(o.x - g.px) < mr) {
+      o.x += (g.px - o.x) * Math.min(1, dt * 7);
+    }
+    if (o.z < 1.3 && Math.abs(o.x - g.px) < 0.2) {
+      o.dead = true;
+      if (HAZARD.has(o.kind)) hitObstacle(o); else collect(o);
+    } else if (o.z < -1) o.dead = true;
+  }
+}
+
+function endWave(bonus) {
+  const g = G;
+  g.enemies.length = 0;
+  g.bullets.length = 0;
+  g.phase = 'tally';
+  g.tallyLeft = Math.max(0, bonus);
+  g.tallyStart = g.tallyLeft;
+  g.tallyT = 0.6;
+}
+
+function updateTally(dt) {
+  const g = G;
+  g.tallyT -= dt;
+  if (g.tallyLeft > 0) {
+    if (g.tallyT <= 0) {
+      const step = Math.min(g.tallyLeft, 2);
+      g.tallyLeft -= step;
+      g.destroyed += step;
+      g.tallyT = g.tallyLeft > 0 ? 0.035 : 0.7;
+    }
+  } else if (g.tallyT <= 0) {
+    startWave(g.wave + 1);
+  }
+}
+
+function levelUp() {
+  const g = G;
+  g.enemies.length = 0;
+  g.bullets.length = 0;
+  const k = pick(['rate', 'hp', 'magnet']);
+  if (k === 'rate') { g.rateBonus *= 1.1; g.levelUpText = 'Cadencia de tiro +10 %'; }
+  else if (k === 'hp') { g.hpBonus += 20; g.levelUpText = 'Blindaje +20'; }
+  else { g.magnetBonus += 0.05; g.levelUpText = 'Imán más amplio'; }
+  g.hpMax = maxHp() + g.hpBonus;
+  g.hp = Math.min(g.hpMax, g.hp + 20);
+  g.phase = 'levelUp';
+  g.phaseT = 2.2;
+}
+
+function updateRun(dt) {
+  const g = G;
+  g.t += dt;
+  g.shake = Math.max(0, g.shake - dt * 2.5);
+  for (const f of g.fx) f.t += dt;
+  g.fx = g.fx.filter(f => f.t < f.life);
+  for (const tx of g.texts) { tx.t += dt; tx.y -= 40 * dt; }
+  g.texts = g.texts.filter(tx => tx.t < 0.9);
+  for (const w of g.warnings) w.t += dt;
+  g.warnings = g.warnings.filter(w => w.t < 0.6);
+
+  if (g.phase === 'intro') {
+    g.phaseT -= dt;
+    if (g.phaseT <= 0) {
+      if (g.boss) spawnBoss();
+      g.phase = 'play';
+    }
+    return;
+  }
+  if (g.phase === 'tally') { updateTally(dt); return; }
+  if (g.phase === 'levelUp') {
+    g.phaseT -= dt;
+    if (g.phaseT <= 0) finishRun(true);
+    return;
+  }
+  if (g.phase !== 'play') return;
+
+  const spd = BASE_SPEED * g.slowMul;
+  g.timeLeft -= dt;
+  if (g.slowT > 0) { g.slowT -= dt; if (g.slowT <= 0) g.slowMul = 1; }
+  if (g.boostT > 0) { g.boostT -= dt; if (g.boostT <= 0) g.boostId = null; }
+
+  if (keys.ArrowLeft)  { g.auto = false; g.targetX -= dt * 1.6; }
+  if (keys.ArrowRight) { g.auto = false; g.targetX += dt * 1.6; }
+  if (g.auto) autoSteer();
+  g.targetX = clamp(g.targetX, -0.9, 0.9);
+  g.px += (g.targetX - g.px) * Math.min(1, dt * (g.auto ? 5 : 12));
+
+  spawnTick(dt);
+  updateObjs(dt, spd);
+  updateEnemies(dt, spd);
+  updateBullets(dt, spd);
+  updateWeapon(dt);
+  if (g.phase !== 'play') return;   // el coche ha caído en este paso
+
+  g.enemies = g.enemies.filter(e => !e.dead);
+  g.bullets = g.bullets.filter(b => !b.dead);
+  g.objs = g.objs.filter(o => !o.dead);
+
+  if (g.boss && g.bossDone) {
+    g.phase = 'levelUp';
+    g.phaseT = 2.2;
+    levelUp();
+  } else if (g.spawnLeft <= 0 && g.remaining <= 0) {
+    endWave(Math.floor(g.timeLeft) * 2);
+  } else if (g.timeLeft <= 0) {
+    if (g.boss) {
+      g.phase = 'dead';
+      showDead('Se acabó el tiempo', 'El jefe te ha ganado la carrera.');
+    } else {
+      endWave(0);
+    }
+  }
+}
+
+/* ================= Efectos ================= */
+function addText(sx, sy, text, color) { G.texts.push({ sx, sy, text, color, t: 0 }); }
+function addWorldText(x, z, text, color) { const p = proj(x, z); addText(p.sx, p.sy, text, color); }
+function boom(x, z, size) { G.fx.push({ k: 'boom', x, z, size, t: 0, life: 0.45 }); }
+function addTracer(t, color) { G.fx.push({ k: 'tracer', x1: t.x, z1: t.z, color, t: 0, life: 0.07 }); }
+
+/* ================= Terminar partida ================= */
+function finishRun(completed) {
+  const g = G;
+  const bank = save.banks[g.bi];
+  const total = g.stolen + g.destroyed;
+  bank.balance = Math.max(0, bank.balance - g.stolen);
+  if (g.stolen > 0 || completed) bank.level += 1;
+  const perfect = completed && bank.balance === 0 ? Math.round(total * 0.2) : 0;
+  if (completed) {
+    bank.done = true;
+    if (save.banks[g.bi + 1]) save.banks[g.bi + 1].unlocked = true;
+  }
+  save.coins += total + perfect;
+  save.gems += g.gemsRun;
+  persist();
+  G = null;
+  app = 'result';
+  show('result');
+  $('resTitle').textContent = completed ? '¡Banco completado!' : 'Fin del robo';
+  $('resStolen').textContent = fmt(g.stolen);
+  $('resDestroyed').textContent = fmt(g.destroyed);
+  $('resPerfect').textContent = perfect ? '+' + fmt(perfect) : '0';
+  $('resTotal').textContent = fmt(total + perfect);
+  $('resGems').textContent = '+' + g.gemsRun;
+  $('resBal').textContent = fmt(bank.balance);
+}
+
+function pause() {
+  const g = G;
+  if (app !== 'run' || !g || !['play', 'intro', 'tally', 'levelUp'].includes(g.phase)) return;
+  g.prePause = g.phase;
+  g.phase = 'paused';
+  show('pause');
+}
+function resume() {
+  if (G && G.phase === 'paused') G.phase = G.prePause || 'play';
+  show(null);
+}
+function showDead(title, msg) {
+  $('deadTitle').textContent = title;
+  $('deadMsg').textContent = msg;
+  $('btnContinue').disabled = save.gems < 1;
+  show('dead');
+}
+function continueRun() {
+  if (!G || save.gems < 1) return;
+  save.gems--;
+  persist();
+  G.hp = Math.round(G.hpMax * 0.5);
+  G.bullets.length = 0;
+  if (G.timeLeft <= 0) G.timeLeft = 15;
+  G.phase = 'play';
+  show(null);
+}
+
+/* ================= Dibujo ================= */
+function rr(x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+function outline(lw) { ctx.lineWidth = Math.max(1, lw); ctx.strokeStyle = '#2b2b2b'; ctx.lineJoin = 'round'; }
+
+function drawSky(pal) {
+  const gr = ctx.createLinearGradient(0, 0, 0, HORIZON);
+  gr.addColorStop(0, pal.sky1);
+  gr.addColorStop(1, pal.sky2);
+  ctx.fillStyle = gr;
+  ctx.fillRect(0, 0, W, HORIZON + 1);
+  ctx.fillStyle = pal.far;
+  if (pal.skyline === 'city') {
+    for (const b of SKY.city) {
+      ctx.fillRect(b.x, HORIZON - b.h, b.w, b.h);
+    }
+    outline(1.5);
+    for (const b of SKY.city) ctx.strokeRect(b.x, HORIZON - b.h, b.w, b.h);
+  } else if (pal.skyline === 'mountains') {
+    ctx.beginPath();
+    ctx.moveTo(-10, HORIZON);
+    for (const m of SKY.mountains) ctx.lineTo(m.x + 30, m.y);
+    ctx.lineTo(W + 10, HORIZON);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.globalAlpha = 0.5;
+    for (const c of SKY.clouds) { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); }
+    ctx.globalAlpha = 1;
+  }
+  ctx.fillStyle = pal.ground;
+  ctx.fillRect(0, HORIZON, W, H - HORIZON);
+  outline(2);
+  ctx.beginPath();
+  ctx.moveTo(0, HORIZON);
+  ctx.lineTo(W, HORIZON);
+  ctx.stroke();
+}
+
+function drawRoad(g, pal) {
+  // calzada clara
+  const a = proj(-1, 0), b = proj(1, 0), c = proj(1, ZMAX), d = proj(-1, ZMAX);
+  ctx.fillStyle = '#fafafa';
+  ctx.beginPath();
+  ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.lineTo(c.sx, c.sy); ctx.lineTo(d.sx, d.sy);
+  ctx.closePath();
+  ctx.fill();
+  // líneas de velocidad estilo boceto (salen del horizonte)
+  ctx.strokeStyle = '#2b2b2b';
+  ctx.lineCap = 'round';
+  const scroll = g ? g.t : 0;
+  for (const L of SPEED_LINES) {
+    const u = (L.p + scroll * 0.3) % 1;
+    const z1 = u * ZMAX, z2 = Math.min(ZMAX, z1 + 6 + L.len * 10);
+    const p1 = proj(L.x, z1), p2 = proj(L.x, z2);
+    outline(0.5 + 2.2 * p1.s);
+    ctx.beginPath();
+    ctx.moveTo(p1.sx, p1.sy);
+    ctx.lineTo(p2.sx, p2.sy);
+    ctx.stroke();
+  }
+  // bordes del carril
+  outline(2.5);
+  for (const x of [-1, 1]) {
+    const p0 = proj(x, 0), p1 = proj(x, ZMAX);
+    ctx.beginPath(); ctx.moveTo(p0.sx, p0.sy); ctx.lineTo(p1.sx, p1.sy); ctx.stroke();
+  }
+  // línea central discontinua que avanza
+  const off = g ? (g.t * BASE_SPEED * (g.slowMul || 1)) % 8 : 0;
+  for (let z = -off; z < ZMAX; z += 8) {
+    const z0 = Math.max(0, z), z1 = Math.min(ZMAX, z + 3.5);
+    if (z1 <= z0) continue;
+    const p0 = proj(0, z0), p1 = proj(0, z1);
+    outline(1 + 3 * p0.s);
+    ctx.beginPath(); ctx.moveTo(p0.sx, p0.sy); ctx.lineTo(p1.sx, p1.sy); ctx.stroke();
+  }
+  void pal;
+}
+
+function drawCoin(sx, sy, s) {
+  ctx.beginPath();
+  ctx.ellipse(sx, sy, 9 * s + 1, 9 * s + 1, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#f6c33b';
+  ctx.fill();
+  outline(1.5 * s);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(sx, sy, 4 * s, 0, Math.PI * 2);
+  ctx.strokeStyle = '#c98a0c';
+  ctx.stroke();
+}
+
+function drawObj(o) {
+  const p = proj(o.x, o.z);
+  const { sx, sy, s } = p;
+  if (o.kind === 'coin') return drawCoin(sx, sy - 6 * s, s);
+  if (o.kind === 'gem') {
+    ctx.beginPath();
+    ctx.moveTo(sx, sy - 16 * s); ctx.lineTo(sx + 11 * s, sy - 5 * s);
+    ctx.lineTo(sx, sy + 8 * s); ctx.lineTo(sx - 11 * s, sy - 5 * s);
+    ctx.closePath();
+    ctx.fillStyle = '#27b6e8'; ctx.fill(); outline(1.5 * s); ctx.stroke();
+    return;
+  }
+  if (o.kind === 'crate') {
+    rr(sx - 22 * s, sy - 42 * s, 44 * s, 42 * s, 4 * s);
+    ctx.fillStyle = '#c9925a'; ctx.fill(); outline(2 * s); ctx.stroke();
+    ctx.fillStyle = '#2b2b2b';
+    ctx.font = `bold ${Math.round(28 * s)}px ${getComputedStyle($('stage')).fontFamily}`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('?', sx, sy - 21 * s);
+    return;
+  }
+  if (o.kind === 'bottle') {
+    rr(sx - 5 * s, sy - 26 * s, 10 * s, 26 * s, 4 * s);
+    ctx.fillStyle = '#d2432c'; ctx.fill(); outline(1.5 * s); ctx.stroke();
+    return;
+  }
+  if (o.kind === 'dumpster') {
+    rr(sx - 30 * s, sy - 38 * s, 60 * s, 38 * s, 3 * s);
+    ctx.fillStyle = '#4f9d5a'; ctx.fill(); outline(2 * s); ctx.stroke();
+    rr(sx - 34 * s, sy - 46 * s, 68 * s, 10 * s, 3 * s);
+    ctx.fillStyle = '#3a7d45'; ctx.fill(); ctx.stroke();
+    return;
+  }
+  if (o.kind === 'clay') {
+    ctx.beginPath(); ctx.arc(sx, sy - 14 * s, 16 * s, 0, Math.PI * 2);
+    ctx.fillStyle = '#8fd16b'; ctx.fill(); outline(1.5 * s); ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx - 8 * s, sy - 2 * s, 4 * s, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+  }
+}
+
+function drawHpBar(sx, y, w, frac, s) {
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(sx - w / 2, y, w, 6 * s + 2);
+  ctx.strokeStyle = '#2b2b2b'; outline(1.5); ctx.strokeRect(sx - w / 2, y, w, 6 * s + 2);
+  ctx.fillStyle = '#4caf32';
+  ctx.fillRect(sx - w / 2 + 1, y + 1, Math.max(0, (w - 2) * frac), 4 * s + 0.5);
+}
+
+function drawEnemy(e) {
+  const { sx, sy, s } = proj(e.x, e.z);
+  const flash = e.flash > 0;
+  const col = flash ? '#ffffff' : e.color;
+  if (e.type === 'boss') {
+    const w = 190 * s, h = 150 * s, x0 = sx - w / 2, y0 = sy - h;
+    rr(x0, y0 + h * 0.3, w, h * 0.7, 10 * s);
+    ctx.fillStyle = col; ctx.fill(); outline(3 * s); ctx.stroke();
+    rr(x0 + w * 0.12, y0, w * 0.76, h * 0.42, 10 * s);
+    ctx.fillStyle = '#fff3c4'; ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#2b2b2b';
+    ctx.fillRect(sx - 6 * s, y0 - 22 * s, 12 * s, 24 * s);
+    for (const wx of [-0.3, 0.3]) {
+      ctx.beginPath(); ctx.arc(sx + wx * w, sy - 2 * s, 14 * s, 0, Math.PI * 2);
+      ctx.fillStyle = '#2b2b2b'; ctx.fill();
+    }
+    drawHpBar(sx, y0 - 40 * s, 150 * s, e.hp / e.maxHp, s);
+    return;
+  }
+  if (e.type === 'van') {
+    const w = 90 * s, h = 110 * s, x0 = sx - w / 2, y0 = sy - h;
+    rr(x0, y0, w, h * 0.9, 6 * s);
+    ctx.fillStyle = col; ctx.fill(); outline(2.5 * s); ctx.stroke();
+    ctx.fillStyle = '#cfe3f3';
+    ctx.fillRect(x0 + w * 0.15, y0 + h * 0.1, w * 0.7, h * 0.2);
+    ctx.fillStyle = '#d2432c';
+    ctx.fillRect(x0, y0 + h * 0.62, w, 5 * s);
+    for (const wx of [0.2, 0.8]) { ctx.beginPath(); ctx.arc(x0 + w * wx, sy - 4 * s, 9 * s, 0, Math.PI * 2); ctx.fillStyle = '#2b2b2b'; ctx.fill(); }
+    if (e.hp < e.maxHp) drawHpBar(sx, y0 - 14 * s, 70 * s, e.hp / e.maxHp, s);
+    return;
+  }
+  // coche de policía / sedán
+  const w = 70 * s, h = 46 * s, x0 = sx - w / 2, y0 = sy - h;
+  rr(x0, y0 + h * 0.35, w, h * 0.65, 8 * s);
+  ctx.fillStyle = col; ctx.fill(); outline(2.5 * s); ctx.stroke();
+  rr(x0 + w * 0.18, y0, w * 0.64, h * 0.5, 8 * s);
+  ctx.fillStyle = flash ? '#ffffff' : '#9cc3e4'; ctx.fill(); ctx.stroke();
+  for (const wx of [0.2, 0.8]) { ctx.beginPath(); ctx.arc(x0 + w * wx, sy - 2 * s, 7 * s, 0, Math.PI * 2); ctx.fillStyle = '#2b2b2b'; ctx.fill(); }
+  if (e.type === 'police') {
+    ctx.beginPath(); ctx.arc(sx - 9 * s, y0 - 2 * s, 4 * s, 0, Math.PI * 2); ctx.fillStyle = '#e0523b'; ctx.fill();
+    ctx.beginPath(); ctx.arc(sx + 9 * s, y0 - 2 * s, 4 * s, 0, Math.PI * 2); ctx.fillStyle = '#2b6cb0'; ctx.fill();
+  }
+  if (e.hp < e.maxHp) drawHpBar(sx, y0 - 12 * s, 60 * s, e.hp / e.maxHp, s);
+}
+
+function drawBullet(b) {
+  const { sx, sy, s } = proj(b.x, b.z);
+  ctx.beginPath();
+  ctx.arc(sx, sy, 5 * s + 1, 0, Math.PI * 2);
+  ctx.fillStyle = '#d2432c'; ctx.fill(); outline(1.2 * s); ctx.stroke();
+}
+
+function drawTaxi(g) {
+  const sx = W / 2 + g.px * ROAD_HALF, sy = PLAYER_Y;
+  const gold = g.golden;
+  const w = 84, h = 46, x0 = sx - w / 2, y0 = sy - h;
+  if (g.boostT > 0) {
+    ctx.beginPath(); ctx.arc(sx, sy - 24, 56, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.fill();
+  }
+  // sombra
+  ctx.beginPath(); ctx.ellipse(sx, sy + 4, 46, 8, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.fill();
+  // ruedas
+  for (const wx of [-0.3, 0.3]) { ctx.beginPath(); ctx.arc(sx + wx * w, sy - 2, 10, 0, Math.PI * 2); ctx.fillStyle = '#2b2b2b'; ctx.fill(); }
+  // carrocería
+  rr(x0, y0 + 12, w, h - 12, 10);
+  ctx.fillStyle = gold ? '#f9d54a' : '#f2b705'; ctx.fill(); outline(3); ctx.stroke();
+  // cabina
+  rr(x0 + 18, y0 - 2, w - 36, 24, 8);
+  ctx.fillStyle = gold ? '#fff2b3' : '#fff7d6'; ctx.fill(); ctx.stroke();
+  // letrero de taxi
+  ctx.fillStyle = '#2b2b2b'; ctx.fillRect(sx - 9, y0 - 8, 18, 6);
+  // gato conductor asomado
+  ctx.beginPath(); ctx.arc(sx, y0 - 14, 15, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff'; ctx.fill(); outline(2.5); ctx.stroke();
+  for (const ex of [-6, 6]) {
+    ctx.beginPath(); ctx.moveTo(sx + ex - 5, y0 - 24); ctx.lineTo(sx + ex, y0 - 34); ctx.lineTo(sx + ex + 5, y0 - 24);
+    ctx.fillStyle = '#ffffff'; ctx.fill(); ctx.stroke();
+  }
+  ctx.fillStyle = '#2b2b2b';
+  ctx.beginPath(); ctx.arc(sx - 5, y0 - 16, 2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(sx + 5, y0 - 16, 2, 0, Math.PI * 2); ctx.fill();
+  // aviso de bloqueo
+  if (g.shieldLeft > 0) { ctx.strokeStyle = '#2b6cb0'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(sx, sy - 22, 50, 0, Math.PI * 2); ctx.stroke(); }
+}
+
+function drawWarnings() {
+  for (const w of G.warnings) {
+    const p = proj(w.x, 3);
+    const a = 1 - w.t / 0.6;
+    ctx.globalAlpha = a;
+    ctx.beginPath();
+    ctx.moveTo(p.sx, p.sy - 26); ctx.lineTo(p.sx + 14, p.sy); ctx.lineTo(p.sx - 14, p.sy); ctx.closePath();
+    ctx.fillStyle = '#e0523b'; ctx.fill(); outline(2); ctx.stroke();
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('!', p.sx, p.sy - 4);
+    ctx.globalAlpha = 1;
+  }
+}
+
+function drawFx() {
+  for (const f of G.fx) {
+    const k = f.t / f.life;
+    if (f.k === 'boom') {
+      const p = proj(f.x, f.z);
+      ctx.globalAlpha = 1 - k;
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy - 20 * p.s, (10 + 40 * k) * f.size * p.s + 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffd966'; ctx.fill(); outline(2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    } else if (f.k === 'tracer') {
+      const p = proj(f.x1, f.z1);
+      ctx.globalAlpha = 1 - k;
+      ctx.beginPath();
+      ctx.moveTo(W / 2 + G.px * ROAD_HALF, PLAYER_Y - 50);
+      ctx.lineTo(p.sx, p.sy - 10 * p.s);
+      ctx.strokeStyle = f.color; ctx.lineWidth = 2; ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
+}
+
+function drawTexts() {
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  for (const tx of G.texts) {
+    ctx.globalAlpha = clamp(1 - tx.t / 0.9, 0, 1);
+    ctx.font = `bold 24px ${getComputedStyle($('stage')).fontFamily}`;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(tx.text, tx.sx + 1, tx.sy + 1);
+    ctx.fillStyle = tx.color;
+    ctx.fillText(tx.text, tx.sx, tx.sy);
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawCoinIcon(x, y, r) {
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = '#f6c33b'; ctx.fill(); outline(1.5); ctx.stroke();
+}
+
+function drawHUD(g) {
+  const font = getComputedStyle($('stage')).fontFamily;
+  ctx.textBaseline = 'middle';
+  // ola y nivel
+  ctx.fillStyle = 'rgba(255,253,247,.92)';
+  rr(10, 10, 118, 52, 10); ctx.fill(); outline(2); ctx.stroke();
+  ctx.fillStyle = '#1d1d1d'; ctx.textAlign = 'left';
+  ctx.font = `bold 22px ${font}`; ctx.fillText('OLA ' + (g.wave || 1), 20, 28);
+  ctx.font = `18px ${font}`; ctx.fillText('Nivel ' + g.level, 20, 50);
+  // AUTO
+  ctx.beginPath(); ctx.arc(40, 94, 26, 0, Math.PI * 2);
+  ctx.fillStyle = g.auto ? '#dff5d0' : '#f0eee8'; ctx.fill();
+  outline(g.auto ? 4 : 2); ctx.strokeStyle = g.auto ? '#4caf32' : '#2b2b2b'; ctx.stroke();
+  ctx.fillStyle = '#1d1d1d'; ctx.textAlign = 'center'; ctx.font = `bold 15px ${font}`; ctx.fillText('AUTO', 40, 95);
+  // temporizador
+  ctx.font = `bold 48px ${font}`;
+  ctx.fillStyle = '#1d1d1d';
+  ctx.fillText(g.boss ? 'JEFE' : Math.max(0, g.timeLeft).toFixed(2), W / 2, 40);
+  // monedas de la partida
+  drawCoinIcon(W / 2 - 34, 84, 9);
+  ctx.textAlign = 'left'; ctx.font = `bold 26px ${font}`;
+  ctx.fillText(fmt(g.stolen + g.destroyed), W / 2 - 20, 84);
+  // pausa
+  ctx.beginPath(); ctx.arc(352, 44, 22, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,253,247,.92)'; ctx.fill(); outline(2); ctx.stroke();
+  ctx.fillStyle = '#1d1d1d'; ctx.fillRect(345, 36, 5, 16); ctx.fillRect(355, 36, 5, 16);
+  // vida (carga del coche)
+  drawCoinIcon(28, 770, 12);
+  ctx.fillStyle = '#1d1d1d'; ctx.textAlign = 'left'; ctx.font = `16px ${font}`;
+  ctx.fillText('Lv', 20, 790);
+  const hpFrac = clamp(g.hp / g.hpMax, 0, 1);
+  ctx.fillStyle = '#ffffff'; rr(48, 760, 140, 20, 6); ctx.fill(); outline(2); ctx.stroke();
+  ctx.fillStyle = hpFrac > 0.3 ? '#f2b705' : '#e0523b';
+  rr(50, 762, Math.max(0, 136 * hpFrac), 16, 4); ctx.fill();
+  ctx.fillStyle = '#1d1d1d'; ctx.textAlign = 'center'; ctx.font = `bold 16px ${font}`; ctx.fillText(Math.ceil(g.hp) + '', 118, 771);
+  // bomba
+  const hasBomb = save.owned.bomb;
+  ctx.beginPath(); ctx.arc(BOMB_BTN.x, BOMB_BTN.y, BOMB_BTN.r, 0, Math.PI * 2);
+  ctx.fillStyle = hasBomb && g.bombs > 0 ? '#f2b705' : '#d8d6cf'; ctx.fill(); outline(3); ctx.stroke();
+  ctx.fillStyle = '#1d1d1d'; ctx.textAlign = 'center'; ctx.font = `bold 26px ${font}`;
+  ctx.fillText(hasBomb ? 'x' + g.bombs : '–', BOMB_BTN.x, BOMB_BTN.y + 2);
+  ctx.font = `14px ${font}`; ctx.fillText('bomba', BOMB_BTN.x, BOMB_BTN.y + 46);
+  // arma reforzada
+  if (g.boostT > 0 && g.boostId) {
+    ctx.font = `bold 22px ${font}`; ctx.fillStyle = '#1d1d1d';
+    ctx.fillText(WEAPONS[g.boostId].name + ' ' + Math.ceil(g.boostT) + ' s', W / 2, 128);
+  }
+  // coche dorado
+  if (g.golden) { ctx.font = `bold 18px ${font}`; ctx.fillStyle = '#8a6200'; ctx.fillText('COCHE DORADO', W / 2, 152); }
+}
+
+function drawBossIntro(g) {
+  ctx.fillStyle = '#111'; ctx.fillRect(0, 0, W, H);
+  const cx = W / 2, cy = H / 2 - 40;
+  ctx.strokeStyle = '#e9e9e9'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+  for (let i = 0; i < 28; i++) {
+    const a = i / 28 * Math.PI * 2 + g.t * 0.6;
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a) * 80, cy + Math.sin(a) * 80);
+    ctx.lineTo(cx + Math.cos(a) * 240, cy + Math.sin(a) * 240);
+    ctx.stroke();
+  }
+  ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = `bold 96px ${getComputedStyle($('stage')).fontFamily}`;
+  ctx.fillText('BOSS', cx, cy);
+}
+
+function drawIntro(g) {
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = `bold 72px ${getComputedStyle($('stage')).fontFamily}`;
+  ctx.fillText(g.introText, W / 2, H / 2 - 60);
+}
+
+function drawTally(g) {
+  ctx.fillStyle = '#0d0d0d'; ctx.fillRect(0, 0, W, H);
+  const font = getComputedStyle($('stage')).fontFamily;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold 26px ${font}`;
+  ctx.fillText('OLA ' + g.wave + (g.tallyStart > 0 ? ' superada' : ' terminada'), W / 2, H / 2 - 140);
+  ctx.font = `bold 120px ${font}`;
+  ctx.fillText(String(Math.max(0, Math.ceil(g.tallyLeft))), W / 2, H / 2 - 20);
+  ctx.font = `bold 28px ${font}`;
+  ctx.fillStyle = '#cfcfcf';
+  ctx.fillText(g.tallyStart > 0 ? 'Tiempo sobrante x 2 Bonus' : 'Sin bonus de tiempo', W / 2, H / 2 + 80);
+}
+
+function drawLevelUp(g) {
+  ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(0, 0, W, H);
+  const font = getComputedStyle($('stage')).fontFamily;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#f2b705';
+  ctx.font = `bold 80px ${font}`;
+  ctx.fillText('LEVEL ↑', W / 2, H / 2 - 40);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = `bold 30px ${font}`;
+  ctx.fillText(g.levelUpText, W / 2, H / 2 + 26);
+}
+
+function drawGame() {
+  const g = G;
+  ctx.save();
+  if (g && g.shake > 0) ctx.translate((Math.random() - 0.5) * g.shake * 14, (Math.random() - 0.5) * g.shake * 14);
+  ctx.clearRect(-20, -20, W + 40, H + 40);
+  if (!g) { ctx.restore(); return; }
+  if (g.phase === 'tally') { drawTally(g); ctx.restore(); return; }
+  if (g.phase === 'intro' && g.boss) { drawBossIntro(g); ctx.restore(); return; }
+
+  const pal = PALETTES[(g.level - 1) % PALETTES.length];
+  drawSky(pal);
+  drawRoad(g, pal);
+
+  const items = [];
+  for (const o of g.objs) if (!o.dead) items.push({ z: o.z, draw: () => drawObj(o) });
+  for (const e of g.enemies) if (!e.dead) items.push({ z: e.z, draw: () => drawEnemy(e) });
+  for (const b of g.bullets) if (!b.dead) items.push({ z: b.z, draw: () => drawBullet(b) });
+  items.sort((a, b) => b.z - a.z);
+  for (const it of items) it.draw();
+
+  drawWarnings();
+  drawTaxi(g);
+  drawFx();
+  drawTexts();
+  drawHUD(g);
+
+  if (g.phase === 'intro') drawIntro(g);
+  if (g.phase === 'levelUp') drawLevelUp(g);
+  ctx.restore();
+}
+
+/* ================= Menús (DOM) ================= */
+const SCREENS = ['title', 'map', 'tip', 'pause', 'dead', 'result', 'shop', 'wheel', 'settings'];
+function show(id) {
+  for (const s of SCREENS) $(s).classList.toggle('on', s === id);
+}
+
+function lastUnlocked() {
+  let idx = 0;
+  save.banks.forEach((b, i) => { if (b.unlocked) idx = i; });
+  return idx;
+}
+
+function renderMap() {
+  $('mapCoins').textContent = '🪙 ' + fmt(save.coins) + '  💎 ' + save.gems;
+  const nodes = $('mapNodes');
+  nodes.innerHTML = '';
+  BANKS.forEach((b, i) => {
+    const bk = save.banks[i];
+    const btn = document.createElement('button');
+    btn.className = 'node' + (!bk.unlocked ? ' locked' : bk.done ? ' done' : '') + (i === selBank ? ' sel' : '');
+    btn.style.left = b.x + 'px';
+    btn.style.top = b.y + 'px';
+    btn.textContent = bk.level;
+    btn.title = b.name;
+    btn.setAttribute('aria-label', b.name + ', nivel ' + bk.level);
+    btn.onclick = () => { if (bk.unlocked) { selBank = i; renderMap(); } };
+    nodes.appendChild(btn);
+  });
+  const svg = $('mapSvg');
+  const pts = BANKS.map(b => b.x + ',' + b.y).join(' ');
+  svg.innerHTML =
+    `<polyline points="${pts}" fill="none" stroke="#2b2b2b" stroke-width="16" stroke-linejoin="round" stroke-linecap="round" opacity=".25"/>` +
+    `<polyline points="${pts}" fill="none" stroke="#f2b705" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const bk = save.banks[selBank], b = BANKS[selBank];
+  $('infoName').textContent = b.name;
+  $('infoLevel').textContent = 'Nivel ' + bk.level;
+  $('infoBal').textContent = fmt(bk.balance);
+  $('infoStatus').textContent = !bk.unlocked
+    ? 'Bloqueado: completa el banco anterior'
+    : bk.done ? 'Completado · puedes volver a robarlo' : 'Disponible · saldo a 0 = bonus perfecto';
+  $('btnStart').disabled = !bk.unlocked;
+}
+
+function renderWheelCoins() { $('wheelCoins').textContent = '🪙 ' + fmt(save.coins) + '  💎 ' + save.gems; }
+
+function renderShop() {
+  $('shopCoins').textContent = '🪙 ' + fmt(save.coins) + '  💎 ' + save.gems;
+  const tabs = [['weapons', 'Armas'], ['car', 'Coche'], ['pet', 'Mascota']];
+  const tabBox = $('shopTabs');
+  tabBox.innerHTML = tabs.map(([id, t]) => `<button class="btn${shopTab === id ? ' on' : ''}" data-tab="${id}">${t}</button>`).join('');
+  tabBox.querySelectorAll('button').forEach(b => { b.onclick = () => { shopTab = b.dataset.tab; renderShop(); }; });
+
+  const body = $('shopBody');
+  body.innerHTML = '';
+  const add = html => {
+    const d = document.createElement('div');
+    d.className = 'panel card';
+    d.innerHTML = html;
+    body.appendChild(d);
+  };
+  if (shopTab === 'weapons') {
+    for (const id of ['pistol', 'shot', 'machine', 'bomb']) {
+      const isBomb = id === 'bomb';
+      const w = isBomb ? BOMB : WEAPONS[id];
+      const owned = save.owned[id];
+      const upCost = isBomb ? costs.bomb() : costs.weapon(id);
+      const desc = !owned ? 'Sin desbloquear'
+        : isBomb ? `Daño ${Math.round(bombDmg())} · 2 por ola`
+        : `Potencia ${weaponPower(id).toFixed(1)} · ${weaponRate(id).toFixed(1)} disparos/s`;
+      let btns;
+      if (!owned) {
+        btns = `<button class="btn sm" data-act="buy" data-id="${id}" ${save.coins < w.price ? 'disabled' : ''}>Desbloquear ${fmt(w.price)}</button>`;
+      } else {
+        btns = `<button class="btn sm" data-act="weapon-up" data-id="${id}" ${save.coins < upCost ? 'disabled' : ''}>Mejorar ${fmt(upCost)}</button>`;
+        if (!isBomb) btns += save.active === id
+          ? ' <span class="muted">Equipada</span>'
+          : ` <button class="btn sm go" data-act="equip" data-id="${id}">Equipar</button>`;
+      }
+      add(`<div><b>${w.name}</b> <span class="muted">${owned ? 'Nv ' + save.lvl[id] : ''}</span>` +
+          `<div class="muted" style="font-size:17px">${desc}</div></div><div>${btns}</div>`);
+    }
+  } else if (shopTab === 'car') {
+    const items = [
+      ['carHp',  'Blindaje (Loadage)', `Vida máxima ${maxHp()}`],
+      ['magnet', 'Imán de monedas',    `Radio ${magnetR().toFixed(2)}`],
+      ['shield', 'Escudo',             `${save.shield} bloqueo(s) por ola`],
+    ];
+    for (const [key, name, desc] of items) {
+      const c = UPG[key].cost();
+      add(`<div><b>${name}</b><div class="muted" style="font-size:17px">${desc}</div></div>` +
+          `<div><button class="btn sm" data-act="upg" data-id="${key}" ${save.coins < c ? 'disabled' : ''}>Mejorar ${fmt(c)}</button></div>`);
+    }
+  } else {
+    const c = UPG.pet.cost();
+    add(`<div><b>Gato copiloto</b><div class="muted" style="font-size:17px">+${coinValue() - 1} moneda por recogida · +${save.pet * 8} % daño</div></div>` +
+        `<div><button class="btn sm" data-act="upg" data-id="pet" ${save.coins < c ? 'disabled' : ''}>Mejorar ${fmt(c)}</button></div>`);
+  }
+  body.querySelectorAll('button[data-act]').forEach(b => { b.onclick = () => shopAction(b.dataset.act, b.dataset.id); });
+}
+
+function shopAction(act, id) {
+  if (act === 'buy') {
+    const price = id === 'bomb' ? BOMB.price : WEAPONS[id].price;
+    if (save.coins < price) return;
+    save.coins -= price;
+    save.owned[id] = true;
+  } else if (act === 'weapon-up') {
+    const c = id === 'bomb' ? costs.bomb() : costs.weapon(id);
+    if (save.coins < c) return;
+    save.coins -= c;
+    save.lvl[id]++;
+  } else if (act === 'equip') {
+    save.active = id;
+  } else if (act === 'upg') {
+    const u = UPG[id];
+    if (save.coins < u.cost()) return;
+    save.coins -= u.cost();
+    u.apply();
+  }
+  persist();
+  renderShop();
+}
+
+/* ================= Rueda ================= */
+const wCanvas = $('wheelCanvas');
+const wctx = wCanvas.getContext('2d');
+let wheelRot = 0;
+let spinning = false;
+
+function drawWheel() {
+  const cx = 280, cy = 280, R = 260, n = PRIZES.length, seg = Math.PI * 2 / n;
+  wctx.clearRect(0, 0, 560, 560);
+  for (let i = 0; i < n; i++) {
+    const a0 = wheelRot + i * seg - Math.PI / 2, a1 = a0 + seg;
+    wctx.beginPath();
+    wctx.moveTo(cx, cy);
+    wctx.arc(cx, cy, R, a0, a1);
+    wctx.closePath();
+    wctx.fillStyle = i % 2 ? '#fff1c2' : '#ffffff';
+    wctx.fill();
+    wctx.lineWidth = 6; wctx.strokeStyle = '#2b2b2b'; wctx.stroke();
+    wctx.save();
+    wctx.translate(cx, cy);
+    wctx.rotate(a0 + seg / 2);
+    wctx.fillStyle = '#1d1d1d';
+    wctx.font = `bold 38px ${getComputedStyle($('stage')).fontFamily}`;
+    wctx.textAlign = 'right';
+    wctx.textBaseline = 'middle';
+    wctx.fillText(PRIZES[i].t, R - 26, 0);
+    wctx.restore();
+  }
+  wctx.beginPath(); wctx.arc(cx, cy, 34, 0, Math.PI * 2); wctx.fillStyle = '#2b2b2b'; wctx.fill();
+  wctx.beginPath(); wctx.moveTo(cx - 22, 6); wctx.lineTo(cx + 22, 6); wctx.lineTo(cx, 48); wctx.closePath();
+  wctx.fillStyle = '#e0523b'; wctx.fill(); wctx.strokeStyle = '#2b2b2b'; wctx.lineWidth = 4; wctx.stroke();
+}
+
+function spin() {
+  if (spinning) return;
+  const cost = costs.spin();
+  if (save.coins < cost) { $('wheelInfo').textContent = 'Te faltan monedas para girar.'; return; }
+  save.coins -= cost;
+  save.spins++;
+  persist();
+  renderWheelCoins();
+  spinning = true;
+  $('btnSpin').disabled = true;
+  const idx = Math.floor(Math.random() * PRIZES.length);
+  const seg = Math.PI * 2 / PRIZES.length;
+  const target = -(idx * seg + seg / 2);
+  const start = wheelRot;
+  const base = start + Math.PI * 2 * (5 + Math.floor(Math.random() * 2));
+  const delta = ((target - base) % (Math.PI * 2) + Math.PI * 4) % (Math.PI * 2);
+  const end = base + delta;
+  const t0 = performance.now(), dur = 3000;
+  $('wheelInfo').textContent = 'Girando…';
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur);
+    wheelRot = start + (end - start) * (1 - Math.pow(1 - k, 3));
+    drawWheel();
+    if (k < 1) { requestAnimationFrame(step); return; }
+    const p = PRIZES[idx];
+    save.coins += p.coins || 0;
+    save.gems += p.gems || 0;
+    if (p.key) save.goldenKeys += p.key;
+    persist();
+    spinning = false;
+    $('btnSpin').disabled = false;
+    renderWheelCoins();
+    $('wheelInfo').textContent = '¡Premio: ' + (p.coins ? fmt(p.coins) + ' monedas' : p.gems ? '1 gema' : 'llave dorada (coche dorado en la próxima partida)') + '!';
+  };
+  requestAnimationFrame(step);
+}
+
+function openWheel(from) {
+  returnTo = from;
+  app = 'wheel';
+  show('wheel');
+  renderWheelCoins();
+  $('wheelInfo').textContent = 'Cada giro cuesta ' + fmt(costs.spin()) + ' monedas.';
+  drawWheel();
+}
+
+/* ================= Navegación ================= */
+function toTitle() { app = 'title'; show('title'); }
+function backFrom() {
+  if (returnTo === 'map') { app = 'map'; show('map'); renderMap(); }
+  else toTitle();
+}
+function openMap() { app = 'map'; selBank = lastUnlocked(); show('map'); renderMap(); }
+function openShop(from) { returnTo = from; app = 'shop'; show('shop'); renderShop(); }
+
+$('btnPlay').onclick = openMap;
+$('btnToShop').onclick = () => openShop('title');
+$('btnWheelTitle').onclick = () => openWheel('title');
+$('btnSettings').onclick = () => { app = 'settings'; show('settings'); };
+$('btnSettingsBack').onclick = toTitle;
+$('btnBackTitle').onclick = toTitle;
+$('btnMapShop').onclick = () => openShop('map');
+$('btnMapWheel').onclick = () => openWheel('map');
+$('btnStart').onclick = () => { if (save.banks[selBank].unlocked && app === 'map') newRun(selBank); };
+$('btnShopBack').onclick = backFrom;
+$('btnWheelBack').onclick = backFrom;
+$('btnSpin').onclick = spin;
+$('btnBackMap').onclick = openMap;
+$('tip').onclick = () => {
+  if (G && G.phase === 'tip') { show(null); startWave(1); }
+};
+$('btnResume').onclick = resume;
+$('btnQuit').onclick = () => { if (G) finishRun(false); };
+$('btnGiveUp').onclick = () => { if (G) finishRun(false); };
+$('btnContinue').onclick = continueRun;
+$('btnReset').onclick = () => {
+  if (!confirm('¿Borrar todo el progreso?')) return;
+  try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* ignorar */ }
+  save = defaultSave();
+  toTitle();
+};
+
+/* ================= Entrada ================= */
+const stage = $('stage');
+function toLogical(e) {
+  const r = stage.getBoundingClientRect();
+  return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+}
+function setTargetFromX(x) {
+  if (G) G.targetX = clamp((x - W / 2) / ROAD_HALF, -0.9, 0.9);
+}
+let dragging = false;
+stage.addEventListener('pointerdown', e => {
+  if (app !== 'run' || !G || G.phase !== 'play') return;
+  const p = toLogical(e);
+  if (dist(p, { x: 40, y: 94 }) < 32) { G.auto = !G.auto; return; }
+  if (dist(p, { x: 352, y: 44 }) < 28) { pause(); return; }
+  if (dist(p, BOMB_BTN) < 40) { useBomb(); return; }
+  if (G.auto) G.auto = false;   // tocar la pantalla apaga la conducción automática
+  dragging = true;
+  setTargetFromX(p.x);
+});
+stage.addEventListener('pointermove', e => {
+  if (dragging && app === 'run' && G && G.phase === 'play') setTargetFromX(toLogical(e).x);
+});
+const endDrag = () => { dragging = false; };
+window.addEventListener('pointerup', endDrag);
+window.addEventListener('pointercancel', endDrag);
+
+window.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if (app !== 'run' || !G) return;
+  if (e.key === 'a' || e.key === 'A') G.auto = !G.auto;
+  else if (e.key === ' ') { e.preventDefault(); useBomb(); }
+  else if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') {
+    if (G.phase === 'play') pause(); else if (G.phase === 'paused') resume();
+  }
+});
+window.addEventListener('keyup', e => { keys[e.key] = false; });
+document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
+
+function fit() {
+  const k = Math.min(window.innerWidth / W, window.innerHeight / H);
+  document.documentElement.style.setProperty('--k', String(k));
+}
+window.addEventListener('resize', fit);
+fit();
+
+/* ================= Bucle principal ================= */
+let lastT = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - lastT) / 1000);
+  lastT = now;
+  if (app === 'run' && G && G.phase !== 'paused' && G.phase !== 'dead') updateRun(dt);
+  if (app === 'run') drawGame();
+  requestAnimationFrame(frame);
+}
+
+show('title');
+drawWheel();
+requestAnimationFrame(frame);
+
+// Gancho de solo lectura para pruebas automáticas
+window.KittenTaxi = {
+  state() {
+    return {
+      app,
+      run: G && {
+        phase: G.phase, wave: G.wave, level: G.level, boss: G.boss, hp: Math.round(G.hp),
+        timeLeft: +G.timeLeft.toFixed(2), stolen: G.stolen, destroyed: G.destroyed,
+        enemies: G.enemies.filter(e => !e.dead).length, bombs: G.bombs,
+      },
+      coins: save.coins,
+      gems: save.gems,
+    };
+  },
+  startRun(i) { selBank = i; if (save.banks[i].unlocked) newRun(i); },
+  press(key) { window.dispatchEvent(new KeyboardEvent('keydown', { key })); },
+};
+})();
+</script>
+</body>
+</html>
