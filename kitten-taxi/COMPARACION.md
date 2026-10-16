@@ -1,6 +1,6 @@
 # Kitten Taxi: comparación con el original y lista de fallos y faltas
 
-Base revisada: `index.html` (Trayectorias v2 corregida, commit 85e7d04 y siguientes).
+Base revisada: `index.html` (commit fb38976; revisión inicial en 85e7d04). La segunda revisión, con las pistas de alcance y de altura, está en la sección 8.
 Referencia: los dos vídeos de partida (parte 1 y 2). El material llega hasta la mitad del nivel 5 y no tiene créditos ni final.
 
 Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o buscando en el código · **[Prueba]** comprobado con pruebas automáticas.
@@ -31,7 +31,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 | F1 | Alta | **Las llaves no tienen función.** Se muestran como `k/4` en el mapa, pero nunca se ganan ni se gastan. | [Cód] `save.keys` solo se lee para mostrarlo. | [Obs] Las llaves son un recurso con "+" para comprar y tienen un temporizador m:ss junto a ellas. Su uso exacto no está claro. |
 | F2 | Alta | **El saldo del banco no baja** con lo robado y no se guarda entre visitas. | [Cód] `BANKS` es constante; `missionVictory` no escribe el saldo. | [Obs] Saldo 150 → robado 138 → la siguiente visita muestra 12. Saldo 250 → robado 146 → 104. |
 | F3 | Alta | **El nivel del banco no sube** al volver. Todos los bancos están fijos. | [Cód] `level:b.level` nunca cambia. | [Obs] El nivel sube cada visita: Level 2 → 3 → 4. |
-| F4 | Alta | **Las oleadas duran ~11 s** y el temporizador **cuenta hacia arriba**. | [Cód] `waveDuration:10.7+b.level*.35`; `m.seconds` crece. | [Obs] 20–35 s por ola, con cuenta atrás de 2 decimales (18.86 → 17.86). |
+| F4 | Corregido | ~~Las oleadas duraban ~11 s y el temporizador contaba hacia arriba.~~ Ahora: 22 + 1.5·nivel + 1.2·ola segundos, con cuenta atrás. | [Cód] `waveLength` (línea 204) | [Obs] 20–35 s por ola, con cuenta atrás de 2 decimales (18.86 → 17.86). |
 | F5 | Media | **El modo automático muere en las olas 4 o 5** en las pruebas. | [Prueba] con el bot en modo automático. | [Obs] La partida dura seis olas y un jefe sin que el bot tenga que esquivar tanto. |
 | F6 | Media | **La ruleta cobra 1 moneda en la primera tirada y luego 200.** | [Cód] `save.spinCount===0?1:200` | [Obs] 500 → 730 → 1000 monedas. |
 | F7 | Media | **Se regalan gemas en el banco 0** si tienes menos de 10. | [Cód] `if(m.bankIdx===0&&save.gems<10)save.gems=10` | No aparece en el original. Parece un resto de pruebas. |
@@ -136,3 +136,76 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 **Prioridad 3 (pulido):**
 10. M22 a M25: sonido, arte a lápiz, mapa ilustrado y líneas de velocidad.
 11. F9, F10, F11: contador de bombas, iconos sin emoji y pestaña Coin/Key.
+
+---
+
+## 8. Segunda revisión (commit fb38976)
+
+Esta revisión responde a dos pistas: el arma tiene demasiado alcance, y solo debería disparar cuando la policía está a nuestra altura. No se ha cambiado el código del juego; solo este documento.
+
+Etiquetas igual que arriba. Medido a 4 fps (parte 1, 116–126 s). Esa resolución da una precisión de ±0.25 s.
+
+### 8.1 Las dos pistas
+
+| # | Pista | Código (base) | Original |
+|---|---|---|---|
+| P1 | El arma tiene demasiado alcance | [Cód] El objetivo es válido con `d∈(-.42,.9)` (línea 257). Eso va de y≈344, justo bajo el horizonte, a y≈714, casi al borde inferior. Un enemigo queda en tiro unos 5 s (1.32 de profundidad a 0.22–0.30 por segundo). | [Obs] Los corchetes naranjas aparecen solo cuando el enemigo está en la fila del taxi, a un lado. El disparo empieza ahí. |
+| P2 | Solo debería disparar cuando la policía está a nuestra altura | [Cód] Los enemigos normales tienen `stopD:9` (línea 214): no frenan nunca. Cruzan el coche y salen en d>1.12. Si solo se cierra el rango, el enemigo queda en tiro unos 0.7 s. La pistola hace unos 20 de daño por segundo y la policía de nivel 1 y ola 1 tiene 20 de vida: no da tiempo. | [Obs] La policía se aparca a la altura del taxi, a un lado, con corchetes encima, y cae 1–2 s después. En el tutorial (~0:31–0:35) ya lanza dinamita desde esa fila, hacia el taxi. |
+
+### 8.2 Propuesta (no aplicada)
+
+Hay que cambiar dos cosas a la vez. Si solo se cambia el rango, los enemigos salen de la zona antes de morir.
+
+1. **Fase "a nuestra altura"**: el enemigo normal frena al llegar a d=0, se aparca en su carril lateral (ya aparece a 84–140 px en `enemySpawn`), se queda `hold` segundos recibiendo disparos y después muere o se marcha.
+2. **Ventana de tiro**: `d∈(-.08,.1)` (y≈371–400), con la banda lateral de 18–133 px que ya existe.
+3. **Corchetes naranjas** sobre el objetivo (M11). Hoy no hay ninguno.
+4. **Duración de `hold`**: propongo 1.8 s por defecto. Es lo que medí en el original (1–2 s), con muestreo grueso. Con eso la pistola mata a la policía de nivel 1 en ~1 s y a una de nivel 3 con 36 de vida en ~1.8 s. Hay que comprobar la bomba (1.1 disparos por segundo): puede no llegar a dos disparos en 1.8 s.
+5. **Choque**: con el enemigo aparcado a 84 px o más, la zona de choque (`|lane−x|<42`, en d∈(−.05,.14)) no se activa, salvo que conduzcas encima de él.
+6. **Auto-steer**: hoy se pone a ±78 px del carril del enemigo más cercano con d>−.4. Debería seguir funcionando con enemigos aparcados. Hay que probarlo con el bot.
+
+Decisiones que necesito de ti:
+- Duración de `hold` (propongo 1.8 s).
+- Si los enemigos siguen lanzando desde detrás (hoy empiezan en d>−.3) o lanzan desde el costado, como en el tutorial.
+
+### 8.3 Fin de ola anticipado (fallo de juego, no solo visual)
+
+- [Obs] Ola 3 (parte 1, ~116–119 s): el cronómetro marca 19.6. La pantalla pasa a negro con "19 → 11 → 3" y aparece "19 x2 Bonus". Después empieza la ola 4. En la ola 4 el cronómetro estaba en 23.2 y la pantalla pasa a negro con "22 → 14 → 5". La ola termina con tiempo sobrante y ese tiempo se convierte en bonus.
+- [Cód] Nuestra ola termina solo cuando se agota el tiempo (línea 243: `if(m.waveTime>=m.waveDuration)nextWave()`). Los enemigos se generan sin límite total, hasta 3 vivos a la vez. Acabar rápido no tiene premio.
+- [?] No he verificado en el vídeo que la causa sea haber abatido a todos los enemigos. Es lo más probable, pero hace falta más vídeo para confirmarlo.
+- Propuesta: cuota de enemigos por ola. Al llegar a cero, negro con cuenta atrás del tiempo sobrante y multiplicador ×2 (la fórmula exacta es [?]). Esto cubre M5.
+
+### 8.4 Fallos nuevos
+
+| # | Gravedad | Fallo | Evidencia |
+|---|---|---|---|
+| N1 | Alta | El jefe se aparca en el centro del carril (`210±30`, `stopD .02`), dentro de la zona de choque. Si conduces a menos de 42 px de él, recibes 11 de daño cada 1.3 s. A menos de 18 px no puedes dispararle. | [Cód] líneas 214, 253 y 257. [Prueba] pendiente. |
+| N2 | Alta | Los enemigos empiezan a lanzar en d>−.3, cuando todavía están detrás del coche. Con P2, el coche no puede responder hasta que llegan a la fila. Hay que equilibrarlo a la vez. | [Cód] línea 250. |
+
+### 8.5 Estado de la lista anterior
+
+| Elemento | Estado |
+|---|---|
+| Orientación (coche de frente, carretera hacia abajo) | Corregido en fb38976 |
+| R1, nombres de bancos | Corregido |
+| F4, duración de oleada | Corregido (ver sección 3) |
+| M3, pantalla de jefe en negro | Falta. Solo hay un banner "BOSS WAVE!" (línea 283) y un toast "BOSS INCOMING!" (línea 215). |
+| M4, "LEVEL ↑" con mejora | Parcial: aparece "LEVEL N COMPLETED" (línea 310), sin mejora. |
+| M5, tally del tiempo sobrante | Falta (ver 8.3). |
+| M11, corchetes sobre el objetivo | Falta (ver 8.2). |
+| F1, llaves sin función | Sigue: solo se muestran (línea 171). |
+| F2 y F3, saldo y nivel de banco | Siguen: `BANKS` es constante y la victoria solo guarda desbloqueo y banco seleccionado (línea 231). |
+| F6, precio de la ruleta | Sigue (líneas 197 y 199). |
+| F7, gemas regaladas en el banco 0 | Sigue (línea 231). |
+| F8, bonus perfecto | Sigue (línea 231). |
+| F9, botón central con "!" | Sigue (línea 282). |
+| F5, modo automático | No medido en esta revisión. |
+| F10 y F11 | Sin cambios. No los he vuelto a revisar. |
+| M1, M6 a M10 (burbujas, dorado, túnel, arcilla, botellas, gemas en la carretera) | Siguen sin aparecer en el código (búsqueda de palabras clave). |
+
+### 8.6 Plan propuesto, por orden
+
+1. P1, P2 y M11 juntos: ventana de tiro, enemigo aparcado con `hold`, y corchetes. Es lo que pediste.
+2. Fin de ola por cuota, con tally del tiempo sobrante (8.3 y M5).
+3. Jefe: que no bloquee el centro ni la zona de choque (N1).
+4. Equilibrio con el bot: N2 y F5.
+5. Después: M1 burbujas, M3 pantalla de jefe y M4 "LEVEL ↑".
