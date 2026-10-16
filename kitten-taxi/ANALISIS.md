@@ -277,3 +277,21 @@ La primera versión colocaba el coche abajo y el horizonte arriba. Está inverti
 - **Combo:** tres o más eliminaciones seguidas en 2,5 s muestran "COMBO xN".
 - **Impactos:** chispas al golpear, monedas que vuelan al contador al eliminar un enemigo y temblor de pantalla con cada explosión.
 - **Automático:** esquiva las bombas que caen cerca del coche.
+
+## 15. Versión actual: base de Kitten_Taxi_v3_Perspectiva, corregida
+
+`kitten-taxi/index.html` es ahora la base que aportó el usuario (*Kitten Taxi — Trayectorias v2 · HTML5*), con estas correcciones:
+
+1. **Error de sintaxis:** el archivo no ejecutaba nada (`function drawTitleLogofunction drawTitleLogo`).
+2. **Botín del banco:** antes contaba el saldo entero del banco. Ahora solo cuenta lo que robas de la carretera y nunca supera el saldo.
+3. **Bloqueo de la tienda:** se compraba pero no hacía nada. Ahora reduce el daño un 8 % por nivel (máximo 40 %).
+4. **Esquive automático:** esquiva también los disparos normales, no solo la dinamita.
+5. **Tamaños:** la carretera es más ancha; los enemigos llegan a ocupar hasta el 80 % de la profundidad de la pantalla (antes se quedaban en el horizonte); las monedas y los objetos son más grandes.
+6. **Avisos:** en partida aparecen a 600 px (ya no tapan AUTO ni la barra del jefe); en menús, bajo el título.
+7. **Texto de vida:** ahora está sobre la barra amarilla. Antes era gris sobre asfalto y no se leía.
+
+Las secciones 12 a 14 describen la versión modular anterior, que se ha retirado (carpeta `js/`).
+
+**Pruebas:** recorrido por todas las pantallas con toques reales (tutorial, mapa, garaje, tienda, ruleta, partida, pausa, resultados y ajustes), partida con olas, jefe y victoria. Sin errores de consola.
+
+**Pendiente:** el modo automático todavía muere en las olas 4 o 5 en las pruebas; falta equilibrarlo. El parámetro `?debug=1` expone `window.KittenTaxiQA` para probar.
