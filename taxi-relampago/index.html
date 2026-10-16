@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Taxi Relámpago: juego original de oleadas, atracos a bancos ficticios, ruleta y mejoras.">
+<title>Taxi Relámpago</title>
+<style>
+:root{
+  --paper:#f7f4ec; --ink:#1f2328; --muted:#6a6f78; --card:#ffffff; --line:#d9d4c7;
+  --accent:#f0b429; --accent-ink:#2b2110; --danger:#c83c3c; --ok:#2e8b5e; --shade:rgba(20,22,28,.55);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15171c; --ink:#eef0f3; --muted:#a3a9b3; --card:#22252d; --line:#3a3f4a;
+    --accent:#f5c451; --accent-ink:#2a2006; --danger:#e06a6a; --ok:#46b07f; --shade:rgba(0,0,0,.65);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15171c; --ink:#eef0f3; --muted:#a3a9b3; --card:#22252d; --line:#3a3f4a;
+  --accent:#f5c451; --accent-ink:#2a2006; --danger:#e06a6a; --ok:#46b07f; --shade:rgba(0,0,0,.65);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+body{display:flex;align-items:center;justify-content:center}
+#stage{position:relative;width:min(100vw,calc(100vh * 9 / 16));aspect-ratio:9/16;background:#20242c;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;gap:12px;padding:18px 16px;background:var(--paper);overflow:auto;z-index:2}
+.screen.show{display:flex}
+.modal{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:var(--shade);z-index:6}
+.modal.show{display:flex}
+.card{width:100%;max-width:320px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{font-size:34px;margin:24px 0 4px;text-align:center;letter-spacing:.5px}
+h2{font-size:22px;margin:0}
+h3{font-size:16px;margin:0}
+p{margin:0;color:var(--muted);font-size:14px;line-height:1.4}
+.sub{text-align:center;color:var(--muted);font-size:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wallet{display:flex;gap:10px;justify-content:flex-end;font-weight:700;font-size:15px}
+.btn{appearance:none;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:700;background:var(--accent);color:var(--accent-ink);cursor:pointer;min-height:44px}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--danger);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.big{font-size:18px;min-height:56px}
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.item .txt{flex:1;display:flex;flex-direction:column;gap:2px}
+.tabs{display:flex;gap:6px}
+.tab{flex:1;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.tab.on{background:var(--ink);color:var(--paper)}
+.bank{display:flex;flex-direction:column;gap:4px;text-align:left;width:100%;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--ink);font:inherit}
+.bank[disabled]{opacity:.5;cursor:not-allowed}
+.tag{font-size:12px;font-weight:700;color:var(--muted)}
+.tag.ok{color:var(--ok)}
+/* ruleta */
+.wheelwrap{position:relative;width:260px;height:260px;margin:4px auto}
+.pointer{position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:20px solid var(--danger);z-index:2}
+.disc{position:absolute;inset:0;border-radius:50%;border:4px solid var(--ink);transition:transform 3.6s cubic-bezier(.12,.7,.1,1);will-change:transform}
+.lbl{position:absolute;left:50%;top:50%;width:0;height:0}
+.lbl span{position:absolute;left:-44px;width:88px;text-align:center;font-size:13px;font-weight:800;color:#222}
+/* combate */
+.hud{position:absolute;z-index:3;display:none}
+#stage.playing .hud{display:block}
+.hudbtn{position:absolute;z-index:4;display:none;border:1px solid rgba(0,0,0,.25);background:rgba(255,255,255,.85);color:#222;border-radius:10px;padding:6px 10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;min-height:34px}
+#stage.playing .hudbtn{display:block}
+#btnAuto{left:10px;top:52px}
+#btnAuto.on{background:#2e8b5e;color:#fff}
+#btnPause{right:10px;top:10px}
+.tally{display:flex;flex-direction:column;gap:8px}
+.tally .r{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.tally .r b{font-size:18px;font-variant-numeric:tabular-nums}
+.tally .r.total{border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.tally .r.total b{font-size:22px}
+.hint{font-size:13px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+
+  <!-- Título -->
+  <section id="title" class="screen show">
+    <h1>Taxi Relámpago</h1>
+    <p class="sub">Oleadas, atracos a bancos ficticios, ruleta y mejoras.</p>
+    <div style="flex:1"></div>
+    <button class="btn big" data-go="hub">Jugar</button>
+    <p class="hint">Arrastra en horizontal para conducir. El disparo es automático cuando hay un enemigo en tu carril. También puedes usar las flechas izquierda y derecha.</p>
+  </section>
+
+  <!-- Hub -->
+  <section id="hub" class="screen">
+    <div class="row"><h2>Garaje</h2><div class="wallet"><span id="hubCoins">🪙 0</span><span id="hubGems">💎 0</span></div></div>
+    <button class="btn big" data-go="map">Mapa de bancos</button>
+    <button class="btn big" data-go="shop">Tienda</button>
+    <button class="btn big" data-go="wheel">Ruleta</button>
+    <button class="btn alt" data-go="settings">Ajustes</button>
+    <div style="flex:1"></div>
+    <button class="btn alt" data-go="title">Inicio</button>
+  </section>
+
+  <!-- Mapa -->
+  <section id="map" class="screen">
+    <div class="row"><h2>Mapa de bancos</h2><div class="wallet"><span id="mapCoins"></span></div></div>
+    <p>Cada banco se desbloquea al completar el anterior. Un banco se vacía al robarle; cuando no le queda saldo ya no se puede atracar.</p>
+    <div class="list" id="bankList"></div>
+    <div style="flex:1"></div>
+    <button class="btn alt" data-go="hub">Volver</button>
+  </section>
+
+  <!-- Detalle de banco -->
+  <section id="bankInfo" class="screen">
+    <div class="row"><h2 id="biName"></h2><span class="tag" id="biLevel"></span></div>
+    <div class="card" style="max-width:none">
+      <div class="row"><span>Saldo</span><b id="biBalance"></b></div>
+      <div class="row"><span>Estado</span><b id="biState"></b></div>
+      <p id="biHint"></p>
+    </div>
+    <div style="flex:1"></div>
+    <button class="btn big" id="biStart">Atracar</button>
+    <button class="btn alt" data-go="map">Volver</button>
+  </section>
+
+  <!-- Tienda -->
+  <section id="shop" class="screen">
+    <div class="row"><h2>Tienda</h2><div class="wallet"><span id="shopCoins"></span><span id="shopGems"></span></div></div>
+    <div class="tabs" id="shopTabs"></div>
+    <div class="list" id="shopList"></div>
+    <div style="flex:1"></div>
+    <button class="btn alt" data-go="hub">Volver</button>
+  </section>
+
+  <!-- Ruleta -->
+  <section id="wheel" class="screen">
+    <div class="row"><h2>Ruleta</h2><div class="wallet"><span id="wheelCoins"></span></div></div>
+    <p>Cada giro cuesta 300 monedas. Todos los sectores tienen la misma probabilidad.</p>
+    <div class="wrap wheelwrap">
+      <div class="pointer"></div>
+      <div class="disc" id="disc"></div>
+    </div>
+    <p class="sub" id="wheelResult">&nbsp;</p>
+    <button class="btn big" id="spinBtn">Girar (300)</button>
+    <div style="flex:1"></div>
+    <button class="btn alt" data-go="hub">Volver</button>
+  </section>
+
+  <!-- Ajustes -->
+  <section id="settings" class="screen">
+    <h2>Ajustes</h2>
+    <div class="item"><div class="txt"><h3>Sonido</h3><p>Efectos generados por el propio juego.</p></div><button class="btn alt" id="soundBtn">Sí</button></div>
+    <div class="item"><div class="txt"><h3>Progreso</h3><p>Borra monedas, gemas, mejoras y bancos.</p></div><button class="btn danger" id="resetBtn">Borrar</button></div>
+    <div style="flex:1"></div>
+    <button class="btn alt" data-go="hub">Volver</button>
+  </section>
+
+  <!-- Modal genérico (pausa, derrota) -->
+  <div id="dialog" class="modal">
+    <div class="card">
+      <h2 id="dlgTitle"></h2>
+      <p id="dlgText"></p>
+      <div id="dlgButtons" class="list"></div>
+    </div>
+  </div>
+
+  <!-- Resultados -->
+  <div id="tallyModal" class="modal">
+    <div class="card">
+      <h2 id="tallyTitle">Resultados</h2>
+      <div class="tally">
+        <div class="r"><span>Monedas robadas</span><b id="tStolen">0</b></div>
+        <div class="r"><span>Ganado por destrucción</span><b id="tEarned">0</b></div>
+        <div class="r"><span>Bono perfecto</span><b id="tPerfect">0</b></div>
+        <div class="r total"><span>Total</span><b id="tTotal">0</b></div>
+        <div class="r"><span>Saldo del banco después</span><b id="tBalance">0</b></div>
+      </div>
+      <button class="btn big" id="tallyOk">Continuar</button>
+    </div>
+  </div>
+
+  <button class="hudbtn" id="btnAuto">AUTO: no</button>
+  <button class="hudbtn" id="btnPause">II</button>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ------------------------------------------------------------------ *
+ * Taxi Relámpago — juego original. Sin assets externos: todo se dibuja
+ * con canvas. Los bancos, nombres, textos y ruleta son propios.
+ * ------------------------------------------------------------------ */
+
+const W = 360, H = 640;
+const TAXI_Y = H * 0.78;
+const HORIZON = 250;
+const SAVE_KEY = 'taxiRelampago.v1';
+const DEV = new URLSearchParams(location.search).has('dev');
+
+const BANKS = [
+  { id: 'aurora', name: 'Banco Aurora',   level: 1, balance: 100, sky: ['#cfe9ff', '#f5fbff'] },
+  { id: 'sol',    name: 'Banco Sol',      level: 2, balance: 180, sky: ['#9fe2d4', '#f3fffb'] },
+  { id: 'norte',  name: 'Banco Norte',    level: 3, balance: 260, sky: ['#ffc3a6', '#fff6ef'] },
+  { id: 'luna',   name: 'Banco Luna',     level: 4, balance: 340, sky: ['#a7c4f2', '#f5f9ff'] },
+  { id: 'estrella', name: 'Banco Estrella', level: 5, balance: 420, sky: ['#cbb8f0', '#fbf8ff'] },
+];
+
+const SHOP = {
+  coches: [
+    { id: 'turbo',    name: 'Turbo',    desc: '+35 de velocidad de giro por nivel', base: 300, cur: 'coins', max: 3 },
+    { id: 'blindaje', name: 'Blindaje', desc: '+1 de vida máxima por nivel',         base: 2,   cur: 'gems',  max: 2 },
+  ],
+  equipo: [
+    { id: 'iman',  name: 'Imán',  desc: 'Recoge monedas desde más lejos',  base: 250, cur: 'coins', max: 3 },
+    { id: 'canon', name: 'Cañón', desc: '+1 de daño por disparo y nivel',  base: 400, cur: 'coins', max: 3 },
+  ],
+  ayudas: [
+    { id: 'gemas', name: '3 gemas', desc: 'Cambia monedas por gemas', base: 500, cur: 'coins', max: Infinity, grant: { gems: 3 } },
+  ],
+};
+const TAB_NAMES = { coches: 'Coches', equipo: 'Equipo', ayudas: 'Ayudas' };
+
+const WHEEL_COST = 300;
+const WHEEL = [
+  { label: '100',    coins: 100 },
+  { label: '300',    coins: 300 },
+  { label: 'Nada' },
+  { label: '1 gema', gems: 1 },
+  { label: '600',    coins: 600 },
+  { label: '2 gemas', gems: 2 },
+  { label: '50',     coins: 50 },
+  { label: '1000',   coins: 1000 },
+];
+const WHEEL_COLORS = ['#f5d36b', '#f3a6a0', '#bfe3c9', '#a9c9f5', '#f5d36b', '#d9c2f2', '#f9e7a6', '#f3a6a0'];
+
+/* ------------------------------ guardado ------------------------------ */
+function defaultSave() {
+  return {
+    coins: 200, gems: 5, sound: true,
+    up: { turbo: 0, blindaje: 0, iman: 0, canon: 0 },
+    banks: BANKS.map(b => ({ id: b.id, balance: b.balance, done: false })),
+  };
+}
+function loadSave() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return defaultSave();
+    const s = JSON.parse(raw);
+    const d = defaultSave();
+    return {
+      coins: Number(s.coins) || 0, gems: Number(s.gems) || 0,
+      sound: s.sound !== false,
+      up: Object.assign(d.up, s.up || {}),
+      banks: BANKS.map((b, i) => Object.assign({}, d.banks[i], (s.banks || [])[i] || {})),
+    };
+  } catch (e) { return defaultSave(); }
+}
+let save = loadSave();
+function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) { /* modo privado */ } }
+
+/* ------------------------------ utilidades ------------------------------ */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const rand = (a, b) => a + Math.random() * (b - a);
+
+/* ------------------------------ sonido ------------------------------ */
+let actx = null;
+function beep(freq, dur, type = 'square', vol = 0.05) {
+  if (!save.sound) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + dur);
+  } catch (e) { /* sin audio */ }
+}
+const SFX = {
+  shot: () => beep(880, 0.05, 'square', 0.03),
+  coin: () => beep(1320, 0.08, 'triangle', 0.05),
+  hit:  () => beep(140, 0.25, 'sawtooth', 0.06),
+  boom: () => beep(220, 0.2, 'sawtooth', 0.05),
+  bonus:() => { beep(660, 0.12, 'triangle', 0.06); setTimeout(() => beep(990, 0.18, 'triangle', 0.06), 120); },
+};
+
+/* ------------------------------ pantallas ------------------------------ */
+const stage = $('stage');
+function show(id) {
+  document.querySelectorAll('.screen').forEach(el => el.classList.toggle('show', el.id === id));
+}
+function openModal(id) { $(id).classList.add('show'); }
+function closeModal(id) { $(id).classList.remove('show'); }
+
+function refreshWallet() {
+  const t = `🪙 ${save.coins}`, g = `💎 ${save.gems}`;
+  $('hubCoins').textContent = t; $('hubGems').textContent = g;
+  $('mapCoins').textContent = t;
+  $('shopCoins').textContent = t; $('shopGems').textContent = g;
+  $('wheelCoins').textContent = t;
+}
+
+function go(to) {
+  if (to === 'title') return show('title');
+  if (to === 'hub') { refreshWallet(); return show('hub'); }
+  if (to === 'map') { renderMap(); return show('map'); }
+  if (to === 'shop') { renderShop(); return show('shop'); }
+  if (to === 'wheel') { refreshWallet(); return show('wheel'); }
+  if (to === 'settings') { refreshSound(); return show('settings'); }
+}
+document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { beep(520, 0.04); go(b.dataset.go); }));
+
+/* ------------------------------ mapa ------------------------------ */
+let selectedBank = -1;
+function bankUnlocked(i) { return i === 0 || save.banks[i - 1].done; }
+function renderMap() {
+  const list = $('bankList');
+  list.innerHTML = '';
+  BANKS.forEach((b, i) => {
+    const s = save.banks[i];
+    const unlocked = bankUnlocked(i);
+    const state = !unlocked ? 'Bloqueado' : s.done && s.balance === 0 ? 'Vacío' : s.done ? 'Atracado' : 'Disponible';
+    const btn = document.createElement('button');
+    btn.className = 'bank';
+    btn.disabled = !unlocked;
+    btn.innerHTML = `<div class="row"><h3>${b.name}</h3><span class="tag ${state === 'Disponible' ? 'ok' : ''}">Nivel ${b.level}</span></div>
+      <p>Saldo: ${s.balance} · ${state}</p>`;
+    btn.addEventListener('click', () => { selectedBank = i; renderBankInfo(); show('bankInfo'); });
+    list.appendChild(btn);
+  });
+}
+function renderBankInfo() {
+  const b = BANKS[selectedBank], s = save.banks[selectedBank];
+  $('biName').textContent = b.name;
+  $('biLevel').textContent = `Nivel ${b.level}`;
+  $('biBalance').textContent = s.balance;
+  const canAttack = bankUnlocked(selectedBank) && s.balance > 0;
+  $('biState').textContent = !bankUnlocked(selectedBank) ? 'Bloqueado' : s.balance === 0 ? 'Vacío' : 'Disponible';
+  $('biHint').textContent = !bankUnlocked(selectedBank)
+    ? 'Completa el banco anterior para desbloquearlo.'
+    : canAttack
+      ? 'Seis oleadas. Cuanto más rápido despejes una oleada, más bono de tiempo.'
+      : 'Este banco ya no tiene dinero.';
+  $('biStart').disabled = !canAttack;
+}
+$('biStart').addEventListener('click', () => { if (selectedBank >= 0) startLevel(selectedBank); });
+
+/* ------------------------------ tienda ------------------------------ */
+let shopTab = 'coches';
+function renderShop() {
+  const tabs = $('shopTabs');
+  tabs.innerHTML = '';
+  Object.keys(SHOP).forEach(k => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (k === shopTab ? ' on' : '');
+    b.textContent = TAB_NAMES[k];
+    b.addEventListener('click', () => { shopTab = k; renderShop(); });
+    tabs.appendChild(b);
+  });
+  const list = $('shopList');
+  list.innerHTML = '';
+  SHOP[shopTab].forEach(item => {
+    const lvl = item.grant ? null : (save.up[item.id] || 0);
+    const cost = item.grant ? item.base : item.base * (lvl + 1);
+    const maxed = item.grant ? false : lvl >= item.max;
+    const wallet = item.cur === 'coins' ? save.coins : save.gems;
+    const sym = item.cur === 'coins' ? '🪙' : '💎';
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div class="txt"><h3>${item.name}</h3><p>${item.desc}</p>
+      <span class="tag">${item.grant ? 'Compra directa' : `Nivel ${lvl}/${item.max}`}</span></div>`;
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = maxed ? 'Máximo' : `${sym} ${cost}`;
+    btn.disabled = maxed || wallet < cost;
+    btn.addEventListener('click', () => {
+      const cur = item.cur === 'coins' ? 'coins' : 'gems';
+      if (save[cur] < cost) return;
+      save[cur] -= cost;
+      if (item.grant) { save.gems += item.grant.gems; }
+      else { save.up[item.id] = lvl + 1; }
+      persist(); SFX.coin(); renderShop();
+    });
+    row.appendChild(btn);
+    list.appendChild(row);
+  });
+}
+
+/* ------------------------------ ruleta ------------------------------ */
+let wheelAngle = 0, spinning = false;
+function buildWheel() {
+  const disc = $('disc');
+  const n = WHEEL.length, seg = 360 / n;
+  const stops = WHEEL.map((_, i) => `${WHEEL_COLORS[i % WHEEL_COLORS.length]} ${i * seg}deg ${(i + 1) * seg}deg`).join(',');
+  disc.style.background = `conic-gradient(from 0deg, ${stops})`;
+  WHEEL.forEach((w, i) => {
+    const d = document.createElement('div');
+    d.className = 'lbl';
+    d.style.transform = `rotate(${i * seg + seg / 2}deg)`;
+    d.innerHTML = `<span style="top:-106px">${w.label}</span>`;
+    disc.appendChild(d);
+  });
+}
+$('spinBtn').addEventListener('click', () => {
+  if (spinning) return;
+  if (save.coins < WHEEL_COST) { $('wheelResult').textContent = 'No tienes monedas suficientes.'; return; }
+  spinning = true;
+  save.coins -= WHEEL_COST; persist(); refreshWallet();
+  const n = WHEEL.length, seg = 360 / n;
+  const i = Math.floor(Math.random() * n);
+  let target = wheelAngle + 360 * 5;
+  const r = (target + i * seg + seg / 2) % 360;
+  target += (360 - r) % 360;
+  wheelAngle = target;
+  $('disc').style.transform = `rotate(${target}deg)`;
+  $('wheelResult').textContent = 'Girando…';
+  setTimeout(() => {
+    const w = WHEEL[i];
+    save.coins += w.coins || 0; save.gems += w.gems || 0;
+    persist(); refreshWallet();
+    const parts = [];
+    if (w.coins) parts.push(`${w.coins} monedas`);
+    if (w.gems) parts.push(`${w.gems} gema${w.gems > 1 ? 's' : ''}`);
+    $('wheelResult').textContent = parts.length ? `Has ganado ${parts.join(' y ')}.` : 'Nada esta vez.';
+    SFX.bonus();
+    spinning = false;
+  }, 3700);
+});
+
+/* ------------------------------ ajustes ------------------------------ */
+function refreshSound() { $('soundBtn').textContent = save.sound ? 'Sí' : 'No'; }
+$('soundBtn').addEventListener('click', () => { save.sound = !save.sound; persist(); refreshSound(); });
+$('resetBtn').addEventListener('click', () => {
+  dialog('¿Borrar progreso?', 'Se perderán monedas, gemas, mejoras y bancos.', [
+    { label: 'Cancelar', alt: true, fn: () => closeModal('dialog') },
+    { label: 'Borrar', danger: true, fn: () => { save = defaultSave(); persist(); closeModal('dialog'); refreshWallet(); refreshSound(); go('hub'); } },
+  ]);
+});
+
+/* ------------------------------ diálogo genérico ------------------------------ */
+function dialog(title, text, buttons) {
+  $('dlgTitle').textContent = title;
+  $('dlgText').textContent = text;
+  const box = $('dlgButtons');
+  box.innerHTML = '';
+  buttons.forEach(b => {
+    const el = document.createElement('button');
+    el.className = 'btn' + (b.alt ? ' alt' : '') + (b.danger ? ' danger' : '');
+    el.textContent = b.label;
+    el.disabled = !!b.disabled;
+    el.addEventListener('click', b.fn);
+    box.appendChild(el);
+  });
+  openModal('dialog');
+}
+
+/* ================================================================== *
+ *                              COMBATE                               *
+ * ================================================================== */
+const SPEED_ROAD = 240;           // px/s de desplazamiento de la carretera
+const WAVE_TIME = 30;             // segundos del reloj de cada oleada
+const WAVES = 6;
+
+let G = null;                     // estado del atraco en curso
+let autoOn = false;
+let keyL = false, keyR = false;
+
+function maxHp() { return 3 + save.up.blindaje; }
+
+function startLevel(bi) {
+  const info = BANKS[bi];
+  G = {
+    bi, mult: 1 + 0.1 * (info.level - 1), speedMult: 1 + 0.05 * (info.level - 1),
+    wave: 0, timer: WAVE_TIME, spawnLeft: 0, spawnCd: 0, coinCd: 0.5,
+    enemies: [], bombs: [], bullets: [], coins: [], parts: [],
+    taxi: { x: W / 2, hp: maxHp(), dmg: 0, cd: 0, flash: 0 },
+    stolen: 0, earned: 0, bonus: 0, bonusN: 0,
+    drag: false, dragX: W / 2, mode: 'play', prevMode: 'play', phase: 0, phaseT: 0,
+    scroll: 0, shake: 0, t: 0,
+  };
+  stage.classList.add('playing');
+  show(null);
+  closeModal('dialog'); closeModal('tallyModal');
+  refreshAuto();
+  startWave(1);
+  lastFrame = performance.now();
+}
+
+function startWave(n) {
+  G.wave = n;
+  G.timer = WAVE_TIME;
+  G.spawnLeft = 4 + 2 * n;
+  G.spawnCd = 0.4;
+  G.mode = 'play';
+}
+
+function spawnEnemy() {
+  const n = G.wave;
+  const furgon = n >= 2 && Math.random() < 0.3;
+  const e = {
+    bx: rand(50, W - 50), x: 0, y: -40, t: 0, ph: rand(0, 6.28),
+    shootCd: 0, every: 0, w: 0, h: 0, hp: 0, maxHp: 0, value: 0, speed: 0, type: '',
+  };
+  if (furgon) {
+    e.type = 'furgon'; e.w = 46; e.h = 62;
+    e.maxHp = Math.round((4 + Math.floor(n / 2)) * G.mult);
+    e.value = 45; e.speed = (26 + 2 * n) * G.speedMult; e.every = 3.2;
+  } else {
+    e.type = 'patrulla'; e.w = 34; e.h = 50;
+    e.maxHp = Math.round((2 + Math.floor(n / 3)) * G.mult);
+    e.value = 20; e.speed = (40 + 3 * n) * G.speedMult; e.every = Math.max(1.4, 2.4 - 0.1 * n);
+  }
+  e.hp = e.maxHp;
+  e.shootCd = e.every * 0.6;
+  e.x = e.bx;
+  G.enemies.push(e);
+}
+
+function killEnemy(e) {
+  G.enemies.splice(G.enemies.indexOf(e), 1);
+  G.earned += e.value;
+  burst(e.x, e.y, e.type === 'furgon' ? '#7f9b5a' : '#3867d6', 16);
+  SFX.boom();
+}
+
+function burst(x, y, color, n) {
+  for (let i = 0; i < n; i++) {
+    const a = rand(0, Math.PI * 2), s = rand(40, 180);
+    G.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 40, life: rand(0.3, 0.7), max: 0.7, color, r: rand(2, 4) });
+  }
+}
+
+function update(dt) {
+  if (!G) return;
+  if (G.taxi.flash > 0) G.taxi.flash -= dt;
+  if (G.shake > 0) G.shake -= dt;
+  G.parts = G.parts.filter(p => (p.life -= dt) > 0);
+  G.parts.forEach(p => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 220 * dt; });
+
+  if (G.mode === 'play') {
+    G.t += dt;
+    G.scroll = (G.scroll + SPEED_ROAD * dt) % 600;
+    G.timer = Math.max(0, G.timer - dt);
+    steer(dt);
+    fire(dt);
+    spawn(dt);
+    updateCoins(dt);
+    updateEnemies(dt);
+    updateBombs(dt);
+    updateBullets(dt);
+    if (G.taxi.hp <= 0) return gameOver();
+    if (G.spawnLeft === 0 && G.enemies.length === 0) return waveDone();
+  } else if (G.mode === 'iris') {
+    G.phaseT += dt;
+    if (G.phase === 0 && G.phaseT >= 0.6) { G.phase = 1; G.phaseT = 0; }
+    else if (G.phase === 1 && G.phaseT >= 1.8) {
+      if (G.wave < WAVES) { startWave(G.wave + 1); }
+      else { G.mode = 'fade'; G.phaseT = 0; }
+    }
+  } else if (G.mode === 'fade') {
+    G.phaseT += dt;
+    if (G.phaseT >= 0.6) { showTally(); }
+  }
+}
+
+function steer(dt) {
+  const T = G.taxi;
+  const sp = (190 + 35 * save.up.turbo) * dt;
+  if (G.drag) {
+    T.x = lerp(T.x, G.dragX, Math.min(1, 14 * dt));
+  } else if (keyL !== keyR) {
+    T.x += (keyR ? 1 : -1) * sp * 1.3;
+  } else if (autoOn) {
+    let want = W / 2;
+    const danger = G.bombs.find(b => b.left > 0.2 && Math.abs(b.tx - T.x) < 34);
+    if (danger) {
+      want = T.x < W / 2 ? Math.min(W - 40, T.x + 90) : Math.max(40, T.x - 90);
+    } else if (G.enemies.length) {
+      want = G.enemies.reduce((a, b) => (b.y > a.y ? b : a)).x;
+    } else if (G.coins.length) {
+      want = G.coins.reduce((a, b) => (b.y > a.y ? b : a)).x;
+    }
+    T.x += clamp(want - T.x, -sp, sp);
+  }
+  T.x = clamp(T.x, 30, W - 30);
+}
+
+function fire(dt) {
+  const T = G.taxi;
+  T.cd -= dt;
+  if (T.cd > 0) return;
+  const hit = G.enemies.filter(e => e.y > 0 && e.y < TAXI_Y - 30 && Math.abs(e.x - T.x) < e.w / 2 + 6);
+  if (!hit.length) return;
+  G.bullets.push({ x: T.x, y: TAXI_Y - 36, dmg: 1 + save.up.canon });
+  T.cd = 0.32;
+  SFX.shot();
+}
+
+function spawn(dt) {
+  if (G.spawnLeft <= 0) return;
+  G.spawnCd -= dt;
+  if (G.spawnCd > 0) return;
+  spawnEnemy();
+  G.spawnLeft--;
+  G.spawnCd = Math.max(0.35, 0.95 - G.wave * 0.08) * rand(0.8, 1.2);
+}
+
+function updateCoins(dt) {
+  G.coinCd -= dt;
+  if (G.coinCd <= 0) {
+    G.coins.push({ x: rand(40, W - 40), y: -12, vy: rand(120, 160) });
+    G.coinCd = 0.55;
+  }
+  const r = 30 + 12 * save.up.iman;
+  G.coins = G.coins.filter(c => {
+    c.y += c.vy * dt;
+    if (Math.hypot(c.x - G.taxi.x, c.y - TAXI_Y) < r) {
+      G.stolen += 5;
+      burst(c.x, c.y, '#f2b705', 6);
+      SFX.coin();
+      return false;
+    }
+    return c.y < H + 20;
+  });
+}
+
+function updateEnemies(dt) {
+  G.enemies.forEach(e => {
+    e.t += dt;
+    e.y += e.speed * dt;
+    e.x = e.bx + Math.sin(e.t * 1.4 + e.ph) * 26;
+    e.shootCd -= dt;
+    if (e.shootCd <= 0 && e.y > 40 && e.y < TAXI_Y - 150) {
+      G.bombs.push({ sx: e.x, sy: e.y + e.h / 2, tx: G.taxi.x, t: 0, dur: 1.2, left: 1.2 });
+      e.shootCd = e.every;
+    }
+  });
+  // Los enemigos que salen por abajo cuentan como despejados.
+  G.enemies = G.enemies.filter(e => e.y <= H + 60);
+}
+
+function updateBombs(dt) {
+  G.bombs = G.bombs.filter(b => {
+    b.t += dt;
+    b.left = b.dur - b.t;
+    if (b.t < b.dur) return true;
+    if (Math.abs(G.taxi.x - b.tx) < 26) {
+      G.taxi.hp--; G.taxi.dmg++; G.taxi.flash = 0.4; G.shake = 0.3;
+      SFX.hit();
+    }
+    burst(b.tx, TAXI_Y, '#333', 14);
+    return false;
+  });
+}
+
+function updateBullets(dt) {
+  G.bullets = G.bullets.filter(b => {
+    b.y -= 560 * dt;
+    if (b.y < -10) return false;
+    const hit = G.enemies.find(e => Math.abs(b.x - e.x) < e.w / 2 && Math.abs(b.y - e.y) < e.h / 2);
+    if (!hit) return true;
+    hit.hp -= b.dmg;
+    burst(b.x, b.y, '#ffd166', 5);
+    if (hit.hp <= 0) killEnemy(hit);
+    return false;
+  });
+}
+
+function waveDone() {
+  G.bonusN = Math.floor(G.timer);
+  G.bonus = G.bonusN * 10;
+  G.stolen += G.bonus;
+  G.bombs = []; G.coins = []; G.bullets = [];
+  G.mode = 'iris'; G.phase = 0; G.phaseT = 0;
+  SFX.bonus();
+}
+
+function gameOver() {
+  G.prevMode = G.mode;
+  G.mode = 'dead';
+  dialog('Te han parado', 'Tu coche no aguanta más. Puedes continuar en esta oleada con una gema o rendirte.', [
+    { label: `Continuar (💎 1)`, disabled: save.gems < 1, fn: continueLevel },
+    { label: 'Rendirse', alt: true, fn: abandonLevel },
+  ]);
+}
+
+function continueLevel() {
+  if (save.gems < 1) return;
+  save.gems -= 1; persist(); refreshWallet();
+  G.taxi.hp = maxHp();
+  G.mode = 'play';
+  closeModal('dialog');
+}
+
+function abandonLevel() {
+  save.coins += G.stolen; persist();
+  endLevel();
+}
+
+function pause() {
+  if (!G || G.mode === 'dead' || G.mode === 'tally' || G.mode === 'paused') return;
+  G.prevMode = G.mode; G.mode = 'paused';
+  dialog('Pausa', 'La partida está en pausa.', [
+    { label: 'Reanudar', fn: resume },
+    { label: 'Rendirse', alt: true, fn: abandonLevel },
+  ]);
+}
+function resume() {
+  if (!G) return;
+  G.mode = G.prevMode === 'paused' ? 'play' : G.prevMode;
+  closeModal('dialog');
+}
+
+function showTally() {
+  G.mode = 'tally';
+  const perfect = G.taxi.dmg === 0 ? 500 : 0;
+  const total = G.stolen + G.earned + perfect;
+  const bank = save.banks[G.bi];
+  const balanceAfter = Math.max(0, bank.balance - G.stolen);
+  $('tallyTitle').textContent = `${BANKS[G.bi].name} · completado`;
+  $('tStolen').textContent = G.stolen;
+  $('tEarned').textContent = G.earned;
+  $('tPerfect').textContent = perfect;
+  $('tTotal').textContent = total;
+  $('tBalance').textContent = balanceAfter;
+  G.tally = { stolen: G.stolen, earned: G.earned, perfect, total, balanceAfter };
+  stage.classList.remove('playing');
+  show(null);
+  openModal('tallyModal');
+}
+
+$('tallyOk').addEventListener('click', () => {
+  const t = G.tally;
+  save.coins += t.total;
+  const bank = save.banks[G.bi];
+  bank.balance = t.balanceAfter;
+  bank.done = true;
+  persist();
+  endLevel();
+});
+
+function endLevel() {
+  G = null;
+  stage.classList.remove('playing');
+  closeModal('dialog'); closeModal('tallyModal');
+  selectedBank = -1;
+  go('map');
+}
+
+/* ------------------------------ entrada ------------------------------ */
+function stagePoint(e) {
+  const r = stage.getBoundingClientRect();
+  return ((e.clientX - r.left) / r.width) * W;
+}
+stage.addEventListener('pointerdown', e => {
+  if (!G || G.mode !== 'play') return;
+  if (e.target.closest('.hudbtn,.modal,.screen')) return;
+  G.drag = true; G.dragX = stagePoint(e);
+  stage.setPointerCapture && stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove', e => {
+  if (G && G.drag) G.dragX = stagePoint(e);
+});
+const endDrag = () => { if (G) G.drag = false; };
+window.addEventListener('pointerup', endDrag);
+window.addEventListener('pointercancel', endDrag);
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') keyL = true;
+  if (e.key === 'ArrowRight') keyR = true;
+  if (e.key === 'Escape' || e.key === 'p' || e.key === 'P') pause();
+});
+window.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft') keyL = false;
+  if (e.key === 'ArrowRight') keyR = false;
+});
+
+function refreshAuto() {
+  const b = $('btnAuto');
+  b.textContent = autoOn ? 'AUTO: sí' : 'AUTO: no';
+  b.classList.toggle('on', autoOn);
+}
+$('btnAuto').addEventListener('click', e => { e.stopPropagation(); autoOn = !autoOn; refreshAuto(); });
+$('btnPause').addEventListener('click', e => { e.stopPropagation(); pause(); });
+
+/* ================================================================== *
+ *                              DIBUJO                                *
+ * ================================================================== */
+const canvas = $('cv');
+const ctx = canvas.getContext('2d');
+canvas.width = W * 2; canvas.height = H * 2;
+ctx.scale(2, 2);
+
+function drawSky(bi) {
+  const [top, bottom] = BANKS[bi].sky;
+  const g = ctx.createLinearGradient(0, 0, 0, HORIZON);
+  g.addColorStop(0, top); g.addColorStop(1, bottom);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, HORIZON + 4);
+  // nubes sencillas
+  ctx.fillStyle = 'rgba(255,255,255,.7)';
+  [[60, 70, 34], [250, 46, 42], [320, 120, 26]].forEach(([x, y, r]) => {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.arc(x + r * 0.9, y + 6, r * 0.7, 0, Math.PI * 2); ctx.fill();
+  });
+  // skyline en gris suave
+  ctx.fillStyle = 'rgba(40,50,70,.12)';
+  let seed = 7;
+  for (let x = 0; x < W; x += 22) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const h = 40 + (seed / 233280) * 80;
+    ctx.fillRect(x, HORIZON - h, 20, h);
+  }
+}
+
+function drawRoad() {
+  // acera
+  ctx.fillStyle = '#c7c3b8';
+  ctx.beginPath(); ctx.moveTo(0, HORIZON); ctx.lineTo(W, HORIZON); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
+  // asfalto (trapecio)
+  ctx.fillStyle = '#4a4e57';
+  ctx.beginPath();
+  ctx.moveTo(W * 0.36, HORIZON); ctx.lineTo(W * 0.64, HORIZON);
+  ctx.lineTo(W * 1.10, H); ctx.lineTo(-W * 0.10, H);
+  ctx.closePath(); ctx.fill();
+  // bordes
+  ctx.strokeStyle = '#f2efe6'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(W * 0.36, HORIZON); ctx.lineTo(-W * 0.10, H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W * 0.64, HORIZON); ctx.lineTo(W * 1.10, H); ctx.stroke();
+  // marcas centrales que avanzan
+  ctx.strokeStyle = '#f5d36b'; ctx.lineWidth = 3; ctx.setLineDash([]);
+  for (let k = 0; k < 14; k++) {
+    const u = ((k * 60 + (G ? G.scroll : 0)) % 600) / 600;
+    const y0 = HORIZON + (H - HORIZON) * Math.pow(u, 1.6);
+    const y1 = HORIZON + (H - HORIZON) * Math.pow(Math.min(1, u + 0.07), 1.6);
+    ctx.beginPath(); ctx.moveTo(W / 2, y0); ctx.lineTo(W / 2, y1); ctx.stroke();
+  }
+}
+
+function drawTaxi(T) {
+  ctx.save();
+  if (G && G.shake > 0) ctx.translate(rand(-2, 2), rand(-2, 2));
+  const x = T.x, y = TAXI_Y;
+  const flash = T.flash > 0 && Math.floor(T.flash * 20) % 2 === 0;
+  // sombra
+  ctx.fillStyle = 'rgba(0,0,0,.25)';
+  ctx.beginPath(); ctx.ellipse(x, y + 34, 24, 6, 0, 0, Math.PI * 2); ctx.fill();
+  // carrocería
+  ctx.fillStyle = flash ? '#ffffff' : '#f6c33b';
+  ctx.strokeStyle = '#3a2a08'; ctx.lineWidth = 2;
+  roundRect(x - 22, y - 32, 44, 66, 10); ctx.fill(); ctx.stroke();
+  // ventanas
+  ctx.fillStyle = '#9fd3f0';
+  roundRect(x - 16, y - 24, 32, 16, 4); ctx.fill();
+  roundRect(x - 16, y + 2, 32, 10, 3); ctx.fill();
+  // rótulo de techo
+  ctx.fillStyle = '#fff8dc';
+  roundRect(x - 10, y - 40, 20, 8, 2); ctx.fill(); ctx.stroke();
+  // ruedas
+  ctx.fillStyle = '#1b1b1b';
+  [[x - 24, y - 20], [x + 24, y - 20], [x - 24, y + 22], [x + 24, y + 22]].forEach(([wx, wy]) => {
+    ctx.beginPath(); ctx.arc(wx, wy, 6, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.restore();
+}
+
+function drawEnemy(e) {
+  const x = e.x, y = e.y;
+  ctx.save();
+  if (e.type === 'furgon') {
+    ctx.fillStyle = '#7f9b5a'; ctx.strokeStyle = '#2a3320'; ctx.lineWidth = 2;
+    roundRect(x - e.w / 2, y - e.h / 2, e.w, e.h, 6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#d9e4c4';
+    ctx.fillRect(x - e.w / 2 + 6, y - e.h / 2 + 8, e.w - 12, 12);
+  } else {
+    ctx.fillStyle = '#3867d6'; ctx.strokeStyle = '#132a5a'; ctx.lineWidth = 2;
+    roundRect(x - e.w / 2, y - e.h / 2, e.w, e.h, 8); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#e8eefc';
+    ctx.fillRect(x - e.w / 2 + 4, y - e.h / 2 + 10, e.w - 8, 10);
+    // luz de techo parpadeante
+    const on = Math.floor(e.t * 6) % 2 === 0;
+    ctx.fillStyle = on ? '#ff5a5a' : '#5ab0ff';
+    ctx.beginPath(); ctx.arc(x, y - e.h / 2 - 2, 5, 0, Math.PI * 2); ctx.fill();
+  }
+  if (e.hp < e.maxHp) {
+    ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(x - 18, y - e.h / 2 - 12, 36, 5);
+    ctx.fillStyle = '#58d68d'; ctx.fillRect(x - 18, y - e.h / 2 - 12, 36 * Math.max(0, e.hp / e.maxHp), 5);
+  }
+  ctx.restore();
+}
+
+function drawCoin(c) {
+  ctx.fillStyle = '#f2b705'; ctx.strokeStyle = '#8a6200'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(c.x, c.y, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.strokeStyle = '#ffe58a'; ctx.beginPath(); ctx.arc(c.x, c.y, 4.5, 0, Math.PI * 2); ctx.stroke();
+}
+
+function drawBomb(b) {
+  const s = b.t / b.dur;
+  const x = lerp(b.sx, b.tx, s);
+  const y = lerp(b.sy, TAXI_Y, s) - Math.sin(Math.PI * s) * 60;
+  // aviso en el suelo
+  ctx.strokeStyle = 'rgba(200,40,40,' + (0.25 + 0.5 * s).toFixed(2) + ')';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(b.tx, TAXI_Y + 10, 14 + 12 * s, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = '#1e1e1e';
+  ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#ffcc33';
+  ctx.beginPath(); ctx.arc(x + 3, y - 8, 2, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawBullet(b) {
+  ctx.fillStyle = '#ffd166';
+  ctx.beginPath(); ctx.arc(b.x, b.y, 3, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawParts() {
+  G.parts.forEach(p => {
+    ctx.globalAlpha = Math.max(0, p.life / p.max);
+    ctx.fillStyle = p.color;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawHud() {
+  const bankName = BANKS[G.bi].name;
+  // etiqueta de oleada
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  roundRect(10, 10, 150, 34, 10); ctx.fill();
+  ctx.fillStyle = '#222'; ctx.font = '700 13px system-ui, sans-serif';
+  ctx.fillText(`OLEADA ${G.wave}/${WAVES}`, 20, 26);
+  ctx.font = '12px system-ui, sans-serif'; ctx.fillStyle = '#444';
+  ctx.fillText(bankName, 20, 39);
+  // reloj de la oleada
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  roundRect(W / 2 - 34, 10, 68, 34, 10); ctx.fill();
+  ctx.fillStyle = G.timer < 6 ? '#c83c3c' : '#222';
+  ctx.font = '800 20px system-ui, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(String(Math.floor(G.timer)), W / 2, 34);
+  ctx.textAlign = 'left';
+  // monedas del atraco
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  roundRect(W - 128, 52, 118, 28, 10); ctx.fill();
+  ctx.fillStyle = '#222'; ctx.font = '700 14px system-ui, sans-serif';
+  ctx.fillText(`🪙 ${G.stolen}`, W - 118, 71);
+  // vida
+  const hp = G.taxi.hp, max = maxHp();
+  for (let i = 0; i < max; i++) {
+    ctx.fillStyle = i < hp ? '#e5484d' : 'rgba(0,0,0,.25)';
+    ctx.beginPath(); ctx.arc(22 + i * 20, H - 22, 7, 0, Math.PI * 2); ctx.fill();
+  }
+  // contador de tiempo de bono en curso
+  if (G.mode === 'play') {
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    roundRect(W / 2 - 60, H - 36, 120, 24, 8); ctx.fill();
+    ctx.fillStyle = '#222'; ctx.font = '700 12px system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(`Bono de tiempo: ${Math.floor(G.timer) * 10}`, W / 2, H - 20);
+    ctx.textAlign = 'left';
+  }
+}
+
+function roundRect(x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function drawIris() {
+  const cx = G.taxi.x, cy = TAXI_Y;
+  if (G.phase === 0) {
+    const r = (1 - G.phaseT / 0.6) * Math.hypot(W, H);
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.rect(0, 0, W, H);
+    ctx.moveTo(cx + r, cy); ctx.arc(cx, cy, r, 0, Math.PI * 2, true);
+    ctx.fill('evenodd');
+  } else {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+    ctx.font = '800 26px system-ui, sans-serif';
+    ctx.fillText(`Oleada ${G.wave} despejada`, W / 2, H / 2 - 30);
+    ctx.font = '600 18px system-ui, sans-serif';
+    ctx.fillText(`Bono de tiempo: ${G.bonusN} s × 10 = ${G.bonus}`, W / 2, H / 2 + 6);
+    ctx.font = '400 14px system-ui, sans-serif'; ctx.fillStyle = '#bbb';
+    ctx.fillText(G.wave < WAVES ? 'Siguiente oleada…' : 'Reparto del botín…', W / 2, H / 2 + 36);
+    ctx.textAlign = 'left';
+  }
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  const bi = G ? G.bi : 0;
+  if (!G) {
+    drawSky(0); drawRoad();
+    return;
+  }
+  drawSky(bi);
+  drawRoad();
+  // capa de fondo: monedas y enemigos por profundidad
+  G.coins.forEach(drawCoin);
+  [...G.enemies].sort((a, b) => a.y - b.y).forEach(drawEnemy);
+  G.bombs.forEach(drawBomb);
+  G.bullets.forEach(drawBullet);
+  drawTaxi(G.taxi);
+  drawParts();
+  if (G.mode !== 'fade' && G.mode !== 'tally') drawHud();
+  if (G.mode === 'iris') drawIris();
+  if (G.mode === 'fade') {
+    ctx.fillStyle = `rgba(255,255,255,${clamp(G.phaseT / 0.6, 0, 1).toFixed(3)})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+}
+
+/* ------------------------------ bucle ------------------------------ */
+let lastFrame = performance.now();
+const FROZEN = new Set(['paused', 'dead', 'tally']);
+function frame(now) {
+  const dt = Math.min(0.05, (now - lastFrame) / 1000);
+  lastFrame = now;
+  if (G && !FROZEN.has(G.mode)) update(dt);
+  render();
+  requestAnimationFrame(frame);
+}
+
+/* ------------------------------ arranque ------------------------------ */
+buildWheel();
+refreshWallet();
+refreshSound();
+show('title');
+requestAnimationFrame(frame);
+
+if (DEV) {
+  window.taxiTest = {
+    state: () => G && { mode: G.mode, wave: G.wave, stolen: G.stolen, earned: G.earned, timer: G.timer, hp: G.taxi.hp, enemies: G.enemies.length, x: G.taxi.x },
+    skipWave: () => { if (G) { G.spawnLeft = 0; G.enemies = []; } },
+    god: () => { if (G) G.taxi.hp = 99; },
+    hurt: () => { if (G) G.taxi.hp = 0; },
+    setAuto: v => { autoOn = !!v; refreshAuto(); },
+    save: () => save,
+  };
+}
+})();
+</script>
+</body>
+</html>
