@@ -141,31 +141,40 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Cód]** verificado leyendo o busca
 
 ## 8. Segunda revisión (commit fb38976)
 
-Esta revisión responde a dos pistas: el arma tiene demasiado alcance, y solo debería disparar cuando la policía está a nuestra altura. No se ha cambiado el código del juego; solo este documento.
+Esta revisión responde a tres observaciones: el arma tiene demasiado alcance, solo debería disparar cuando el enemigo está a nuestra altura, y los coches nunca terminan de adelantarnos. Persiguen un poco por detrás, lanzan bombas, y solo se les dispara en contacto. Además, el juego transmite menos sensación de velocidad que el original. No se ha cambiado el código del juego; solo este documento.
 
 Etiquetas igual que arriba. Medido a 4 fps (parte 1, 116–126 s). Esa resolución da una precisión de ±0.25 s.
 
-### 8.1 Las dos pistas
+### 8.1 Las observaciones y lo que se ve en el original
 
-| # | Pista | Código (base) | Original |
+| # | Observación | Código (base) | Original |
 |---|---|---|---|
-| P1 | El arma tiene demasiado alcance | [Cód] El objetivo es válido con `d∈(-.42,.9)` (línea 257). Eso va de y≈344, justo bajo el horizonte, a y≈714, casi al borde inferior. Un enemigo queda en tiro unos 5 s (1.32 de profundidad a 0.22–0.30 por segundo). | [Obs] Los corchetes naranjas aparecen solo cuando el enemigo está en la fila del taxi, a un lado. El disparo empieza ahí. |
-| P2 | Solo debería disparar cuando la policía está a nuestra altura | [Cód] Los enemigos normales tienen `stopD:9` (línea 214): no frenan nunca. Cruzan el coche y salen en d>1.12. Si solo se cierra el rango, el enemigo queda en tiro unos 0.7 s. La pistola hace unos 20 de daño por segundo y la policía de nivel 1 y ola 1 tiene 20 de vida: no da tiempo. | [Obs] La policía se aparca a la altura del taxi, a un lado, con corchetes encima, y cae 1–2 s después. En el tutorial (~0:31–0:35) ya lanza dinamita desde esa fila, hacia el taxi. |
+| P1 | El arma tiene demasiado alcance | [Cód] El objetivo es válido con `d∈(-.42,.9)` (línea 257): de y≈344, justo bajo el horizonte, a y≈714, casi al borde inferior. Un enemigo queda en tiro unos 5 s. | [Obs] Los corchetes naranjas aparecen solo cuando el enemigo está pegado al taxi. |
+| P2 | Solo debería disparar cuando la policía está a nuestra altura | [Cód] Los enemigos normales tienen `stopD:9` (línea 214): no se paran. Cruzan el coche y salen en d>1.12. | [Obs] La policía está a la altura del taxi, solapada con él, y cae 1–2 s después (parte 1, 120–122 s). En el tutorial (~0:31–0:35) ya lanza dinamita desde esa fila, hacia el taxi. |
+| P3 | Solo disparamos en contacto | [Cód] El arma apunta a cualquier enemigo con `d∈(-.42,.9)` y lateral de 18–133 px (línea 257), o sea, a distancia. El choque también nos hace daño (línea 253). | [Obs] El corchete aparece justo antes del choque y la explosión coincide con el contacto. A 4 fps no veo disparos a distancia. La burbuja del tutorial dice "Auto attack when you go near an enemy": "near", no "from afar". |
+| P4 | Los coches nunca terminan de adelantarnos | [Cód] Los enemigos se van: salen en d>1.12 (línea 254) y no hay nada que los retenga. | [Obs] Entre 120 y 139 s (oleadas 4 y 5, muestreo de 1 fps), van llegando uno tras otro a la altura del taxi, y ninguno se marcha antes de ser eliminado. |
+| P5 | Sensación de velocidad más baja | [Cód] Las líneas laterales son finas y suaves (línea 140). No hay líneas radiales. Los enemigos avanzan unos 90–120 px/s por la mitad de la pantalla (estimado con `groundY` y `vd`). | [Obs] Líneas radiales oscuras que cubren la carretera durante la conducción (125 s y 121–122 s). Las cajas y las monedas pasan rápido. La velocidad exacta no está medida (ver nota). |
+
+Nota sobre profundidad [?]: en 121, 122 y 134 s, la base de la policía está en la misma línea que la del taxi (unos 10 px de diferencia en la resolución de 1280 px). No veo un desfase claro hacia atrás; lo que sí veo es el solapamiento. Si tú lo ves "un poco detrás", probablemente sea ese solapamiento. La propuesta usa una banda de profundidad que cubre las dos lecturas.
+
+Nota sobre velocidad [?]: no he podido medir la velocidad de la carretera en el original. Las líneas radiales se redibujan en cada fotograma, así que el desplazamiento entre fotogramas no sirve. Para medirla habría que seguir una caja o una moneda de un fotograma a otro.
 
 ### 8.2 Propuesta (no aplicada)
 
-Hay que cambiar dos cosas a la vez. Si solo se cambia el rango, los enemigos salen de la zona antes de morir.
+Corrijo lo que escribí antes: la policía no se aparca a distancia y luego muere. Se queda pegada al taxi y cae por contacto. Eso sustituye la fase de `hold` que propuse. Responde a P1–P4.
 
-1. **Fase "a nuestra altura"**: el enemigo normal frena al llegar a d=0, se aparca en su carril lateral (ya aparece a 84–140 px en `enemySpawn`), se queda `hold` segundos recibiendo disparos y después muere o se marcha.
-2. **Ventana de tiro**: `d∈(-.08,.1)` (y≈371–400), con la banda lateral de 18–133 px que ya existe.
-3. **Corchetes naranjas** sobre el objetivo (M11). Hoy no hay ninguno.
-4. **Duración de `hold`**: propongo 1.8 s por defecto. Es lo que medí en el original (1–2 s), con muestreo grueso. Con eso la pistola mata a la policía de nivel 1 en ~1 s y a una de nivel 3 con 36 de vida en ~1.8 s. Hay que comprobar la bomba (1.1 disparos por segundo): puede no llegar a dos disparos en 1.8 s.
-5. **Choque**: con el enemigo aparcado a 84 px o más, la zona de choque (`|lane−x|<42`, en d∈(−.05,.14)) no se activa, salvo que conduzcas encima de él.
-6. **Auto-steer**: hoy se pone a ±78 px del carril del enemigo más cercano con d>−.4. Debería seguir funcionando con enemigos aparcados. Hay que probarlo con el bot.
+1. **Persecución**: el enemigo entra desde detrás y frena al acercarse (d de −0.45 a −0.06). Después se queda en esa banda mientras la carretera pasa, y no se marcha (cambia `stopD:9`).
+2. **Zona de contacto**: el arma dispara solo cuando el enemigo está en contacto: d∈(−.08,.1) y lateral de unos 60 px (un ancho de coche). El número exacto lo ajusto con el bot.
+3. **Corchetes** sobre el objetivo (M11).
+4. **Tiempo de caída**: ya no hace falta un valor fijo. Con la pistola (unos 20 de daño por segundo) la policía de nivel 1 cae en ~1 s, en línea con el original (1–2 s).
+5. **Choque**: en el original el choque elimina al enemigo. El daño que recibe el taxi en ese choque no lo he podido medir. Hoy recibe 6–11 por contacto (línea 253).
+6. **Bombas**: lanzadas desde la banda de persecución, caen delante del taxi, como pediste. Hoy empiezan a lanzar en d>−.3 (N2). Lo mantengo, pero hay que equilibrarlo con el bot.
+7. **Auto-steer**: hoy se pone a ±78 px del carril del enemigo más cercano con d>−.4 (línea 239). Con enemigos que persiguen, se pegará a ellos. Hay que probarlo con el bot.
 
 Decisiones que necesito de ti:
-- Duración de `hold` (propongo 1.8 s).
-- Si los enemigos siguen lanzando desde detrás (hoy empiezan en d>−.3) o lanzan desde el costado, como en el tutorial.
+- ¿El choque debe dañar al taxi, o solo al enemigo?
+- ¿Cuántos enemigos por ola? (ver 8.3)
+- ¿Lanzan solo desde detrás, o también desde el costado? En el tutorial se ve desde el costado.
 
 ### 8.3 Fin de ola anticipado (fallo de juego, no solo visual)
 
@@ -179,7 +188,7 @@ Decisiones que necesito de ti:
 | # | Gravedad | Fallo | Evidencia |
 |---|---|---|---|
 | N1 | Alta | El jefe se aparca en el centro del carril (`210±30`, `stopD .02`), dentro de la zona de choque. Si conduces a menos de 42 px de él, recibes 11 de daño cada 1.3 s. A menos de 18 px no puedes dispararle. | [Cód] líneas 214, 253 y 257. [Prueba] pendiente. |
-| N2 | Alta | Los enemigos empiezan a lanzar en d>−.3, cuando todavía están detrás del coche. Con P2, el coche no puede responder hasta que llegan a la fila. Hay que equilibrarlo a la vez. | [Cód] línea 250. |
+| N2 | Alta | Los enemigos empiezan a lanzar en d>−.3, cuando todavía están detrás del coche. Con P2–P4, el coche no puede responder hasta el contacto. Hay que equilibrarlo a la vez. | [Cód] línea 250. |
 
 ### 8.5 Estado de la lista anterior
 
@@ -204,8 +213,9 @@ Decisiones que necesito de ti:
 
 ### 8.6 Plan propuesto, por orden
 
-1. P1, P2 y M11 juntos: ventana de tiro, enemigo aparcado con `hold`, y corchetes. Es lo que pediste.
-2. Fin de ola por cuota, con tally del tiempo sobrante (8.3 y M5).
-3. Jefe: que no bloquee el centro ni la zona de choque (N1).
-4. Equilibrio con el bot: N2 y F5.
-5. Después: M1 burbujas, M3 pantalla de jefe y M4 "LEVEL ↑".
+1. P1–P4 y M11 juntos: persecución en banda, zona de contacto y corchetes. Es el cambio principal.
+2. P5: velocidad. Líneas radiales durante la conducción (M25), y subir el flujo de la carretera y de las cajas para que el movimiento se note más.
+3. Fin de ola por cuota, con tally del tiempo sobrante (8.3 y M5).
+4. Jefe: que no bloquee el centro ni la zona de choque (N1).
+5. Equilibrio con el bot: N2 y F5.
+6. Después: M1 burbujas, M3 pantalla de jefe y M4 "LEVEL ↑".
