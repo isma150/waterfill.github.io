@@ -204,8 +204,8 @@ function awardSpin(){if(!spin||spin.awarded)return;spin.awarded=true;const prize
 function settingsScreen(){backgroundPaper();header('SETTINGS');card(24,103,372,332);button(`SOUND: ${save.sound?'ON':'OFF'}`,57,154,307,55,()=>{save.sound=!save.sound;persist()},{size:19});button(`REDUCED MOTION: ${save.reducedMotion?'ON':'OFF'}`,57,231,307,55,()=>{save.reducedMotion=!save.reducedMotion;persist()},{size:17});button('REPLAY TUTORIAL',57,305,307,55,()=>{screen='tutorial';tutorialStep=0},{size:18});button('← BACK',95,494,230,60,()=>screen=prevScreen,{size:22,color:'#f5d47b'});button('RESET SAVE DATA',116,654,188,42,()=>{popup={title:'RESET PROGRESS?',message:'All coins and progress will be lost.',confirm:()=>{save=DEFAULT();persist();screen='home';popup=null;},symbol:'warn'}},{size:14});}
 // ------- Capa de acción: combate por pasos fijos, colisiones y economía -------
 let missionCounter=0;
-const waveLength=(lv,w)=>22+lv*1.5+w*1.2;
-const waveQuota=(lv,w)=>5+w+Math.floor(lv/2);
+const waveLength=(lv,w)=>10+w*5;
+const waveQuota=(lv,w)=>[3,4,4,3,4][w-1]-(lv===1?1:0);
 function startMission(bankIdx){if(bankIdx>save.unlocked)return showToast('Bank is locked');let b=BANKS[bankIdx],c=CARS.find(v=>v.id===save.car),hp=c.hp+save.upgrades.car*15;
 mission={id:'run-'+Date.now()+'-'+(++missionCounter),bankIdx,bank:b,level:b.level,theme:b.theme,wave:1,waveTime:0,waveDuration:waveLength(b.level,1),seconds:0,player:{x:210,target:210,vx:0,hp,maxHp:hp,inv:0},auto:true,spawnTimer:.65,enemies:[],shots:[],hazards:[],pickups:[],particles:[],killLoot:0,bankLoot:0,perfect:0,weaponBuff:0,bonusWeapon:null,bossSpawned:false,bulletTimer:0,pickupTimer:3.0,damageTaken:0,shields:save.upgrades.block,notifications:[],waveBanner:1.6,spawned:0,quota:waveQuota(b.level,1),maxAlive:2,tally:null,lock:null,score:0,flash:0,shake:0,resultSaved:false,pauseTimer:0,overdrive:0,itemsCollected:0,bombsDodged:0};
 screen='game';paused=false;pointer=null;toastUntil=0;document.getElementById('toast').classList.remove('visible');beep('click')}
@@ -232,7 +232,7 @@ function takePickup(q){if(q.collected)return;q.collected=true;let m=mission;m.it
 function throwFromEnemy(e,kind){let m=mission,p=m.player;
  m.shots.push({kind,x0:e.lane,d0:e.d,xl:clamp(p.x+rnd(-42,42),43,378),dl:Math.max(rnd(.42,.72),e.d+.25),fly:kind==='dynamite'?rnd(1.05,1.25):rnd(.85,1),age:0,dmg:kind==='dynamite'?12+m.level*1.9:5+m.level*1.4,exploded:false,done:false});
 }
-function nextWave(){let m=mission;m.enemies.length=0;if(m.wave>=6)return;m.wave++;if(save.owned.medicCat)m.player.hp=clamp(m.player.hp+8,0,m.player.maxHp);m.waveTime=0;m.waveDuration=waveLength(m.level,m.wave);m.spawned=0;m.quota=waveQuota(m.level,m.wave);m.maxAlive=2+Math.floor(m.wave/3);m.spawnTimer=.75;m.waveBanner=1.55;m.bossSpawned=false;m.bulletTimer=0;m.pickupTimer=rnd(3,5);beep('click');if(m.wave===6)showToast('FINAL WAVE!',1.25);}
+function nextWave(){let m=mission;m.enemies.length=0;if(m.wave>=6)return;m.wave++;if(save.owned.medicCat)m.player.hp=clamp(m.player.hp+8,0,m.player.maxHp);m.waveTime=0;m.waveDuration=waveLength(m.level,m.wave);m.spawned=0;m.quota=waveQuota(m.level,m.wave);m.maxAlive=m.wave>=2?3:2;m.spawnTimer=.75;m.waveBanner=1.55;m.bossSpawned=false;m.bulletTimer=0;m.pickupTimer=rnd(3,5);beep('click');if(m.wave===6)showToast('FINAL WAVE!',1.25);}
 function endWave(early){let m=mission;if(m.tally)return;let left=early?Math.max(0,m.waveDuration-m.waveTime):0;m.tally={t:0,dur:2.4,left,bonus:early?Math.round(left)*2:0};m.enemies.length=0}
 function missionVictory(){let m=mission;if(!m||m.resultSaved)return;m.resultSaved=true;m.perfect=m.damageTaken===0?Math.round((m.bankLoot+m.killLoot)*.15):0;let reward=m.bankLoot+m.killLoot+m.perfect;if(!save.ledger.includes(m.id)){save.ledger.push(m.id);save.ledger=save.ledger.slice(-40);save.coins+=reward;save.clears[m.bankIdx]=(save.clears[m.bankIdx]||0)+1;save.unlocked=Math.min(BANKS.length-1,Math.max(save.unlocked,m.bankIdx+1));save.selectedBank=Math.min(BANKS.length-1,Math.max(save.selectedBank,m.bankIdx+1));if(m.bankIdx===0&&save.gems<10)save.gems=10;persist()}screen='results';paused=false;beep('coin')}
 function updateMission(dt){let m=mission;if(!m||screen!=='game'||paused||popup)return;let p=m.player;if(m.tally){m.tally.t+=dt;if(m.tally.t>=m.tally.dur){m.killLoot+=m.tally.bonus;m.tally=null;nextWave()}return}m.seconds+=dt;m.waveTime+=dt;m.waveBanner=Math.max(0,m.waveBanner-dt);m.flash=Math.max(0,m.flash-dt);m.shake=Math.max(0,m.shake-dt*14);p.inv=Math.max(0,p.inv-dt);m.weaponBuff=Math.max(0,m.weaponBuff-dt);
@@ -246,14 +246,14 @@ if(m.auto){const danger=m.shots.filter(s=>!s.exploded&&!s.done&&Math.abs(s.xl-p.
  else p.target=clamp(210+Math.sin(clock*1.12)*57,43,378);
 }
 let old=p.x;p.x=clamp(lerp(p.x,p.target,1-Math.exp(-dt*(save.owned.speedDriver?11.25:9))),42,378);p.vx=lerp(p.vx,clamp((p.x-old)/Math.max(.002,dt),-450,450),1-Math.exp(-dt*10));
-if(m.wave<6){m.spawnTimer-=dt;if(m.spawnTimer<=0){if(m.spawned<m.quota&&m.enemies.filter(e=>!e.dead).length<m.maxAlive){enemySpawn();m.spawnTimer=rnd(1.3,2.5)-m.level*.06;}else m.spawnTimer=.5}if(m.spawned>=m.quota&&m.enemies.every(e=>e.dead))endWave(true);else if(m.waveTime>=m.waveDuration)endWave(false);}
+if(m.wave<6){m.spawnTimer-=dt;if(m.spawnTimer<=0){if(m.spawned<m.quota&&m.enemies.filter(e=>!e.dead).length<m.maxAlive){enemySpawn();m.spawnTimer=rnd(.9,1.6)-m.level*.04;}else m.spawnTimer=.5}if(m.spawned>=m.quota&&m.enemies.every(e=>e.dead))endWave(true);else if(m.waveTime>=m.waveDuration)endWave(false);}
 else if(!m.bossSpawned&&m.waveTime>.9){enemySpawn(true)}
 for(let e of m.enemies){if(e.dead)continue;e.age+=dt;e.fire-=dt;
  if(e.kind!=='boss'){e.dodgeCd-=dt;if(e.dodgeCd<=0){e.dodgeCd=rnd(.9,1.5)-(m.wave-1)*.08;if(e.d>-.22&&Math.abs(e.lane-p.x)<118&&Math.random()<e.dodge){e.laneFrom=e.lane;e.laneTo=clamp(e.lane+(e.lane>=p.x?1:-1)*rnd(55,80),70,350);e.laneT=0;e.laneDur=.45}}}
  e.laneT=Math.min(1,e.laneT+dt/e.laneDur);e.lane=lerp(e.laneFrom,e.laneTo,sstep(e.laneT));
  e.d=Math.min(e.hoverD,e.d+dt*e.vd);
  let ep=enemyProjection(e);e.x=ep.x;e.y=ep.y;e.scale=ep.scale;
- if(e.fire<=0&&e.d>-.3&&e.d<.45){const rate=e.kind==='boss'?rnd(1.3,1.8):rnd(3,4.2);e.fire=rate/(1+(m.level-1)*.04+(m.wave-1)*.06);
+ if(e.fire<=0&&e.d>-.3&&e.d<.45){const rate=e.kind==='boss'?rnd(1.3,1.8):rnd(4.5,6.5);e.fire=rate/(1+(m.level-1)*.04+(m.wave-1)*.06);
   let kind=(Math.random()<(e.kind==='boss'?.6:m.wave>=4?.48:.36))?'dynamite':'shot';throwFromEnemy(e,kind);
   if(m.level>=3&&m.wave>=3&&Math.random()<.13)throwFromEnemy(e,'dynamite');}
  if(e.d>1.12)e.dead=true;

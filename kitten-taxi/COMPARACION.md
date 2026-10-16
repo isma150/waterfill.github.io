@@ -219,3 +219,50 @@ Decisiones que necesito de ti:
 4. Jefe: que no bloquee el centro ni la zona de choque (N1).
 5. Equilibrio con el bot: N2 y F5.
 6. Después: M1 burbujas, M3 pantalla de jefe y M4 "LEVEL ↑".
+
+---
+
+## 9. Calibración con los vídeos
+
+Recuento hecho sobre la parte 1 (muestreo de 2 fps). Los tiempos de inicio y fin son firmes (±0.5 s). Los números de enemigos son estimaciones (±1–2). La parte 2 está pendiente de recuento.
+
+| Oleada | Tiempo (s) | Cronómetro al inicio → al terminar | Enemigos (est.) | Pantalla vacía al terminar |
+|---|---|---|---|---|
+| L1 W1 | 88–90.5 | 15 → 12.9 | 2 | sí |
+| L1 W2 | 99–101.5 | 20 → 17.7 | 2 | sí |
+| L1 W3 | 107–113.5 | 25 → 19.3 | 4 | sí (probable) |
+| L1 W4 | 119–126 | 30 → 23.2 | 3 | sí |
+| L1 W5 | 132.5–137.5 | 35 → 30.4 | 3 | sí |
+| L2 W1 | 273–284.5 | 15 → 3.7 | 4 | sí |
+| L2 W2 | 287.5–299.5 | 20 → 8.9 | 4 | sí |
+| L2 W3 | 303.5–312.5 | 25 → 16.7 | 3 | sí |
+| L2 W4 | 317.5–327.5 | 30 → 20.8 | 3 | sí |
+| L2 W5 | 333.5–344.5 | 35 → 24.1 | 3 | sí |
+| L3-A W1 | 446–458 | 20 → 7.3 | 3 | incierto |
+| L3-A W2 | 460–471.6 | 25 → 14.0 | 5 | no (1–2 furgonetas sobre el taxi) |
+| L3-A W3 | 475–485.5 | 30 → 19.8 | 3 | sí |
+| L3-A W4 | 490–496 | 35 → 28.4 | 3 | sí |
+| L3-A W5 | 503–511.5 | 40 → 30.3 | 5 | sí |
+| L3-B W1 | 678.7–686 | 15 → 8.7 | 3 | sí |
+| L3-B W2 | 690–702 | 20 → 9.2 | 4 | sí |
+| L3-B W3 | 705.5–716 | 25 → 16.0 | 4 | sí |
+| L3-B W4 | 721–731 | 30 → 21.3 | 3 | sí |
+| L3-B W5 | 736.5–744 | 35 → 28.5 | 3 | sí |
+
+Conclusiones:
+- **Duración de la oleada:** las oleadas son cortas. En L1 duran 2.5–7 s y en L2 y L3 entre 6 y 12 s. El enemigo cae rápido y la oleada acaba. Es el origen principal de la sensación de velocidad.
+- **Cronómetro inicial:** 15, 20, 25, 30 y 35 s para las oleadas 1 a 5 (L3-A usa 20–40 s). La base usaba 22–29 s. Cambiado a `10 + 5·ola`.
+- **Fin de ola:** 17 de las 20 oleadas con tiempo terminan con la pantalla vacía. La oleada acaba cuando cae el último enemigo, y el tiempo sobrante se convierte en el tally "xN Bonus". Ninguna oleada llegó a cero.
+- **Enemigos por oleada:** entre 2 y 5, con una media de unos 3.5. Cuota provisional en la base: [3,4,4,3,4], con uno menos en nivel 1.
+- **Lados:** llegan de ambos lados. Se quedan junto al taxi y a veces detrás o encima de él. No se ha visto ninguno pasar a través.
+- **Esquive:** **no observado en la parte 1**. El único aviso es "Dodge!" del tutorial. Esto contradice la observación del usuario. Queda pendiente de verificar con la parte 2 y con un vistazo dirigido.
+- **Dinamita:** cae delante del taxi. Aparece un triángulo rojo de aviso antes del impacto (281, 325, 469, 685, 697, 712–714 y 728 s, con muestreo ligero). El lanzamiento no se vio.
+- **Vida del taxi:** en L1 baja 38 → 36 → 31 → 26 → 21 en cinco oleadas, unos 4 puntos por golpe, o sea, un golpe por oleada. No se puede distinguir si el choque con la furgoneta hace daño o solo la nube de la dinamita.
+- **Jefes:** L1 W6 (147–173 s, muere hacia 158 s), L2 W6 (355–381 s, camión azul), L3-A W6 (521–554 s, camión azul) y L3-B W6 (754–773 s o más, camión verde). Terminan en la pantalla de resultados.
+- **Sin identificar:** resplandores amarillos sobre el taxi en 121–123, 484–485, 531–535 y 764–772 s.
+
+Consecuencias para la base (aplicadas):
+- Cronómetro `10 + 5·ola`.
+- Cuota por oleada `[3,4,4,3,4]`, con uno menos en nivel 1.
+- Aparición de enemigos cada 0.9–1.6 s, hasta 2 vivos en la oleada 1 y 3 después.
+- Cadencia de disparo enemiga de 4.5–6.5 s. La base disparaba cada 3–4 s, demasiado a menudo frente a un golpe por oleada del original.
