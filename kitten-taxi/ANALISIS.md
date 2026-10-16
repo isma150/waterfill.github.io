@@ -198,7 +198,7 @@ El número "Level" del banco sube cada vez que lo robas [Obs].
 
 ## 12. Versión HTML: qué incluye y qué cambia
 
-Archivo: `kitten-taxi/index.html`. Un solo archivo, sin dependencias salvo la fuente de Google Fonts. Dibujado con canvas 2D. Escala a cualquier pantalla con proporción de móvil.
+Archivos: `kitten-taxi/index.html` más cinco scripts en `kitten-taxi/js/` (`art.js`, `state.js`, `game.js`, `ui.js`, `main.js`). Sin dependencias salvo la fuente de Google Fonts. Todo se dibuja en un único canvas 2D y escala a cualquier pantalla con proporción de móvil.
 
 | Original | Versión HTML |
 |---|---|
@@ -243,3 +243,29 @@ Archivo: `kitten-taxi/index.html`. Un solo archivo, sin dependencias salvo la fu
 2. Notas de tiempos y hechos en un archivo de trabajo, con cada dato etiquetado como observado, inferido o no determinado.
 3. Revisión del plan con un segundo modelo antes de escribir el juego.
 4. Implementación y pruebas automáticas con Playwright (Chromium) sobre la versión final.
+
+---
+
+## 14. Cámara y HUD (versión 2)
+
+La primera versión colocaba el coche abajo y el horizonte arriba. Está invertido respecto al original. Esta sección recoge la geometría verificada con tiras a 10 fps del tramo de combate (parte 1, 296 s).
+
+**Cámara**
+- El coche está en la franja alta de la pantalla, de cara a la cámara. Sus ruedas están en la línea del horizonte (≈ 44 % de la altura).
+- La carretera queda bajo el horizonte y se abre hacia abajo. Los carriles son arcos curvos.
+- Los objetos (enemigos, botellas, monedas, cajas) salen de la parte inferior y suben hacia el coche, encogiéndose al alejarse de la cámara. La botella roja sube por el lateral y pasa al nivel del coche [Obs].
+- Los enemigos se aparcan a los lados del coche, a su misma altura, y disparan desde ahí [Obs: la policía del tutorial].
+- Las burbujas del tutorial congelan la escena: no se mueve nada mientras hay burbuja [Obs].
+
+**HUD (fracciones de la pantalla 390 × 844)**
+- Arriba izquierda: etiqueta "WAVE n" en gris pequeño, "Level n" debajo, y el botón AUTO con anillo verde cuando está activo (≈ 0.135 W, 0.13 H).
+- Arriba centro: temporizador con enteros grandes y decimales pequeños (≈ 0.6 W, 0.075 H).
+- Bajo el horizonte, a la izquierda del centro: monedas de la partida (≈ 0.45 W, 0.545 H). No están bajo el temporizador.
+- Arriba derecha: pausa.
+- Abajo izquierda: icono de moneda, barra, número y "Lv".
+- Abajo centro: dial circular con el icono de bomba y el contador. Se pone verde con la conducción automática.
+
+**Limitaciones de la versión 2**
+- El arte es procedural y está dibujado a mano con líneas de lápiz simuladas. No reproduce los trazos del original, que son dibujos a mano escaneados.
+- Mapa, carretera y fondos son versiones simplificadas. La textura del papel es un grano uniforme.
+- Sin sonido.
