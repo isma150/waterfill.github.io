@@ -331,6 +331,15 @@ KT.buildSprites = () => {
     KT.shape(g, KT.ellPts(0, -85, 26, 22, 20), '#fff7c9', 0, rnd);
   });
 
+  SP.shell = KT.makeSprite(34, 34, 171, (g, rnd) => {
+    KT.shape(g, KT.ellPts(0, -17, 13, 13, 26), '#2f2f2f', 2, rnd);
+    g.fillStyle = 'rgba(255,255,255,.35)';
+    g.beginPath(); g.ellipse(-4, -22, 3, 2, -0.6, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = '#b08a4a'; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(5, -27); g.quadraticCurveTo(9, -34, 13, -31); g.stroke();
+    g.fillStyle = '#ffd24a';
+    g.beginPath(); g.arc(13, -31, 3, 0, Math.PI * 2); g.fill();
+  });
   SP.smoke = KT.makeSprite(170, 120, 161, (g, rnd) => {
     for (const [x, y, r] of [[-40, -40, 34], [0, -54, 42], [42, -40, 34], [-22, -22, 26], [26, -22, 26]]) {
       KT.shape(g, KT.ellPts(x, y, r, r * 0.85, 22), '#ffffff', 1.6, rnd);

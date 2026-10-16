@@ -269,3 +269,11 @@ La primera versión colocaba el coche abajo y el horizonte arriba. Está inverti
 - El arte es procedural y está dibujado a mano con líneas de lápiz simuladas. No reproduce los trazos del original, que son dibujos a mano escaneados.
 - Mapa, carretera y fondos son versiones simplificadas. La textura del papel es un grano uniforme.
 - Sin sonido.
+
+### 14.1 Combate (versión 3)
+
+- **Bombas desde detrás:** los enemigos que pasan por los lados del coche se quedan detrás de él y lanzan bombas en arco que vienen de atrás hacia delante. La bomba cae sobre el sitio donde estabas al lanzarla, y aparece un círculo de aviso en el suelo. Hay que apartarse [Inf: tomado del comportamiento de la bomba en el original y del brief de la versión 3].
+- **Arrastre:** funciona durante las burbujas del tutorial. La burbuja congela el mundo, pero el coche sigue respondiendo.
+- **Combo:** tres o más eliminaciones seguidas en 2,5 s muestran "COMBO xN".
+- **Impactos:** chispas al golpear, monedas que vuelan al contador al eliminar un enemigo y temblor de pantalla con cada explosión.
+- **Automático:** esquiva las bombas que caen cerca del coche.

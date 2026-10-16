@@ -135,27 +135,43 @@ KT.bgMap = () => {
   const g = c.getContext('2d');
   g.setTransform(KT.S, 0, 0, KT.S, 0, 0);
   const rnd = KT.rng(8080);
-  g.fillStyle = '#f3e9d0'; g.fillRect(0, 0, W, H);
-  // parques
-  for (const [x, y, w, h] of [[20, 600, 150, 110], [250, 720, 130, 90], [290, 240, 80, 70]]) {
-    KT.shape(g, KT.rrPts(x, y, w, h, 18, 6), '#9fcf8a', 1.8, rnd);
-    for (let i = 0; i < 6; i++) KT.shape(g, KT.ellPts(x + 14 + rnd() * (w - 28), y + 14 + rnd() * (h - 28), 9, 9, 14), '#6ba85a', 1.2, rnd);
-  }
-  // manzanas de edificios
-  for (let gy = 40; gy < 820; gy += 58) {
-    for (let gx = 12; gx < 390; gx += 62) {
-      if (rnd() < 0.2) continue;
-      const bw = 44 + rnd() * 8, bh = 40 + rnd() * 8;
-      KT.shape(g, KT.rrPts(gx, gy, bw, bh, 4, 3), '#d7cfbd', 1.8, rnd);
-      KT.hatch(g, KT.rrPts(gx, gy, bw, bh, 4, 3), 7, 0.9, 0.12);
-      KT.shape(g, [[gx - 3, gy], [gx + bw / 2, gy - 10], [gx + bw + 3, gy]], '#c9a27a', 1.6, rnd);
-      g.fillStyle = 'rgba(255,255,255,.7)';
-      for (let wx = gx + 6; wx < gx + bw - 8; wx += 12) g.fillRect(wx, gy + 8, 6, 8);
+  g.fillStyle = '#efe4c8'; g.fillRect(0, 0, W, H);
+  // bordillos y calles: primero el asfalto gris, después el blanco encima
+  g.strokeStyle = '#9b958a'; g.lineWidth = 22; g.lineCap = 'round';
+  for (let y = 96; y < 840; y += 116) { g.beginPath(); g.moveTo(-10, y); g.quadraticCurveTo(190, y + 14, W + 10, y - 4); g.stroke(); }
+  for (let x = 84; x < 400; x += 150) { g.beginPath(); g.moveTo(x, -10); g.quadraticCurveTo(x - 16, 420, x + 8, 860); g.stroke(); }
+  g.strokeStyle = '#ffffff'; g.lineWidth = 16;
+  for (let y = 96; y < 840; y += 116) { g.beginPath(); g.moveTo(-10, y); g.quadraticCurveTo(190, y + 14, W + 10, y - 4); g.stroke(); }
+  for (let x = 84; x < 400; x += 150) { g.beginPath(); g.moveTo(x, -10); g.quadraticCurveTo(x - 16, 420, x + 8, 860); g.stroke(); }
+  // parques con árboles y un estanque
+  for (const [x, y, w, h] of [[16, 606, 150, 112], [246, 716, 136, 94], [292, 232, 84, 74]]) {
+    KT.shape(g, KT.rrPts(x, y, w, h, 18, 6), '#a9d592', 2, rnd);
+    for (let i = 0; i < 7; i++) {
+      const tx = x + 16 + rnd() * (w - 32), ty = y + 14 + rnd() * (h - 28);
+      KT.shape(g, KT.ellPts(tx, ty, 9, 8, 14), '#6ea85a', 1.6, rnd);
+      KT.shape(g, KT.ellPts(tx - 2, ty - 3, 3, 2.5, 8), '#8fc977', 0, rnd);
     }
   }
-  // calles blancas con borde
-  g.strokeStyle = '#ffffff'; g.lineWidth = 8; g.lineCap = 'round';
-  for (let y = 100; y < 830; y += 116) { g.beginPath(); g.moveTo(0, y); g.lineTo(W, y + 8); g.stroke(); }
+  KT.shape(g, KT.ellPts(330, 760, 22, 14, 20), '#8fd0e8', 1.8, rnd);
+  // manzanas de edificios irregulares y con sombra
+  for (let gy = 26; gy < 830; gy += 116) {
+    for (let gx = 6; gx < 390; gx += 76) {
+      if (rnd() < 0.18) continue;
+      const bw = 52 + rnd() * 12, bh = 60 + rnd() * 14;
+      const x = gx + rnd() * 6, y = gy + rnd() * 4;
+      g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x + 4, y + 5, bw, bh);
+      KT.shape(g, KT.rrPts(x, y, bw, bh, 4, 3), '#dcd3bd', 1.8, rnd);
+      KT.hatch(g, KT.rrPts(x, y, bw, bh, 4, 3), 7, 0.9, 0.12);
+      KT.shape(g, [[x - 3, y], [x + bw / 2, y - 12], [x + bw + 3, y]], '#c39c70', 1.6, rnd);
+      g.fillStyle = 'rgba(255,255,255,.75)';
+      for (let wx = x + 7; wx < x + bw - 9; wx += 13) for (let wy = y + 14; wy < y + bh - 10; wy += 16) g.fillRect(wx, wy, 6, 8);
+    }
+  }
+  // coches pequeños en las calles
+  for (const [x, y, col] of [[120, 98, '#3b78c0'], [300, 214, '#f2b705'], [70, 560, '#c8c8c8'], [250, 666, '#3b78c0']]) {
+    KT.shape(g, KT.rrPts(x - 14, y - 7, 28, 14, 5), col, 1.6, rnd);
+    KT.shape(g, KT.rrPts(x - 7, y - 12, 14, 7, 3), '#dfeff8', 1.2, rnd);
+  }
   KT.bg.map = c;
   return c;
 };

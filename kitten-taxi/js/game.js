@@ -4,7 +4,7 @@
 const KT = window.KT;
 const W = KT.W, H = KT.H, HZ = KT.HORIZON;
 const CAR_Y = HZ;                 // el coche está en el horizonte
-const WS = 0.29;                  // velocidad de acercamiento (profundidad/s)
+const WS = 0.25;                  // velocidad de acercamiento (profundidad/s)
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 const rnd = (a, b) => a + Math.random() * (b - a);
 const pick = a => a[Math.floor(Math.random() * a.length)];
@@ -44,7 +44,7 @@ KT.newRun = (bi, tutorial) => {
     slowT: 0, slowMul: 1, shake: 0, flash: 0,
     cd: 0, boostT: 0, boostId: null, bombs: save.owned.bomb ? 2 : 0,
     stolen: 0, destroyed: 0, gemsRun: 0,
-    enemies: [], bullets: [], objs: [], fx: [], texts: [], warnings: [],
+    enemies: [], shells: [], objs: [], fx: [], texts: [], warnings: [], combo: 0, comboT: 0,
     bubble: null, tutQueue: [],
     tm: { coin: 0.8, crate: 6, bottle: 2.5, dump: 8, clay: 12 },
     spawnLeft: 0, spawnT: 0, remaining: 0, timeLeft: 0, waveTotal: 0,
@@ -59,11 +59,11 @@ KT.startWave = (G, n) => {
   G.wave = n;
   G.boss = boss;
   G.bossDone = false;
-  G.waveTotal = boss ? 4 : 5 + n + d;
+  G.waveTotal = boss ? 4 : 8 + 2 * n + 2 * d;
   G.spawnLeft = G.waveTotal;
   G.spawnT = 0.6;
   G.remaining = G.waveTotal + (boss ? 1 : 0);
-  G.timeLeft = boss ? 45 : 24 + d * 1.5 + n * 1.2;
+  G.timeLeft = boss ? 45 : 30 + d * 1.5 + n * 1.2;
   G.shieldLeft = KT.save.shield;
   G.hp = Math.min(G.hpMax, G.hp + 12);
   if (KT.save.owned.bomb) G.bombs += 1;
@@ -84,10 +84,10 @@ KT.spawnEnemy = G => {
   const st = KT.ENEMY[type];
   const hp = st.hp * (1 + 0.25 * (d - 1));
   G.enemies.push({
-    type, x: (Math.random() < 0.5 ? -1 : 1) * rnd(0.3, 0.85), t: 1.0, hp, maxHp: hp,
+    type, x: (Math.random() < 0.5 ? -1 : 1) * rnd(0.45, 0.9), t: 1.0, hp, maxHp: hp,
     reward: Math.round(st.reward * (1 + 0.1 * (d - 1))),
     fire: st.fire, fireT: rnd(1, 2.5), ram: st.ram, vt: st.vz,
-    tStop: rnd(0.03, 0.08), state: 'approach', flash: 0, dead: false,
+    tStop: rnd(-0.07, -0.03), state: 'approach', flash: 0, dead: false,
   });
 };
 
@@ -95,19 +95,18 @@ KT.spawnBoss = G => {
   const d = G.level;
   const hp = 140 * (1 + 0.3 * (d - 1));
   G.enemies.push({
-    type: 'boss', x: 0, t: 0.22, hp, maxHp: hp, reward: 300 * d,
-    fire: 2.0, fireT: 1.5, ram: false, vt: 0, tStop: 0.22, state: 'hold', flash: 0, dead: false,
+    type: 'boss', x: 0, t: -0.12, hp, maxHp: hp, reward: 300 * d,
+    fire: 2.0, fireT: 1.5, ram: false, vt: 0, tStop: -0.12, state: 'hold', flash: 0, dead: false,
   });
 };
 
-/* ---------- proyectiles y disparos ---------- */
-const fireAt = (G, e, off) => {
-  const speed = WS * 3.0;
-  const tt = Math.max(0.15, e.t / speed);
-  const x0 = e.x + off;
-  const vx = (G.px - x0) / tt * 0.7;
-  G.bullets.push({ x: x0, t: e.t, vx, dmg: e.type === 'boss' ? 6 : 5, dead: false });
-  G.warnings.push({ x: clamp(x0 + vx * tt, -0.9, 0.9), life: 0.6, t: 0 });
+/* ---------- bombas lanzadas desde detrás del coche ---------- */
+const throwShell = (G, e, off, dmg) => {
+  G.shells.push({
+    x0: clamp(e.x + off, -0.95, 0.95), t0: e.t,
+    x1: clamp(G.px + rnd(-0.05, 0.05), -0.9, 0.9), t1: rnd(0.02, 0.16),
+    dmg, age: 0, dur: rnd(1.05, 1.3), spin: rnd(-1, 1) * 9, dead: false,
+  });
 };
 
 KT.hurt = (G, d) => {
@@ -138,8 +137,17 @@ KT.hitEnemy = (G, e, dmg) => {
     G.remaining--;
     G.destroyed += e.reward;
     KT.boom(G, e.x, e.t, e.type === 'boss' ? 2.4 : 1);
+    const p = KT.proj(e.x, e.t);
+    for (let i = 0; i < 6; i++) {
+      G.fx.push({ k: 'fly', sx: p.x + rnd(-14, 14), sy: p.y - 20 - rnd(0, 20), tx: W * 0.45, ty: H * 0.545, life: 0.5 + rnd(0, 0.25), age: 0 });
+    }
     KT.worldText(G, e.x, e.t, '+' + e.reward, '#8a5a00');
+    G.combo = (G.combo || 0) + 1;
+    G.comboT = 2.5;
+    if (G.combo >= 3 && G.combo % 3 === 0) KT.floatText(G, W / 2, H * 0.27, 'COMBO x' + G.combo, '#e0523b');
     if (e.type === 'boss') G.bossDone = true;
+  } else {
+    G.fx.push({ k: 'spark', x: e.x, t: e.t, life: 0.25, age: 0 });
   }
 };
 
@@ -161,7 +169,7 @@ const updWeapon = (G, dt) => {
   if (G.cd > 0) return;
   let tgt = null, bd = 1e9;
   for (const e of G.enemies) {
-    if (e.dead || e.t > w.range || e.t < 0.03 || Math.abs(e.x - G.px) > w.lat) continue;
+    if (e.dead || e.t > w.range || e.t < -0.6 || Math.abs(e.x - G.px) > w.lat) continue;
     if (e.t < bd) { bd = e.t; tgt = e; }
   }
   if (!tgt) { G.cd = 0; return; }
@@ -181,9 +189,9 @@ const updWeapon = (G, dt) => {
 const updEnemy = (G, e, dt) => {
   e.flash = Math.max(0, e.flash - dt);
   if (e.type === 'boss') {
-    e.x = Math.sin(G.t * 0.8) * 0.45;
+    e.x = Math.sin(G.t * 0.7) * 0.5;
     e.fireT -= dt;
-    if (e.fireT <= 0) { e.fireT = e.fire; for (const o of [-0.25, 0, 0.25]) fireAt(G, e, o); }
+    if (e.fireT <= 0) { e.fireT = 2.6; for (const o of [-0.3, 0, 0.3]) throwShell(G, e, o, 12); }
     return;
   }
   if (e.state === 'approach') {
@@ -192,28 +200,29 @@ const updEnemy = (G, e, dt) => {
     if (!e.ram && e.t <= e.tStop) { e.t = e.tStop; e.state = 'hold'; }
   }
   e.x = clamp(e.x, -0.95, 0.95);
-  if (e.fire > 0 && e.t > 0.02 && e.t < 0.9) {
+  // lanza bombas desde detrás del coche (de atrás hacia delante)
+  if (e.fire > 0 && e.t < 0 && e.t > -0.6) {
     e.fireT -= dt;
-    if (e.fireT <= 0) { e.fireT = e.fire; fireAt(G, e, 0); }
+    if (e.fireT <= 0) { e.fireT = e.fire + rnd(-0.4, 0.4); throwShell(G, e, 0, e.type === 'van' ? 14 : 10); }
   }
-  if (e.t <= 0.07 && Math.abs(e.x - G.px) < 0.2) {
-    e.dead = true; G.remaining--; KT.boom(G, e.x, 0.05, 1); KT.hurt(G, 10);
-  } else if (e.t < -0.05) {
+  if (e.t <= 0.07 && e.t > -0.03 && Math.abs(e.x - G.px) < 0.2) {
+    e.dead = true; G.remaining--; KT.boom(G, e.x, 0.04, 1); KT.hurt(G, 10);
+  } else if (e.t < -0.6 && e.state === 'approach') {
     e.dead = true; G.remaining--;
   }
 };
 
-const updBullets = (G, dt) => {
-  const speed = WS * 3.0;
-  for (const b of G.bullets) {
-    if (b.dead) continue;
-    b.t -= speed * dt;
-    b.x += b.vx * dt;
-    if (b.t <= 0.07 && Math.abs(b.x - G.px) < 0.2) {
-      b.dead = true;
-      if (G.shieldLeft > 0) { G.shieldLeft--; KT.floatText(G, KT.carX(G.px), CAR_Y - 110, 'Bloqueado', '#2b6cb0'); }
-      else KT.hurt(G, b.dmg);
-    } else if (b.t < -0.05) b.dead = true;
+const updShells = (G, dt) => {
+  for (const s of G.shells) {
+    if (s.dead) continue;
+    s.age += dt;
+    if (s.age >= s.dur) {
+      s.dead = true;
+      KT.boom(G, s.x1, s.t1, 1.1);
+      G.shake = Math.max(G.shake, 0.4);
+      if (Math.abs(s.x1 - G.px) < 0.22 && s.t1 >= -0.02 && s.t1 <= 0.2) KT.hurt(G, s.dmg);
+      else { const p = KT.proj(s.x1, s.t1); KT.floatText(G, p.x, p.y - 30, '¡Esquivado!', '#2e8b2e'); }
+    }
   }
 };
 
@@ -291,7 +300,7 @@ const runTutorial = G => {
 
 const endWave = (G, bonus) => {
   G.enemies.length = 0;
-  G.bullets.length = 0;
+  G.shells.length = 0;
   G.phase = 'tally';
   G.tallyLeft = Math.max(0, bonus);
   G.tallyStart = G.tallyLeft;
@@ -314,7 +323,7 @@ const updTally = (G, dt) => {
 
 KT.levelUp = G => {
   G.enemies.length = 0;
-  G.bullets.length = 0;
+  G.shells.length = 0;
   const k = pick(['rate', 'hp', 'magnet']);
   if (k === 'rate') { G.rateBonus *= 1.1; G.levelUpText = 'Firing rate Up'; }
   else if (k === 'hp') { G.hpBonus += 20; G.levelUpText = 'Loadage Up'; }
@@ -323,6 +332,14 @@ KT.levelUp = G => {
   G.hp = Math.min(G.hpMax, G.hp + 20);
   G.phase = 'levelUp';
   G.phaseT = 2.2;
+};
+
+const steer = (G, dt) => {
+  if (KT.keys.ArrowLeft)  { G.auto = false; G.targetX -= dt * 1.6; }
+  if (KT.keys.ArrowRight) { G.auto = false; G.targetX += dt * 1.6; }
+  if (G.auto) autoSteer(G);
+  G.targetX = clamp(G.targetX, -0.9, 0.9);
+  G.px += (G.targetX - G.px) * Math.min(1, dt * (G.auto ? 2.6 : 12));
 };
 
 KT.updateRun = (G, dt) => {
@@ -352,9 +369,10 @@ KT.updateRun = (G, dt) => {
   }
   if (G.phase !== 'play') return;
 
-  if (G.bubble) {                    // el tutorial pausa el mundo mientras hay burbuja
+  if (G.bubble) {                    // el tutorial pausa el mundo; el coche sigue respondiendo
     G.bubble.age += dt;
     if (G.bubble.age >= G.bubble.dur) G.bubble = null;
+    steer(G, dt);
     return;
   }
   G.playT += dt;
@@ -365,21 +383,18 @@ KT.updateRun = (G, dt) => {
   if (G.slowT > 0) { G.slowT -= dt; if (G.slowT <= 0) G.slowMul = 1; }
   if (G.boostT > 0) { G.boostT -= dt; if (G.boostT <= 0) G.boostId = null; }
 
-  if (KT.keys.ArrowLeft)  { G.auto = false; G.targetX -= dt * 1.6; }
-  if (KT.keys.ArrowRight) { G.auto = false; G.targetX += dt * 1.6; }
-  if (G.auto) autoSteer(G);
-  G.targetX = clamp(G.targetX, -0.9, 0.9);
-  G.px += (G.targetX - G.px) * Math.min(1, dt * (G.auto ? 5 : 12));
+  if (G.comboT > 0) { G.comboT -= dt; if (G.comboT <= 0) G.combo = 0; }
+  steer(G, dt);
 
   spawnTick(G, dt);
   updObjs(G, dt);
   for (const e of G.enemies) if (!e.dead) updEnemy(G, e, dt);
-  updBullets(G, dt);
+  updShells(G, dt);
   updWeapon(G, dt);
   if (G.phase !== 'play') return;
 
   G.enemies = G.enemies.filter(e => !e.dead);
-  G.bullets = G.bullets.filter(b => !b.dead);
+  G.shells = G.shells.filter(sh => !sh.dead);
   G.objs = G.objs.filter(o => !o.dead);
 
   if (G.boss && G.bossDone) {
@@ -398,6 +413,14 @@ KT.updateRun = (G, dt) => {
 };
 
 const autoSteer = G => {
+  // esquiva: si una bomba va a caer cerca del coche, se aparta al lado contrario
+  for (const sh of G.shells) {
+    if (sh.dead || sh.age > sh.dur - 0.25) continue;
+    if (Math.abs(sh.x1 - G.px) < 0.3) {
+      G.targetX = clamp(G.px + (G.px >= sh.x1 ? 0.6 : -0.6), -0.9, 0.9);
+      return;
+    }
+  }
   let best = null, bd = 1e9;
   for (const e of G.enemies) if (!e.dead && e.t > 0.02 && e.t < bd) { bd = e.t; best = e; }
   if (!best) {
@@ -486,9 +509,28 @@ const barHp = (g, x, y, w, frac) => {
   g.restore();
 };
 
-const drawBullet = (g, b) => {
-  const p = KT.proj(b.x, b.t);
-  KT.drawSprite(g, KT.sprites.bullet, p.x, p.y, SCALE.bullet * p.s);
+const drawShells = (g, G) => {
+  const SP = KT.sprites;
+  for (const sh of G.shells) {
+    if (sh.dead) continue;
+    const k = Math.min(1, sh.age / sh.dur);
+    const land = KT.proj(sh.x1, sh.t1);
+    g.save();
+    g.globalAlpha = 0.25 + 0.6 * k;
+    g.strokeStyle = '#e0523b'; g.lineWidth = 3; g.setLineDash([7, 5]);
+    g.beginPath(); g.ellipse(land.x, land.y, (16 + 30 * k) * land.s, (6 + 12 * k) * land.s, 0, 0, Math.PI * 2); g.stroke();
+    g.restore();
+    const x = sh.x0 + (sh.x1 - sh.x0) * k, t = sh.t0 + (sh.t1 - sh.t0) * k;
+    const p = KT.proj(x, t);
+    const lift = Math.sin(Math.PI * k) * 190 * (0.55 + 0.45 * p.s);
+    g.save(); g.globalAlpha = 0.25; g.fillStyle = '#000';
+    g.beginPath(); g.ellipse(p.x, p.y, 10 * p.s, 4 * p.s, 0, 0, Math.PI * 2); g.fill(); g.restore();
+    g.save();
+    g.translate(p.x, p.y - lift);
+    g.rotate(sh.spin * k);
+    KT.drawSprite(g, SP.shell, 0, 17 * 0.75 * p.s, 0.75 * p.s);
+    g.restore();
+  }
 };
 
 const drawTaxi = (g, G) => {
@@ -526,6 +568,17 @@ const drawFx = (g, G) => {
       const p = KT.proj(f.x, f.t);
       g.save(); g.globalAlpha = 1 - k;
       KT.drawSprite(g, KT.sprites.burst, p.x, p.y, (0.5 + 0.7 * k) * f.size * p.s * 0.8);
+      g.restore();
+    } else if (f.k === 'spark') {
+      const p = KT.proj(f.x, f.t);
+      g.save(); g.globalAlpha = 1 - k;
+      KT.drawSprite(g, KT.sprites.burst, p.x, p.y - 20 * p.s, 0.22 * p.s * (1 + k));
+      g.restore();
+    } else if (f.k === 'fly') {
+      const e2 = k * k;
+      const x = f.sx + (f.tx - f.sx) * e2, y = f.sy + (f.ty - f.sy) * e2 - Math.sin(Math.PI * k) * 46;
+      g.save(); g.globalAlpha = 1 - k * 0.3;
+      KT.drawSprite(g, KT.sprites.coin, x, y + 10, 0.6);
       g.restore();
     } else if (f.k === 'smoke') {
       const p = KT.proj(f.x, f.t);
@@ -590,10 +643,11 @@ const drawBubble = (g, G) => {
 };
 
 /* Monedas, gemas, botellas... */
-const drawObjects = (g, G) => {
+const drawObjects = (g, G, mode) => {
+  const back = mode === 'back';
   const items = [];
-  for (const o of G.objs) if (!o.dead) items.push({ t: o.t, o });
-  for (const e of G.enemies) if (!e.dead) items.push({ t: e.t, e });
+  for (const o of G.objs) if (!o.dead && back === (o.t < 0)) items.push({ t: o.t, o });
+  for (const e of G.enemies) if (!e.dead && back === (e.t < 0)) items.push({ t: e.t, e });
   items.sort((a, b) => a.t - b.t);
   for (const it of items) {
     if (it.o) {
@@ -604,7 +658,6 @@ const drawObjects = (g, G) => {
       drawEnemy(g, it.e, G.level);
     }
   }
-  for (const b of G.bullets) if (!b.dead) drawBullet(g, b);
 };
 
 KT.skies = {};
@@ -622,9 +675,10 @@ KT.drawField = (g, G) => {
   g.drawImage(KT.skyFor(G.level), 0, 0, W, HZ + 6);
   drawSpeed(g, G);
   drawLanes(g);
+  drawObjects(g, G, 'back');
   drawTaxi(g, G);
-  drawObjects(g, G);
-  drawWarnings(g, G);
+  drawObjects(g, G, 'front');
+  drawShells(g, G);
   drawFx(g, G);
   drawTexts(g, G);
   g.restore();

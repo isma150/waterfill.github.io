@@ -68,7 +68,7 @@ const continueRun = () => {
   KT.save.gems--;
   KT.persist();
   G.hp = Math.round(G.hpMax * 0.5);
-  G.bullets.length = 0;
+  G.shells.length = 0;
   if (G.timeLeft <= 0) G.timeLeft = 15;
   G.phase = 'play';
 };
@@ -201,7 +201,6 @@ canvas.addEventListener('pointerdown', e => {
     if (dist(p, W * 0.135, H * 0.13) < 28) { G.auto = !G.auto; return; }
     if (dist(p, W * 0.92, H * 0.034) < 26) { pauseRun(); return; }
     if (dist(p, W * 0.5, H * 0.905) < 42) { KT.useBomb(G); return; }
-    if (G.bubble) return;
     if (G.auto) G.auto = false;
     dragging = true;
     G.targetX = Math.max(-0.9, Math.min(0.9, (p.x - W / 2) / 95));
@@ -275,6 +274,7 @@ window.KittenTaxi = {
         phase: G.phase, wave: G.wave, level: G.level, boss: G.boss, hp: Math.round(G.hp),
         timeLeft: +G.timeLeft.toFixed(2), stolen: G.stolen, destroyed: G.destroyed,
         enemies: G.enemies.filter(e => !e.dead).length, bombs: G.bombs, auto: G.auto,
+        shells: G.shells.length, combo: G.combo, px: +G.px.toFixed(3), targetX: +G.targetX.toFixed(3), bubble: !!G.bubble, playT: +G.playT.toFixed(2),
       },
       coins: KT.save.coins,
       gems: KT.save.gems,

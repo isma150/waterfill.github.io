@@ -16,16 +16,16 @@ KT.BANKS = [
 KT.bankBase = i => 100 + 50 * i;
 
 KT.WEAPONS = {
-  pistol:  { name: 'Pistola',       rate: 4.0, dmg: 3,   range: 0.9, lat: 0.5,  price: 0 },
-  shot:    { name: 'Escopeta',      rate: 1.1, dmg: 2,   range: 0.7, lat: 0.45, price: 1500 },
-  machine: { name: 'Ametralladora', rate: 9.0, dmg: 1.2, range: 0.9, lat: 0.55, price: 3000 },
+  pistol:  { name: 'Pistola',       rate: 4.0, dmg: 3,   range: 0.45, lat: 0.5,  price: 0 },
+  shot:    { name: 'Escopeta',      rate: 1.1, dmg: 2,   range: 0.3, lat: 0.45, price: 1500 },
+  machine: { name: 'Ametralladora', rate: 9.0, dmg: 1.2, range: 0.5, lat: 0.55, price: 3000 },
 };
 KT.BOMB = { name: 'Bomba de arcilla', price: 800, dmg: 14, lvlBonus: 0.3 };
 
 KT.ENEMY = {
-  police: { hp: 6,  vz: 0.20, reward: 10, fire: 2.6, ram: false },
-  sedan:  { hp: 8,  vz: 0.30, reward: 12, fire: 0,   ram: true },
-  van:    { hp: 16, vz: 0.12, reward: 22, fire: 3.0, ram: false },
+  police: { hp: 10, vz: 0.05, reward: 10, fire: 2.4, ram: false },
+  sedan:  { hp: 8,  vz: 0.15, reward: 12, fire: 0,   ram: true },
+  van:    { hp: 22, vz: 0.03, reward: 22, fire: 2.8, ram: false },
 };
 
 KT.PRIZES = [
