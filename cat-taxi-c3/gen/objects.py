@@ -73,6 +73,14 @@ def next_singleton_uid():
     _singleton_uid[0] += 1
     return _singleton_uid[0]
 
+def _initial(vtype, value):
+    """Object-type instance variables store number types as numbers (C3 expects a finite number there; the
+    "expected finite number" error came from the string "0"). Event variables keep strings, as in the template."""
+    if vtype == "number":
+        f = float(value)
+        return int(f) if f.is_integer() else f
+    return value
+
 def _sprite_json(name, anims, ivars):
     animations = []
     for anim, key in anims:
@@ -84,13 +92,13 @@ def _sprite_json(name, anims, ivars):
         animations.append({"frames": [frame], "sid": sid(), "name": anim, "isLooping": False,
                            "isPingPong": False, "repeatCount": 1, "repeatTo": 0, "speed": 5})
     return {"name": name, "plugin-id": "Sprite", "sid": sid(), "isGlobal": False, "editorNewInstanceIsReplica": True,
-            "instanceVariables": [{"name": n, "type": t, "initialValue": v, "desc": "", "show": True, "sid": sid()}
+            "instanceVariables": [{"name": n, "type": t, "initialValue": _initial(t, v), "desc": "", "show": True, "sid": sid()}
                                   for n, t, v in ivars],
             "behaviorTypes": [], "effectTypes": [], "animations": {"items": animations, "subfolders": []}}
 
 def _text_json(name):
     return {"name": name, "plugin-id": "Text", "sid": sid(), "isGlobal": False, "editorNewInstanceIsReplica": True,
-            "instanceVariables": [{"name": "id", "type": "number", "initialValue": "0", "desc": "", "show": True, "sid": sid()}],
+            "instanceVariables": [{"name": "id", "type": "number", "initialValue": 0, "desc": "", "show": True, "sid": sid()}],
             "behaviorTypes": [], "effectTypes": []}
 
 def write_objects(out_dir, obj_dir):
@@ -112,8 +120,8 @@ def write_objects(out_dir, obj_dir):
         # plugin objects without instances are singletons: the template's Touch/LocalStorage/Audio carry a
         # "singleglobal-inst" entry; without it C3 has no instance to load for the object type
         with open(os.path.join(obj_dir, f"{name}.json"), "w", encoding="utf-8") as fh:
-            json.dump({"name": name, "plugin-id": pid, "sid": sid(), "isGlobal": False, "instanceVariables": [],
-                       "behaviorTypes": [], "effectTypes": [],
+            # same shape as the template's Touch object: name, plugin-id, sid, singleglobal-inst
+            json.dump({"name": name, "plugin-id": pid, "sid": sid(),
                        "singleglobal-inst": {"type": name, "properties": {}, "uid": next_singleton_uid(), "sid": sid(),
                                              "tags": ""}}, fh, indent=1)
         names.append(name)

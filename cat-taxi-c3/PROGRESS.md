@@ -9,7 +9,8 @@ Estado: **no abierto en Construct 3**. Todo lo marcado como "comprobado" son val
   valores de enumeración ('start', 'end', 'visible', 'invisible', nombres de layout). Prueba negativa: un identificador
   inventado se detecta.
 - `tools/check_ids.py`: sids únicos, uids únicos (layouts + singleton), tipos de objeto usados y en usedAddons,
-  singleglobal-inst de los plugins sin instancias. Prueba negativa: detecta defectos plantados.
+  singleglobal-inst de los plugins sin instancias (y sin claves extra), initialValue numérico en variables number.
+  Prueba negativa: detecta defectos plantados.
 - `tools/ledger9.py` -> `LEDGER9.md`: 88 identificadores de acción/condición; ver estado en el propio ledger.
 
 ## Error de apertura reportado (TypeError de projectResources.js al abrir)
@@ -22,6 +23,13 @@ Defectos reales encontrados y corregidos (no se ha confirmado que sean la causa 
 - Pendiente de confirmar: los ids de "Pick highest/lowest" (`pick-lowest-instvar`, `pick-highest-instvar`) son
   inventados. El manual confirma que la función existe como condición con la opción "Pick all tied", pero no el id
   ni los parámetros. Hace falta un ejemplo exportado desde Construct 3.
+
+Segundo error reportado: `TypeError: expected finite number` (al abrir).
+- Causa probable (no confirmada en Construct 3): las variables de instancia de tipo number de los objetos se escribían
+  con initialValue "0" (texto). Ahora son números. Las variables de evento siguen como texto (como en la plantilla).
+- Keyboard: ahora tiene la misma forma que el Touch de la plantilla (name, plugin-id, sid, singleglobal-inst).
+- Primer error (hasOwnProperty de undefined): sigue sin explicarse. Los singleton y los uids se corrigieron, pero
+  no hay confirmación de que sea la causa. Pendiente: saber con qué archivo se probó y si el error persiste.
 
 ## Hecho en la última tanda
 - Teclado: `key` con códigos numéricos (77 M, 80 P, 27 Escape, 37/39 flechas, 65 A, 68 D, 13 Enter). Documentado por

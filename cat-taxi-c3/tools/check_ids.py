@@ -2,7 +2,8 @@
 - every sid is unique in the project (all JSON files)
 - every instance uid is unique across layouts and singleton objects
 - every object type used by a layout exists, and its plugin-id is listed in project.c3proj usedAddons
-- every plugin object without instances (Keyboard, Touch, LocalStorage, Audio) has a singleglobal-inst
+- every plugin object without instances (Keyboard, Touch, LocalStorage, Audio) has a singleglobal-inst and no extra keys
+- number-type instance variables of object types have numeric initial values
 Usage: python3 tools/check_ids.py <folder>"""
 import collections, glob, json, os, sys
 
@@ -42,6 +43,12 @@ for p in glob.glob(os.path.join(ROOT, "objectTypes", "**", "*.json"), recursive=
         uids.update([d["singleglobal-inst"]["uid"]])
     if d.get("plugin-id") in SINGLETON_PLUGINS and "singleglobal-inst" not in d:
         problems.append(f"plugin object {d['name']} has no singleglobal-inst")
+for name, d in objtypes.items():
+    for v in d.get("instanceVariables", []):
+        if v.get("type") == "number" and not isinstance(v.get("initialValue"), (int, float)):
+            problems.append(f"object {name}: number instance variable {v['name']} has initialValue {v.get('initialValue')!r}")
+    if d.get("plugin-id") in SINGLETON_PLUGINS and set(d) - {"name", "plugin-id", "sid", "singleglobal-inst"}:
+        problems.append(f"plugin object {name} has extra keys {sorted(set(d) - {'name', 'plugin-id', 'sid', 'singleglobal-inst'})} (template singletons have only these)")
 for u, n in uids.items():
     if n > 1:
         problems.append(f"duplicate uid {u} x{n} (layouts and singletons)")
