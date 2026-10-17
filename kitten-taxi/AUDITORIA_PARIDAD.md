@@ -88,12 +88,12 @@ Cada hallazgo tiene un ID estable, una gravedad, la evidencia y un criterio de a
 |---|---|---|---|---|
 | BOS-01 | **S0** | El jefe no se gana con el piloto automático. En la simulación, el taxi llega a 0 de vida en 21 s con 8 golpes, sin conseguir chocar con el jefe. | [Sim] registro del jefe: lane 98, hp 167 → 2 en 21 s | El piloto automático gana el jefe en al menos 9 de cada 10 simulaciones, con la vida por encima de 0. |
 | BOS-02 | **S1** | El jefe está fijo en un carril lateral (lane 98 o 322) y no cambia de posición. El original se mueve, se balancea y se solapa con el taxi. | [Obs: 161–182, 349–378, 506–540, 670–697 s] [Cód] | Movimiento lateral con balanceo, cambio de carril cada 3–4 s y solapamiento con el taxi. |
-| BOS-03 | **S1** | Cadencia del jefe: dispara cada 1.3–1.8 s, con un 60 % de dinamita de unos 14 de daño. El original, en cuatro peleas, no muestra una cadencia parecida. | [Cód] `rnd(1.3,1.8)`, `e.kind==='boss'?.6` [Obs: aviso de bomba en 360, 511 y 600 s] | Cadencia de disparo del jefe ≈ una por cada 3–4 s, con dinamita en un 40 % de los casos. [?] |
+| BOS-03 | **S1** | Cadencia del jefe: dispara cada 1.3–1.8 s, con un 60 % de dinamita de unos 14 de daño. La cadencia del jefe del original no se ha medido. | [Cód] `rnd(1.3,1.8)`, `e.kind==='boss'?.6` [Obs: aviso de bomba en 360, 511 y 600 s] | Cadencia de disparo del jefe ≈ una por cada 3–4 s, con dinamita en un 40 % de los casos. [?] |
 | BOS-04 | **S2** | El piloto automático elige como objetivo al enemigo más cercano en lateral, así que casi siempre son las furgonetas. | [Cód] `m.enemies.filter(e=>...).sort(...)` | Prioridad al jefe cuando está en pantalla, o al menos alternancia. |
 | BOS-05 | **S2** | Las furgonetas normales siguen llegando durante la pelea. | [Obs] [Cód] (implementado) | Igual. Pasa. |
 | ENE-01 | **S2** | El esquive de los enemigos está implementado, pero **ningún agente lo confirma en el vídeo** (partes 1 y 2). | [Obs] [Cód] | Decisión tuya: mantener con probabilidad baja, o quitar. |
 | ENE-02 | **S2** | Cadencia de disparo de los enemigos normales: 3 a 4.2 s, sin calibrar. La calibración anterior se basaba en una lectura errónea de la barra de nivel. | [Cód] | Calibrar con conteo de aparición de dinamita en vídeo. |
-| ENE-03 | **S3** | Las furgonetas de policía de frente son correctas; la ambulancia y la furgoneta blindada usan el mismo modelo, cambiando solo el color y la cruz. | [Cód] `policeVan` | Modelos propios para la ambulancia y la furgoneta blindada. |
+| ENE-03 | **S3** | Las furgonetas de policía de frente son correctas. La ambulancia usa el mismo modelo con cruz roja, y la furgoneta blindada usa el mismo modelo con color azul, pero lleva la barra de luces de policía. | [Cód] `policeVan` (`amb` y `kind==='van'`) | Modelos propios para la ambulancia y la furgoneta blindada, sin luces de policía en la blindada. |
 
 ### 3.4 Túnel y fin de ola (TUN)
 
