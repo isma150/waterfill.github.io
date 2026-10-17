@@ -17,7 +17,7 @@ Construct (la plantilla). El resto viene de documentación de terceros o no tien
 - `sprites/` — PNG y `manifest.json` generados.
 - `template/` — plantilla de Construct 3 r50600 de la que se parte (extraída del `.c3p`).
 - `source/cat_taxi_v9.html` — copia del HTML del usuario (referencia de comportamiento).
-- `tools/` — validación: `verify9.mjs` (c3source), `check_idents.py`, `ledger9.py` (genera `LEDGER9.md`), `extract_check.py`.
+- `tools/` — validación: `verify9.mjs` (c3source), `check_idents.py`, `check_ids.py` (sids, uids, singletons), `ledger9.py` (genera `LEDGER9.md`), `extract_check.py`.
 - `LEDGER9.md` — trazabilidad de cada identificador: fuente y estado.
 - `PLAN.md`, `PROGRESS.md` — diseño y estado de trabajo.
 
@@ -28,6 +28,7 @@ python3 tools/ledger9.py                      # genera LEDGER9.md
 python3 tools/extract_check.py CatTaxi_v9_port.c3p /tmp/check9
 (cd tools && npm ci && node verify9.mjs /tmp/check9)
 python3 tools/check_idents.py /tmp/check9
+python3 tools/check_ids.py /tmp/check9
 ```
 Requiere Python 3 con Pillow.
 Para regenerar sprites hace falta Chromium (`PLAYWRIGHT_BROWSERS_PATH`) y `playwright-core`: `sh render/run_all.sh`.

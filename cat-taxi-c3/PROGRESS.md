@@ -8,7 +8,20 @@ Estado: **no abierto en Construct 3**. Todo lo marcado como "comprobado" son val
 - `tools/check_idents.py`: 0 variables de instancia no declaradas. Solo quedan sin declarar los nombres de capas/layouts y
   valores de enumeración ('start', 'end', 'visible', 'invisible', nombres de layout). Prueba negativa: un identificador
   inventado se detecta.
+- `tools/check_ids.py`: sids únicos, uids únicos (layouts + singleton), tipos de objeto usados y en usedAddons,
+  singleglobal-inst de los plugins sin instancias. Prueba negativa: detecta defectos plantados.
 - `tools/ledger9.py` -> `LEDGER9.md`: 88 identificadores de acción/condición; ver estado en el propio ledger.
+
+## Error de apertura reportado (TypeError de projectResources.js al abrir)
+Defectos reales encontrados y corregidos (no se ha confirmado que sean la causa del error):
+- sids duplicados (9 000+ apariciones, 220 repetidos): condiciones y acciones reutilizadas entre eventos.
+  Ahora `ev.B`/`ev.G` copian los elementos con sid nuevo. `tools/check_ids.py` lo comprueba.
+- Objetos plugin sin instancia (Keyboard): faltaba `singleglobal-inst`. Ahora lo tiene (como Touch de la plantilla).
+- uids de instancias singleton (Audio 10, Touch 11, LocalStorage 13) colisionaban con uids de los layouts.
+  Los singleton usan 900001 en adelante.
+- Pendiente de confirmar: los ids de "Pick highest/lowest" (`pick-lowest-instvar`, `pick-highest-instvar`) son
+  inventados. El manual confirma que la función existe como condición con la opción "Pick all tied", pero no el id
+  ni los parámetros. Hace falta un ejemplo exportado desde Construct 3.
 
 ## Hecho en la última tanda
 - Teclado: `key` con códigos numéricos (77 M, 80 P, 27 Escape, 37/39 flechas, 65 A, 68 D, 13 Enter). Documentado por

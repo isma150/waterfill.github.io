@@ -25,15 +25,28 @@ def A(aid, obj="System", **params):
     _rec("action", obj, aid, params)
     return {"id": aid, "objectClass": obj, "sid": sid(), **({"parameters": params} if params else {})}
 
+def _fresh(o):
+    """Copy of an event item with a new sid on every dict that has one. Conditions and actions are often reused
+    (gate(), idc lists) in several events; C3 needs each sid to appear once, so reused items are copied here."""
+    if isinstance(o, dict):
+        n = {k: _fresh(v) for k, v in o.items()}
+        if "sid" in n:
+            n["sid"] = sid()
+        return n
+    if isinstance(o, list):
+        return [_fresh(x) for x in o]
+    return o
+
 def B(conds, acts, children=None):
-    e = {"eventType": "block", "conditions": list(conds), "actions": list(acts), "sid": sid()}
+    e = {"eventType": "block", "conditions": [_fresh(c) for c in conds], "actions": [_fresh(a) for a in acts],
+         "sid": sid()}
     if children:
-        e["children"] = children
+        e["children"] = [_fresh(c) for c in children]
     return e
 
 def G(title, children, active=True):
     return {"eventType": "group", "disabled": False, "title": title, "description": title,
-            "isActiveOnStart": active, "children": children, "sid": sid()}
+            "isActiveOnStart": active, "children": [_fresh(c) for c in children], "sid": sid()}
 
 def NOTE(text):
     return {"eventType": "comment", "text": text, "text-color": [0, 0, 0, 0], "background-color": [1, 1, 1, 1]}

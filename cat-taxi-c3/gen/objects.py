@@ -67,6 +67,12 @@ TEXT_OBJ_HIT = "TxtHit"
 PLUGIN_TEMPLATE_OBJECTS = ["Audio", "Touch", "LocalStorage", "BgSample", "PauseBg", "UI_Sprites", "TemplateSprite"]
 NEW_PLUGIN_OBJECTS = {"Keyboard": "Keyboard"}   # UNVERIFIED: plugin id used for keyboard input
 
+# uids are project-wide: singleton instances take numbers far above the layout instances (1..~500)
+_singleton_uid = [900000]
+def next_singleton_uid():
+    _singleton_uid[0] += 1
+    return _singleton_uid[0]
+
 def _sprite_json(name, anims, ivars):
     animations = []
     for anim, key in anims:
@@ -103,8 +109,12 @@ def write_objects(out_dir, obj_dir):
             json.dump(_text_json(name), fh, indent=1)
         names.append(name)
     for name, pid in NEW_PLUGIN_OBJECTS.items():
+        # plugin objects without instances are singletons: the template's Touch/LocalStorage/Audio carry a
+        # "singleglobal-inst" entry; without it C3 has no instance to load for the object type
         with open(os.path.join(obj_dir, f"{name}.json"), "w", encoding="utf-8") as fh:
             json.dump({"name": name, "plugin-id": pid, "sid": sid(), "isGlobal": False, "instanceVariables": [],
-                       "behaviorTypes": [], "effectTypes": []}, fh, indent=1)
+                       "behaviorTypes": [], "effectTypes": [],
+                       "singleglobal-inst": {"type": name, "properties": {}, "uid": next_singleton_uid(), "sid": sid(),
+                                             "tags": ""}}, fh, indent=1)
         names.append(name)
     return names

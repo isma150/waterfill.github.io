@@ -48,10 +48,16 @@ EVIDENCE = {
  "action|Fx|set-instvar-value": ("liauw (variable, value)", DOC),
  "action|Taxi|set-instvar-value": ("liauw (variable, value)", DOC),
  "condition|Enemy|compare-instance-variable": ("liauw (variable, comparison, value); liauw usa simbolos en comparison", "PARCIAL: comparison entero asumido"),
- "condition|Boss|pick-lowest-instvar": ("manual 'Pick highest/lowest' (sin id)", NV),
- "condition|Enemy|pick-lowest-instvar": ("manual 'Pick highest/lowest' (sin id)", NV),
- "condition|Shot|pick-lowest-instvar": ("manual 'Pick highest/lowest' (sin id)", NV),
- "condition|Pickup|pick-highest-instvar": ("manual 'Pick highest/lowest' (sin id)", NV),
+
+
+
+
+ # ID INVENTADO en la primera version. El manual (Object conditions > Instance variables > Pick highest/lowest)
+ # confirma que existe como condicion con opcion "Pick all tied", pero no su id ni sus parametros.
+ "condition|Boss|pick-lowest-instvar": ("manual: Pick highest/lowest (condicion); id inventado", "NO VERIFICADO: el id es inventado y el parametro 'variable' tambien"),
+ "condition|Enemy|pick-lowest-instvar": ("manual: Pick highest/lowest (condicion); id inventado", "NO VERIFICADO: el id es inventado y el parametro 'variable' tambien"),
+ "condition|Shot|pick-lowest-instvar": ("manual: Pick highest/lowest (condicion); id inventado", "NO VERIFICADO: el id es inventado y el parametro 'variable' tambien"),
+ "condition|Pickup|pick-highest-instvar": ("manual: Pick highest/lowest (condicion); id inventado", "NO VERIFICADO: el id es inventado y el parametro 'variable' tambien"),
 }
 def status(key):
     if key in EVIDENCE:

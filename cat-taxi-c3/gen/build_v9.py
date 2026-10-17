@@ -133,6 +133,15 @@ def main():
                 os.remove(p)
     for d in ["images", "layouts", "eventSheets", "objectTypes"]:
         os.makedirs(os.path.join(OUT, d), exist_ok=True)
+    # template singletons (Audio, Touch, LocalStorage) keep their objects but get uids outside the layout range
+    for rel in list(os.listdir(OUT)):
+        p = os.path.join(OUT, rel)
+        if rel.startswith("objectTypes\\") and os.path.isfile(p):
+            d = json.load(open(p, encoding="utf-8"))
+            if "singleglobal-inst" in d:
+                d["singleglobal-inst"]["uid"] = objects.next_singleton_uid()
+                with open(p, "w", encoding="utf-8") as fh:
+                    json.dump(d, fh, indent=1, ensure_ascii=False)
     obj_names = objects.write_objects(OUT, os.path.join(OUT, "objectTypes"))
     layout_names, sheet_names = [], []
     for build, sheet_name, sheet_fn in LAYOUTS:

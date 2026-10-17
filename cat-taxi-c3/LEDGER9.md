@@ -72,17 +72,17 @@ Generado por `gen/build_v9.py` (registro USED). Estado: **confirmado** = aparece
 | condition | Btn | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Card | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Enemy | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
-| condition | Enemy | pick-lowest-instvar | variable | manual 'Pick highest/lowest' (sin id) | NO VERIFICADO |
+| condition | Enemy | pick-lowest-instvar | variable | manual: Pick highest/lowest (condicion); id inventado | NO VERIFICADO: el id es inventado y el parametro 'variable' tambien |
 | condition | Icon | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Keyboard | is-key-down | key | liauw (on-key-pressed con key numerico); plugin Keyboard NO VERIFICADO | PARCIAL: keyCode numerico documentado; plugin y accion NO VERIFICADOS |
 | condition | Keyboard | on-key-pressed | key | liauw (on-key-pressed con key numerico, p.ej. 32, 38) | PARCIAL: keyCode numerico documentado; plugin NO VERIFICADO |
 | condition | LocalStorage | on-item-get | key | Plantilla (key) + LocalStorage.ItemValue | CONFIRMADO (plantilla C3 r50600) |
 | condition | Node | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Pickup | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
-| condition | Pickup | pick-highest-instvar | variable | manual 'Pick highest/lowest' (sin id) | NO VERIFICADO |
+| condition | Pickup | pick-highest-instvar | variable | manual: Pick highest/lowest (condicion); id inventado | NO VERIFICADO: el id es inventado y el parametro 'variable' tambien |
 | condition | Shape | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Shot | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
-| condition | Shot | pick-lowest-instvar | variable | manual 'Pick highest/lowest' (sin id) | NO VERIFICADO |
+| condition | Shot | pick-lowest-instvar | variable | manual: Pick highest/lowest (condicion); id inventado | NO VERIFICADO: el id es inventado y el parametro 'variable' tambien |
 | condition | System | compare-eventvar | comparison, value, variable | c3source EVENTVAR_REFERENCE_ACES | DOCUMENTADO (tercero, no export de C3) |
 | condition | System | compare-two-values | comparison, first-value, second-value | chef recipe-reference (comparison entero 0..5) | PARCIAL: id y codigos documentados; nombres first-value/second-value NO VERIFICADOS |
 | condition | System | every-tick | - | Plantilla (chef lo usa en pruebas) | DOCUMENTADO (tercero, no export de C3) |
