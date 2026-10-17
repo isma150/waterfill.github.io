@@ -234,3 +234,33 @@ Porcentajes orientativos. Son juicios, no medidas.
 8. **Nombre y marca:** ¿mantenemos "Kitten Taxi"? Recomiendo revisión legal.
 9. **Audio:** ¿música y efectos propios?
 10. **Idioma:** la UI está en inglés, como el original. ¿Se queda así?
+
+---
+
+## 7. Estado tras la ronda de implementación (commits `ab652cf` y `bfce80f`)
+
+Decisiones tomadas: 1 jefe (sí), 2 túnel (sí), 3 estilo (no ahora), 4 economía (sí, porque el vídeo lo muestra), 5 esquiva (explicada; desactivada), 6 valoración de la app (no), 7 nombre «Cat Taxi» (sí), 8 audio propio (sí), y replicar mapa, menús y tutorial del vídeo.
+
+| ID | Estado |
+|---|---|
+| BOS-01 | Mejorado. En la simulación, el jefe cae en 8 de 8 partidas desde vida completa. El registro completo de la partida sigue muriendo en el jefe por el desgaste de las oleadas: equilibrio pendiente. |
+| BOS-02 | Hecho. Se mueve de lado con balanceo al llegar. |
+| BOS-03 | Hecho. Cadencia de 2.6 a 3.4 s y 40 % de dinamita. |
+| BOS-04 | Hecho. El automático persigue al jefe mientras esté en pantalla. |
+| TUN-01 | Hecho. El túnel ocurre dentro de la escena: el círculo se cierra, el taxi sigue conduciendo y la cuenta atrás corre. |
+| TUN-02 | Hecho. Monedas en el carril; si se recogen todas, el premio se duplica. |
+| TUN-03 | Hecho. Cuenta atrás de la duración del tiempo sobrante, y «N x2 Bonus» al final. |
+| TUN-05 | Hecho. Se quita el oscurecimiento DARK PASSAGE. |
+| ECO-01 | Hecho. El saldo baja con lo robado y se guarda entre visitas. |
+| ECO-02 | Hecho. El nivel del banco sube en cada visita. |
+| ECO-04 | Hecho. Ruleta: 500, 730 y después 1000. |
+| ECO-03, ECO-05, ECO-06, ECO-07 | Pendiente. |
+| NAV-01 | Hecho. Burbujas de tutorial en la primera partida, en el orden del vídeo. |
+| NAV-02 | Pendiente. Consejos de carga antes de cada banco. |
+| ART-05 | Pendiente. Rareza de la tienda. |
+| ART-06 | Hecho en lo esencial. Mapa con la ruta de los 15 bancos, manzanas, parque «Ranking Stage», edificios con candado y barra inferior. Sin GARAGE/SPIN/SHOP, como en el vídeo. |
+| HUD-01 | Hecho. Botones de al menos 44 px. |
+| AUD-01 | Hecho. Efectos propios y música de fondo generada en WebAudio. |
+| ENE-01 | Esquiva desactivada: no aparece en ningún vídeo. |
+| TEC-06 | Hecho. Nombre «Cat Taxi». |
+| ART-01 | Pendiente (estilo a lápiz; no ahora). |
