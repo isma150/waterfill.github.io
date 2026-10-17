@@ -372,3 +372,14 @@ Hecho:
 No tocado (no aprobado): el botón central con «!» en vez del icono de bomba con su número (V9), el cielo de los bancos de ciudad (V11) y el humo de explosión (V13).
 
 Pendiente de comprobar: si el jefe se ve bien en la pelea completa en el resto de temas, y si la barra de nivel debe tener valores parecidos a los del original.
+
+### 10.6 Segunda ronda de pulido (prueba en móvil)
+
+Tras la primera captura en un móvil:
+- **Policía:** furgoneta vista de frente, como en el original (carrocería blanca redondeada, rejilla, faros y luz en el techo). La versión anterior se veía de lado y con ruedas grandes.
+- **Dinamita:** sale a la altura del enemigo y sube más en el arco. Antes arrancaba casi a ras de suelo y el aviso triangular tapaba la vista.
+- **Monedas:** unos 35 % más pequeñas, y el crecimiento de escala hacia la cámara es más suave. La moneda grande de la izquierda era un efecto de esa escala.
+- **HUD inferior izquierdo:** sin solapamientos. El porcentaje ya no se pisa con el dial.
+- **Transición:** un círculo de cielo se cierra sobre el taxi en 0.9 s, con el taxi en negro dentro; después va la cuenta atrás y «x2 Bonus».
+
+Pendiente: las líneas radiales de la carretera siguen siendo finas y grises. El original usa trazos oscuros y densos. Si se quiere parecido, hay que rehacerlas como trazos afilados.
