@@ -354,3 +354,21 @@ Medido sobre fotogramas de la parte 1 (720 × 1280) y sobre capturas de nuestra 
 3. **Dibujo de camiones del jefe:** hay que dibujarlos a mano en canvas. Es el trabajo de arte más grande.
 4. **Barra inferior izquierda:** ¿la cambio a la barra de nivel del original, o mantengo la vida con gato?
 5. **Transición de fin de ola:** ¿la hago como el arco y la silueta del original?
+
+### 10.5 Estado tras implementar las decisiones
+
+Aprobadas: 1 (carretera clara con líneas de lápiz que sigue leyéndose como carretera), 2 (taxi sobre el horizonte, con el tamaño del vídeo), 3 (camiones del jefe), 4 (barra de nivel como el original), 5 (transición de fin de ola con arco y silueta).
+
+Hecho:
+- **Taxi:** escala 0.92 (0.296 del ancho, como el original). La base está sobre el horizonte (0.45 de la altura). Los enemigos de detrás aparecen por encima del horizonte, en el cielo.
+- **Carretera:** suelo claro, bordes a lápiz, marcas de carril grises y líneas radiales más densas en la conducción.
+- **Enemigos:** furgoneta de policía blanca con luz en el techo, ambulancia con cruz roja y camiones del jefe por tipo (beige, azul, verde, amarillo con pala, gris-azul). El jefe aparece a un lado, no en el centro.
+- **Dinamita:** se dibuja siempre por encima del taxi mientras vuela. El aviso de impacto es un triángulo rojo con «!».
+- **Fin de ola:** pantalla negra con un arco de cielo azul que se abre, la silueta del taxi entrando y la cuenta atrás. Al final, «N x2 Bonus». Se oculta cualquier aviso que estuviera en pantalla.
+- **HUD inferior izquierdo:** estrella, «N Lv», barra de progreso y porcentaje, como en el original. El progreso sube con las muertes (4 puntos, 30 en el jefe) y las monedas (1 punto). Cada nivel cuesta 60 + 20·nivel puntos. **Estos valores son provisionales**: el original no permite medirlos.
+- **Vida:** como la barra inferior ya no es la vida, la vida se muestra con una barra verde sobre el taxi.
+- **Banners:** se quitan «WAVE N» y «BOSS WAVE!» en el centro, la barra de jefe arriba y los avisos «BOSS INCOMING!» y «FINAL WAVE!». El original no los tiene.
+
+No tocado (no aprobado): el botón central con «!» en vez del icono de bomba con su número (V9), el cielo de los bancos de ciudad (V11) y el humo de explosión (V13).
+
+Pendiente de comprobar: si el jefe se ve bien en la pelea completa en el resto de temas, y si la barra de nivel debe tener valores parecidos a los del original.
