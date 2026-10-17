@@ -105,7 +105,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Med]** medido sobre fotogramas o c
 |---|---|---|---|
 | Enemigos por oleada, niveles 1 a 3 | 2 a 5 (media ≈3.5) | `[3,4,4,3,4]`, uno menos en nivel 1 | Ajustado. |
 | Enemigos por oleada, niveles 4 y 5 | 3 a 10 (media ≈6.3) | `[6,9,5,8,5]` | Ajustado. Niveles 6 o más sin datos. |
-| Duración de la ola | 2.5 a 7 s en nivel 1; 6 a 12 s en niveles 2 y 3; 11 a 25 s en 4 y 5 | `10 + 5·ola` (+3 desde nivel 4) | Ajustado. |
+| Duración de la ola (hasta despejar) | 2.5 a 7 s en nivel 1; 6 a 12 s en niveles 2 y 3; 9 a 19 s en 4 y 5. | Cronómetro `10 + 5·ola` (+3 desde nivel 4). | Ajustado. |
 | Fin de ola | 17 de 20 oleadas con tiempo terminan vacías; ninguna llega a cero. | Termina al despejarse; si se agota el tiempo, sin bonus. | Igual. |
 | Primera oleada | Sin cronómetro en el tutorial [Obs]. | Con cronómetro. | **Diferente** (M1). |
 | Cadencia de disparo enemiga | No medida con fiabilidad. | 3 a 4.2 s por enemigo. | **Sin calibrar** (la estimación anterior se basaba en una lectura errónea). |
@@ -116,7 +116,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Med]** medido sobre fotogramas o c
 **Original [Obs]:** cuatro peleas en la parte 2. A (nivel 4) se gana en 21 s; C1 (nivel 5) en 34 s; C2 en 27 s; B se pierde en 29 s (Continue / Give up). Durante la pelea siguen llegando furgonetas normales. Los camiones están de lado, detrás y a un lado del taxi, se balancean y se solapan con él.
 
 **Base [Cód, Sim]:**
-- El jefe aparece en un carril lateral fijo (lane 98 o 322) y no se mueve, salvo la deriva de la barra de vida.
+- El jefe aparece en un carril lateral fijo (lane 98 o 322) y no cambia de posición durante la pelea.
 - Dispara cada 1.3 a 1.8 s, con un 60 % de dinamita, y cada dinamita quita unos 14 de vida con el nivel 1.
 - El piloto automático elige como objetivo al enemigo más cercano en lateral, y casi siempre son las furgonetas. Así el taxi nunca llega a chocar con el jefe.
 - **En la simulación, el jefe deja al taxi en 0 de vida en 21 s, con 8 golpes** (registro del 80 s).
@@ -174,7 +174,7 @@ Etiquetas: **[Obs]** visto en el vídeo · **[Med]** medido sobre fotogramas o c
 
 ## 6. Audio
 
-- **Original [Obs]:** el vídeo tiene pista de audio. No la he podido analizar porque no puedo escucharla. Lo que sí se ve es que las acciones (explosiones, monedas, tally) tienen su sonido en el momento de la imagen.
+- **Original [Obs]:** el vídeo tiene pista de audio. No la he podido analizar porque no puedo escucharla, así que no sé qué música ni qué efectos tiene.
 - **Base [Cód]:** solo pitidos sintéticos (WebAudio) para disparo, golpe, moneda y clic. Sin música.
 - **Propuesta:** música de fondo y efectos nuevos, no copiados del original. Hace falta decidir si se quiere música propia.
 
