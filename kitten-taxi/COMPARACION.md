@@ -300,7 +300,57 @@ Consecuencias para la base (aplicadas):
 
 ### 9.3 Conflictos sin resolver
 
-- **«x2 Bonus»:** lo vi en la parte 1, en fotogramas de 116 a 119 s. El agente de la parte 2 no lo vio en seis momentos. El código sigue con ×2 y el multiplicador exacto está por confirmar.
+- **«x2 Bonus»:** confirmado en la parte 1: aparece en 116–119 s y en 476–477 s («13 x2 Bonus», al final de la oleada de L3-A). El agente de la parte 2 no lo vio en seis momentos. El código sigue con ×2.
 - **Esquive:** ni el agente de la parte 1 ni el de la parte 2 lo confirman. La parte 2 anota un posible cambio de lado en 4:32–4:34 de B W1, sin poder saber cuál de los dos coches se movió. El esquive se mantiene porque lo pediste, pero hay que confirmarlo en el vídeo.
 - **Vida del taxi:** no se ve en el HUD. El daño por golpe de la base es provisional.
 - **Dirección de lanzamiento:** la parte 2 confirma que las bombas caen delante del taxi. No se ha medido si el lanzamiento viene de detrás o del costado en cada caso.
+
+---
+
+## 10. Igualdad visual (revisión 3)
+
+Medido sobre fotogramas de la parte 1 (720 × 1280) y sobre capturas de nuestra base (420 × 746). Las posiciones se dan como fracción de la altura o del ancho. Error de medida: ±0.01. Referencia limpia: fotograma 471 s (L3-A, oleada 3), con el taxi en el horizonte.
+
+### 10.1 Medidas
+
+| Elemento | Original | Nuestro | Diferencia |
+|---|---|---|---|
+| Horizonte (fin del cielo azul) | 0.445 de la altura | 0.429 | Cerca. Unos 12 px en nuestra escala. |
+| Base del taxi (ruedas) | ~0.40, justo sobre el horizonte | 0.538, bajo el horizonte | **Nuestro taxi está unos 0.14 de pantalla más abajo.** |
+| Ancho del taxi | 0.296 del ancho | 0.221 del ancho | **Nuestro taxi es un 34 % más pequeño.** |
+| Posición lateral del taxi | Se mueve entre 0.50 y 0.85 | Centrado (0.50) | Nuestro taxi no se desplaza en la conducción normal. [?] |
+| Ancho del enemigo frente al taxi | ~0.7 del taxi | ~0.7 del taxi | Coincide. |
+
+### 10.2 Lo que no es igual
+
+| # | Elemento | Original | Nuestro | Prioridad |
+|---|---|---|---|---|
+| V1 | Carretera | Suelo blanco con líneas de lápiz y arcos curvos. No hay bordillos. | Asfalto gris oscuro, bordillos y raya central recta. | Alta |
+| V2 | Líneas de velocidad | Trazos radiales negros que cubren la carretera en tramos de velocidad. | Líneas finas y casi invisibles. | Alta |
+| V3 | Dinamita | Se dibuja por encima del taxi cuando vuela. | Cuando viene de detrás (profundidad negativa) se dibuja antes que el coche, y el coche la tapa. Por eso se ve entera o solo un trozo. | **Alta (lo que señalas)** |
+| V4 | Aviso de impacto | Triángulo rojo «!». | Elipse roja. | Media |
+| V5 | Transición de fin de ola | Pantalla negra con un arco de luz azul y una silueta del taxi que entra. Luego la cuenta atrás y «x2 Bonus». | Pantalla negra con la cuenta atrás y un aviso encima («WEAPON: BOMB!»). **Falta el arco y la silueta.** Es el «túnel». | Alta |
+| V6 | Banner de ola | Solo la etiqueta «WAVE N» arriba a la izquierda. | Banner grande «WAVE 1» y «BOSS WAVE!». | Media |
+| V7 | Jefe | Camiones grandes (verde, azul, amarillo, gris-azul). Sin banner. Su vida aparece como barra verde sobre el propio vehículo. | Un bus marrón y un taxi. Barra de vida fija arriba y un toast «BOSS INCOMING!». | Alta (hay que dibujar los camiones) |
+| V8 | Barra inferior izquierda | Estrella, «N Lv» y porcentaje de progreso (lo confirmé en las dos partes). | Icono de gato y «100 / 100» (vida). | Decisión tuya |
+| V9 | Botón central | Icono de bomba con el número de bombas. | Un «!» gris. | Baja |
+| V10 | Furgonetas de policía | Furgoneta blanca redondeada con luz en el techo. | Coche pequeño blanco y azul con cartel «POLICE». | Media |
+| V11 | Cielo | Azul con nubes en los bancos de tema azul; blanco con edificios a lápiz en el de ciudad. | Gris con edificios. | Baja |
+| V12 | Tamaño de las monedas y cajas | Monedas pequeñas, cajas verdes con «?». | Similar. | Baja |
+| V13 | Humo de explosión | Nubes blancas grandes que tapan el coche. | Destellos pequeños. | Media |
+
+### 10.3 Lo que sí coincide
+
+- Los gatos en el parabrisas, con el coche de frente.
+- Las etiquetas «WAVE» y «Level» arriba a la izquierda, el botón de pausa y el AUTO circular.
+- El cronómetro grande arriba al centro.
+- Las barras verdes de vida sobre los enemigos.
+- Los corchetes naranjas sobre el enemigo bloqueado.
+
+### 10.4 Decisiones que necesito de ti
+
+1. **Carretera:** ¿la paso a suelo blanco con líneas de lápiz, como el original? Es el cambio visual más grande.
+2. **Taxi:** para ponerlo a 0.40 de la altura (sobre el horizonte) y a 0.296 del ancho hay que cambiar la perspectiva. Los enemigos que vienen de detrás salen del horizonte, así que la banda de persecución cambia también.
+3. **Dibujo de camiones del jefe:** hay que dibujarlos a mano en canvas. Es el trabajo de arte más grande.
+4. **Barra inferior izquierda:** ¿la cambio a la barra de nivel del original, o mantengo la vida con gato?
+5. **Transición de fin de ola:** ¿la hago como el arco y la silueta del original?
