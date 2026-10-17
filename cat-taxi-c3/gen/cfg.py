@@ -64,7 +64,7 @@ RUNTIME = [
     ("mTunnel", 0), ("mTunnelT", 0), ("mTunnelL", 0), ("mTunnelLeft", 0), ("mTunnelTrain", 0),
     ("mBonusV", 0), ("mBonusT", 0), ("mEnded", 0),
     ("mIdSeq", 0), ("bestId", 0), ("bestVal", 0), ("lockId", 0), ("bossTarget", 0), ("targetLane", 0), ("targetX", 0),
-    ("aliveCount", 0), ("guideCount", 0),
+    ("aliveCount", 0), ("guideCount", 0), ("soundToast", 0), ("mWeaponToast", 0), ("mSpawnFix", 0),
     ("loadStarted", 0), ("startReq", 0), ("startGuide", 0), ("startBank", 0), ("awardNeeded", 0),
     ("toastReq", 0), ("toastDur", 2), ("pendingToast", 0), ("startToast", 0), ("mBossRatio", 0), ("mGuideSpawned", 0), ("mEndTunnel", 0), ("mDeathNow", 0), ("mSetupWave", 0), ("mWeapon", 0), ("mRate", 1.1), ("mDmg", 0), ("mHit", 0), ("mBase", 0), ("mBankBal", 0), ("mRemain", 0), ("mReward", 0), ("mPerfect", 0), ("mBoss", 0), ("mEndNow", 0), ("pOld", 0), ("thLane", 0), ("thD", 0), ("tSX", 0), ("tAny", 0), ("tBoss", 0), ("tAny", 0), ("aDanger", 0), ("aPrize", 0), ("aBoss", 0), ("aEnemy", 0), ("aLock", 0), ("dangerXl", 0), ("prizeX", 0), ("bossLane", 0), ("enemyLane", 0), ("bossNow", 0), ("bx", 0), ("by", 0), ("kx", 0), ("ky", 0), ("kDrop", 0), ("rDrop", 0), ("rKind", 0), ("rSide", 1), ("rLane", 0), ("rPick", 0), ("rThrow", 0), ("wxl", 0), ("wdl", 0), ("wid", 0), ("popKind", 0), ("nodeOn", 0), ("keyLast", 0),
 ]

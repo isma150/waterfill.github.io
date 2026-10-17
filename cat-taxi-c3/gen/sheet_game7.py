@@ -87,3 +87,19 @@ def pause_defeat_text_events():
     return [G("Pause and defeat text", [
         txt_live("pause.wave", '"Wave " & mWave & " / 6"'),
     ])]
+
+def shake_events():
+    """HTML drawGame: while m.shake > 0 and reduced motion is off, the whole frame is translated by
+    rnd(-shake, shake) and rnd(-0.38*shake, 0.38*shake). Here the Game view is scrolled instead (confirmed
+    System 'scroll-to-position' from the template). Centred otherwise. The four centre events are exclusive with the shake event."""
+    shaking = [TICK(), CMPV("mShake", 4, 0), CMPV("reducedMotion", 0, 0), CMPV("screen", 4, 4), CMPV("screen", 2, 8)]
+    centre = lambda cond: B([TICK()] + cond, [A("scroll-to-position", "System", x="240", y="320")])
+    return [G("Screen shake", [
+        B(shaking, [A("scroll-to-position", "System", x="240-random(-1,1)*mShake",
+                      y="320-random(-1,1)*mShake*0.38")]),
+        centre([CMPV("mShake", 3, 0)]),
+        centre([CMPV("reducedMotion", 0, 1)]),
+        centre([CMPV("screen", 2, 5)]),
+        centre([CMPV("screen", 4, 7)]),
+    ])]
+

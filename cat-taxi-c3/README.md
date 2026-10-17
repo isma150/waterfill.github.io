@@ -33,11 +33,12 @@ Requiere Python 3 con Pillow.
 Para regenerar sprites hace falta Chromium (`PLAYWRIGHT_BROWSERS_PATH`) y `playwright-core`: `sh render/run_all.sh`.
 
 ## Diferencias conocidas frente al HTML
-Ver `PROGRESS.md`, sección de pendientes. Resumen:
+Lista completa y en orden en `PROGRESS.md`. Resumen:
 - Sin audio (ni efectos ni música).
-- Sin HP de enemigos, números de daño, partículas de impacto/humo, destellos de disparo ni trazadores.
+- Sin HP de enemigos, números de daño, partículas, destellos de disparo ni trazadores.
 - Iris del túnel sustituido por fundido a negro. Sin opacidad en flashes, invulnerabilidad ni textos.
-- Formato de números: sin separadores de miles ni `toFixed(2)`.
+- Sin separadores de miles ni `toFixed(2)`.
 - Botones disparan al pulsar (el HTML dispara al soltar, y cancela si arrastras más de 9 px).
 - Sin navegación con Tab/Enter, y sin pausa automática al perder el foco.
 - Dt por fotograma con tope 0.042 s (el HTML avanza a paso fijo 1/60).
+- Sacudida de pantalla con scroll de la vista (no traslada el HUD).

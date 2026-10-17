@@ -50,6 +50,7 @@ Generado por `gen/build_v9.py` (registro USED). Estado: **confirmado** = aparece
 | action | Speed | set-size | height, width | (sin fuente) | NO VERIFICADO |
 | action | System | create-object | create-hierarchy, layer, object-to-create, template-name, x, y | chef (template-name, create-hierarchy); object-to-create, layer, x, y NO VERIFICADOS | PARCIAL |
 | action | System | go-to-layout | layout | Plantilla (layout) | CONFIRMADO (plantilla C3 r50600) |
+| action | System | scroll-to-position | x, y | Plantilla (x, y) | CONFIRMADO (plantilla C3 r50600) |
 | action | System | set-eventvar-value | value, variable | Plantilla (variable, value) | CONFIRMADO (plantilla C3 r50600) |
 | action | System | set-layer-visible | layer, visibility | Plantilla (layer, visibility 'visible'/'invisible') | CONFIRMADO (plantilla C3 r50600) |
 | action | Taxi | set-angle | angle | ninguna (manual 'Set angle' sin id) | NO VERIFICADO |
@@ -92,7 +93,7 @@ Generado por `gen/build_v9.py` (registro USED). Estado: **confirmado** = aparece
 | condition | Txt | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 | condition | Wheel | compare-instance-variable | comparison, value, variable | liauw (variable, comparison, value); liauw usa simbolos en comparison | PARCIAL: comparison entero asumido |
 
-Total de identificadores distintos: 87. Con algo sin verificar (no verificado o parcial): 36.
+Total de identificadores distintos: 88. Con algo sin verificar (no verificado o parcial): 36.
 
 ## Expresiones
 
@@ -105,4 +106,5 @@ Funciones usadas: `min`, `max`, `abs`, `floor`, `ceil`, `round`, `clamp`, `pow`,
 - Instancias de capa de la plantilla (TemplateSprite) copiadas tal cual; capa 'Template' como primera capa.
 - Hojas de eventos: formato del evento `variable` y `comment` copiado de la plantilla.
 - Plugin `Keyboard` (usedAddons y objectType con plugin-id 'Keyboard'): NO VERIFICADO.
+- Teclas: el parametro key de Keyboard usa codigos numericos (keyCode: 13, 27, 37, 39, 65, 68, 77, 80); documentado por ejemplos de liauw, NO por un export de C3.
 - Sonido: no implementado en esta versión (ver informe).

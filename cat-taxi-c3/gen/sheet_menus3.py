@@ -45,6 +45,10 @@ def popup_events(lname):
     ev.append(G("Popup close", [click(f"{lname}.nice", [SETV("popupOpen", 0)], popup_gate=False)]))
     return ev
 
+def spin_short(cost_expr, cond_count):
+    tc, ta = TOAST("rou", "Not enough coins for a spin", 2)
+    return click("rou.spin", ta, extra=[CMPV("spinActive", 0, 0), CMPV("coins", 2, cost_expr)] + cond_count + tc)
+
 def spin_start(cost_expr, cost_num, cond_count):
     """Spin pressed: pay, count, pick the outcome and the target angle (HTML startSpin)."""
     return click("rou.spin", [
@@ -97,6 +101,10 @@ def roulette_sheet_events():
         spin_start("100", 100, [CMPV("spinCount", 0, 0)]),
         spin_start("180", 180, [CMPV("spinCount", 0, 1)]),
         spin_start("250", 250, [CMPV("spinCount", 5, 2)]),
+        # HTML startSpin L349: coins below the cost -> showToast('Not enough coins for a spin')
+        spin_short("100", [CMPV("spinCount", 0, 0)]),
+        spin_short("180", [CMPV("spinCount", 0, 1)]),
+        spin_short("250", [CMPV("spinCount", 5, 2)]),
     ]))
     ev.append(G("Spin angle", [
         B([TICK(), CMPV("spinActive", 0, 1)], [

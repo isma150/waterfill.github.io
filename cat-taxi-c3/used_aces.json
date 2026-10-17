@@ -47,6 +47,9 @@
  "condition|Keyboard|on-key-pressed": [
   "key"
  ],
+ "action|Txt|set-text": [
+  "text"
+ ],
  "action|System|go-to-layout": [
   "layout"
  ],
@@ -66,9 +69,6 @@
  ],
  "action|Node|set-animation": [
   "animation"
- ],
- "action|Txt|set-text": [
-  "text"
  ],
  "condition|Icon|compare-instance-variable": [
   "comparison",
@@ -308,5 +308,9 @@
  ],
  "action|Bg|set-animation": [
   "animation"
+ ],
+ "action|System|scroll-to-position": [
+  "x",
+  "y"
  ]
 }

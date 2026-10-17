@@ -82,7 +82,10 @@ def map_sheet_events():
         click("map.shop", [SETV("screen", 3), GOTO("Shop")]),
         click("map.back", [SETV("screen", 0), GOTO("Home")]),
         click("map.start", [SETV("startReq", 1), SETV("startGuide", 0), SETV("startBank", "selectedBank"),
-                            SETV("screen", 5), GOTO("Game")]),
+                            SETV("screen", 5), GOTO("Game")], extra=[CMPV("selectedBank", 3, "unlocked")]),
+        # HTML startMission L357: bankIdx > unlocked -> showToast('Bank is locked') and no start
+        click("map.start", TOAST("map", "Bank is locked")[1],
+              extra=[CMPV("selectedBank", 4, "unlocked")] + TOAST("map", "Bank is locked")[0]),
     ]))
     ev.append(G("Keys and resources", [
         txt_live("map.keys", '"" & keys & "/4"'),

@@ -4,6 +4,7 @@ from ev import *
 from ids import nid
 from sheet_menus import txt_live
 from sheet_game3 import pos_layout, _shot_init
+from sheet_common import TOAST
 
 def gg():
     """Guided gate: in the game, not paused, guided run, not in the training tunnel."""
@@ -59,9 +60,10 @@ def guide_events():
     return ev
 
 def finish_actions():
-    """finishGuidedMission (HTML L419): leave the tutorial and start wave 1 of the same run."""
+    """finishGuidedMission (HTML L419): leave the tutorial and start wave 1 of the same run.
+    mSpawnFix makes the wave setup use spawnTimer 1.0 and pickupTimer 3 (see sheet_game1.wave_setup_events)."""
     return [DESTROY("Enemy"), DESTROY("Shot"), DESTROY("Pickup"), DESTROY("Warn"),
-            SETV("mGuide", 0), SETV("mEndTunnel", 0), SETV("mTunnelTrain", 0), SETV("mTunnel", 0),
+            SETV("mGuide", 0), SETV("mEndTunnel", 0), SETV("mTunnelTrain", 0), SETV("mTunnel", 0), SETV("mSpawnFix", 1),
             SETV("mGuideStage", 5), SETV("mGuideTime", 0), SETV("mGuideReady", 0),
             SETV("mWave", 1), SETV("mWaveTime", 0), SETV("mSeconds", 0), SETV("mSetupWave", 1),
             SETV("mBossSpawned", 0), SETV("mBulletTimer", 0), SETV("mWeaponBuff", 0), SETV("mBonusWeapon", 0),
@@ -96,9 +98,15 @@ def guide_events2():
         spawn_attacker([CMPV("mPX", 5, 200)], "-60"),
     ]))
     # stage 2: dynamite aimed at the taxi's lane (HTML L426): lands at clamp(px,75,345), 1.45 s, 0.54 depth
+    # HTML showToast texts of the tutorial (L426-431), in the order they happen
+    t_dyn = TOAST("game", "¡DINAMITA! APARTATE DEL AVISO ROJO", 1.4)
+    t_casi = TOAST("game", "¡CASI! MUÉVETE LEJOS DEL ROJO", 1.5)
+    t_bien = TOAST("game", "¡BIEN ESQUIVADO!", 1.15)
+    t_arma = TOAST("game", "ARMA CONSEGUIDA!", 1)
+    t_moneda = TOAST("game", "MONEDA CONSEGUIDA!", 1)
     ev.append(G("Guided stage 2: dynamite", [
         B(gg() + [st(2), CMPV("mGuideShotMade", 0, 0), CMPV("mGuideWait", 3, 0), CMPV("mGuideTime", 5, 1.65),
-                  IV("Enemy", "training", 0, 1)],
+                  IV("Enemy", "training", 0, 1)] + t_dyn[0],
           [SETV("thLane", "Enemy.lane"), SETV("thD", "Enemy.d"), CREATE("Shot", "Actors", 0, 0), ANIM("Shot", "dyn"),
            SIV("Shot", "id", "mIdSeq"), SETV("mIdSeq", "mIdSeq+1"),
            SIV("Shot", "x0", "thLane"), SIV("Shot", "d0", "thD"), SIV("Shot", "xl", "clamp(mPX,75,345)"),
@@ -109,7 +117,7 @@ def guide_events2():
            CREATE("Warn", "Actors", 0, 0), ANIM("Warn", "warn"), SIV("Warn", "owner", "wid"),
            SIV("Warn", "sx", "210+(wxl-210)*(148+90*pow(clamp(wdl,0,1),1.06))/148"),
            SIV("Warn", "sy", "319+441*pow(min(max(wdl,0),1.15),1.22)+100*min(wdl,0)"),
-           SIV("Warn", "sc", "0.92*(1+0.6*max(clamp(wdl,-0.5,1.15),0)+1.5*min(clamp(wdl,-0.5,1.15),0))")]),
+           SIV("Warn", "sc", "0.92*(1+0.6*max(clamp(wdl,-0.5,1.15),0)+1.5*min(clamp(wdl,-0.5,1.15),0))")] + t_dyn[1]),
         B(gg() + [st(2), CMPV("mGuideWait", 4, 0)], [SETV("mGuideWait", "mGuideWait-ddt")]),
         B(gg() + [st(2), IV("Shot", "training", 0, 1), IV("Shot", "exploded", 0, 0)],
           [SIV("Shot", "age", "age+ddt"), SIV("Shot", "dist", "abs(xl-mPX)"),
@@ -118,12 +126,12 @@ def guide_events2():
            SIV("Shot", "sy", "319+441*pow(min(max(d,0),1.15),1.22)+100*min(d,0)")]),
         # the retry (HTML L427: distance < 68) and the avoided shot
         B(gg() + [st(2), IV("Shot", "training", 0, 1), IV("Shot", "exploded", 0, 0), IV("Shot", "age", 5, "fly"),
-                  IV("Shot", "d", 3, 0.052), IV("Shot", "dist", 2, 68)],
+                  IV("Shot", "d", 3, 0.052), IV("Shot", "dist", 2, 68)] + t_casi[0],
           [SETV("mGuideRetry", "mGuideRetry+1"), SETV("mGuideShotMade", 0), SETV("mGuideWait", 1.1),
-           SIV("Shot", "exploded", 1), DESTROY("Shot"), DESTROY("Warn")]),
+           SIV("Shot", "exploded", 1), DESTROY("Shot"), DESTROY("Warn")] + t_casi[1]),
         B(gg() + [st(2), IV("Shot", "training", 0, 1), IV("Shot", "exploded", 0, 0), IV("Shot", "age", 5, "fly"),
-                  IV("Shot", "d", 3, 0.052), IV("Shot", "dist", 5, 68)],
-          [SETV("mGuideAvoided", 1), SIV("Shot", "exploded", 1), DESTROY("Shot"), DESTROY("Warn")]),
+                  IV("Shot", "d", 3, 0.052), IV("Shot", "dist", 5, 68)] + t_bien[0],
+          [SETV("mGuideAvoided", 1), SIV("Shot", "exploded", 1), DESTROY("Shot"), DESTROY("Warn")] + t_bien[1]),
         B(gg() + [st(2), CMPV("mGuideAvoided", 0, 1)], [SETV("mGuideReady", "mGuideReady+ddt")]),
         B(gg() + [st(2), CMPV("mGuideReady", 4, 1.3)], next_stage(3)),
     ]))
@@ -154,11 +162,11 @@ def guide_events2():
           [SIV("Pickup", "prev", "progress"), SIV("Pickup", "progress", "progress+ddt/duration"),
            SIV("Pickup", "dist", "abs(lane-mPX)")]),
         B(gg() + [st(3), IV("Pickup", "training", 0, 1), IV("Pickup", "prev", 2, 0.95), IV("Pickup", "progress", 5, 0.95),
-                  IV("Pickup", "dist", 2, 73), IV("Pickup", "isCrate", 0, 1)],
-          [SETV("mGuideCrate", 1), SETV("mBonusWeapon", 2), SETV("mWeaponBuff", 10), DESTROY("Pickup")]),
+                  IV("Pickup", "dist", 2, 73), IV("Pickup", "isCrate", 0, 1)] + t_arma[0],
+          [SETV("mGuideCrate", 1), SETV("mBonusWeapon", 2), SETV("mWeaponBuff", 10), DESTROY("Pickup")] + t_arma[1]),
         B(gg() + [st(3), IV("Pickup", "training", 0, 1), IV("Pickup", "prev", 2, 0.95), IV("Pickup", "progress", 5, 0.95),
-                  IV("Pickup", "dist", 2, 58), IV("Pickup", "isCrate", 0, 0)],
-          [SETV("mGuideCoin", 1), DESTROY("Pickup")]),
+                  IV("Pickup", "dist", 2, 58), IV("Pickup", "isCrate", 0, 0)] + t_moneda[0],
+          [SETV("mGuideCoin", 1), DESTROY("Pickup")] + t_moneda[1]),
         B(gg() + [st(3), IV("Pickup", "progress", 4, 1.06)], [DESTROY("Pickup")]),
         B(gg() + [st(3), CMPV("mGuideCrate", 0, 1), CMPV("mGuideCoin", 0, 1)], [SETV("mGuideReady", "mGuideReady+ddt")]),
         B(gg() + [st(3), CMPV("mGuideReady", 4, 1.2)], next_stage(4) + [
@@ -167,6 +175,7 @@ def guide_events2():
     ]))
     # the training tunnel ends the tutorial (HTML endTunnel: training -> finishGuidedMission)
     ev.append(G("Guided finish", [
-        B([TICK(), CMPV("mEndTunnel", 0, 1), CMPV("mTunnelTrain", 0, 1)], finish_actions()),
+        B([TICK(), CMPV("mEndTunnel", 0, 1), CMPV("mTunnelTrain", 0, 1)] + TOAST("game", "TUTORIAL SUPERADO · OLEADA 1", 2.1)[0],
+          finish_actions() + TOAST("game", "TUTORIAL SUPERADO · OLEADA 1", 2.1)[1]),
     ]))
     return ev

@@ -26,6 +26,8 @@ def wave_setup_events():
     ev.append(B(gate, [SETV("mSetupWave", 0), SETV("mSpawned", 0), SETV("mBossAdds", 0), SETV("mWaveTime", 0),
                        SETV("mBossSpawned", 0), SETV("mBulletTimer", 0), SETV("mSpawnTimer", 0.75),
                        SETV("mPickupTimer", "3+2*random()")]))
+    # the guided finish (HTML finishGuidedMission L419) starts wave 1 with spawnTimer 1.0 and pickupTimer 3
+    ev.append(B([CMPV("mSpawnFix", 0, 1)], [SETV("mSpawnTimer", 1), SETV("mPickupTimer", 3), SETV("mSpawnFix", 0)]))
     return ev
 
 def bank_start_events():

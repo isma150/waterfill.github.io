@@ -5,6 +5,7 @@ Rules: (see PROGRESS.md) one CREATE per event; values for a new instance are wri
 booleans are written as min(1,ceil(x)) so no comparison operators are needed inside expressions."""
 from ev import *
 from ids import nid
+from sheet_common import TOAST, TOASTX
 from sheet_game2 import gate
 
 BULLET_RATE = {0: 6.8, 1: 1.1, 2: 3.2, 3: 11.2}
@@ -133,6 +134,16 @@ def pickup_events():
                 SIV("Pickup", "sy", "319+441*pow(min(max(1-clamp(progress,0,1.15),0),1.15),1.22)+100*min(1-clamp(progress,0,1.15),0)"),
                 SIV("Pickup", "sc", "0.92*(1+0.6*max(clamp(1-clamp(progress,0,1.15),-0.5,1.15),0)+1.5*min(clamp(1-clamp(progress,0,1.15),-0.5,1.15),0))")]),
     ]))
+    coin_hit = upd + [IV("Pickup", "prev", 2, 0.95), IV("Pickup", "progress", 5, 0.95), IV("Pickup", "dist", 2, 58),
+                      IV("Pickup", "isCrate", 0, 0)]
+    # HTML takePickup L378: '+add COINS' (add = min(amount, bank left)) or 'BANK EMPTY' (.65 s); read before the loot update
+    coin_text = '"+"&min(Pickup.amount,mBankBal-mBankLoot)&" COINS"'
+    ev.append(G("Pickup coin toast", [
+        B(coin_hit + [CMPX("mBankBal-mBankLoot", 4, 0)] + TOASTX("game", coin_text, 0.65)[0],
+          TOASTX("game", coin_text, 0.65)[1]),
+        B(coin_hit + [CMPX("mBankBal-mBankLoot", 3, 0)] + TOAST("game", "BANK EMPTY", 0.65)[0],
+          TOAST("game", "BANK EMPTY", 0.65)[1]),
+    ]))
     ev.append(G("Pickup collected", [
         B(upd + [IV("Pickup", "prev", 2, 0.95), IV("Pickup", "progress", 5, 0.95), IV("Pickup", "dist", 2, 58),
                  IV("Pickup", "isCrate", 0, 0)],
@@ -140,9 +151,17 @@ def pickup_events():
            DESTROY("Pickup")]),
         B(upd + [IV("Pickup", "prev", 2, 0.95), IV("Pickup", "progress", 5, 0.95), IV("Pickup", "dist", 2, 73),
                  IV("Pickup", "isCrate", 0, 1)],
-          [SETV("mWeaponBuff", 9), SETV("mBonusWeapon", "1+floor(random(0,3))"), DESTROY("Pickup")]),
+          [SETV("mWeaponBuff", 9), SETV("mBonusWeapon", "1+floor(random(0,3))"), SETV("mWeaponToast", 1),
+           DESTROY("Pickup")]),
         B(upd + [IV("Pickup", "progress", 4, 1.06)], [DESTROY("Pickup")]),
     ]))
+    # HTML takePickup L377: 'WEAPON: X!' (1.15 s). Bonus 1 bomb, 2 shot, 3 machine (same order as the HUD icons).
+    weapon_toasts = []
+    for k, name in [(1, "BOMB"), (2, "SHOT"), (3, "MACHINE")]:
+        tc, ta = TOAST("game", f"WEAPON: {name}!", 1.15)
+        weapon_toasts.append(B([TICK(), CMPV("mWeaponToast", 0, 1), CMPV("mBonusWeapon", 0, k)] + tc,
+                               ta + [SETV("mWeaponToast", 0)]))
+    ev.append(G("Pickup weapon toast", weapon_toasts))
     return ev
 
 def kill_events():
@@ -168,3 +187,12 @@ def kill_events():
            DESTROY("Boss")]),
     ]))
     return ev
+
+def level_events():
+    """HTML gainXp L385: while xp >= 60+20*plevel: xp -= need, plevel++, toast 'LEVEL n!  +2.5% POWER' (1.2 s).
+    One level per tick is enough: a single xp gain is at most 30, and the next need is at least 80."""
+    tc, ta = TOASTX("game", '"LEVEL "&plevel&"!  +2.5% POWER"', 1.2)
+    return [G("Level up", [
+        B([TICK(), CMPX("xp", 5, "60+20*plevel")] + tc,
+          [SETV("xp", "xp-(60+20*plevel)"), SETV("plevel", "plevel+1"), SETV("needSave", 1)] + ta),
+    ])]

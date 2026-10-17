@@ -15,6 +15,7 @@ EVIDENCE = {
  "condition|Keyboard|is-key-down": ("liauw (on-key-pressed con key numerico); plugin Keyboard NO VERIFICADO", "PARCIAL: keyCode numerico documentado; plugin y accion NO VERIFICADOS"),
  "condition|Keyboard|on-key-pressed": ("liauw (on-key-pressed con key numerico, p.ej. 32, 38)", "PARCIAL: keyCode numerico documentado; plugin NO VERIFICADO"),
  "condition|System|trigger-once-while-true": ("Plantilla", C3),
+ "action|System|scroll-to-position": ("Plantilla (x, y)", C3),
  "action|System|go-to-layout": ("Plantilla (layout)", C3),
  "action|System|set-eventvar-value": ("Plantilla (variable, value)", C3),
  "action|System|set-layer-visible": ("Plantilla (layer, visibility 'visible'/'invisible')", C3),
@@ -85,6 +86,7 @@ out += ["", f"Total de identificadores distintos: {len(used)}. Con algo sin veri
         "- Instancias de capa de la plantilla (TemplateSprite) copiadas tal cual; capa 'Template' como primera capa.",
         "- Hojas de eventos: formato del evento `variable` y `comment` copiado de la plantilla.",
         "- Plugin `Keyboard` (usedAddons y objectType con plugin-id 'Keyboard'): NO VERIFICADO.",
+        "- Teclas: el parametro key de Keyboard usa codigos numericos (keyCode: 13, 27, 37, 39, 65, 68, 77, 80); documentado por ejemplos de liauw, NO por un export de C3.",
         "- Sonido: no implementado en esta versión (ver informe).", ""]
 open(os.path.join(BASE, "LEDGER9.md"), "w", encoding="utf-8").write("\n".join(out))
 print("rows", len(rows), "unverified-or-partial", nv)

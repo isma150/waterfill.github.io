@@ -73,6 +73,7 @@ def sheet_game():
     ev += sheet_game3.shot_events()
     ev += sheet_game3.pickup_events()
     ev += sheet_game3.kill_events()
+    ev += sheet_game3.level_events()
     ev += sheet_game4.shoot_events()
     ev += sheet_game4.auto_events()
     ev += sheet_game4.lock_events()
@@ -87,6 +88,7 @@ def sheet_game():
     ev += sheet_game7.buttons_events()
     ev += sheet_game7.tunnel_and_guide_events()
     ev += sheet_game7.theme_events()
+    ev += sheet_game7.shake_events()
     ev += sheet_game7.pause_defeat_text_events()
     from sheet_common import TOAST
     c, a = TOAST("game", "TUTORIAL EN PARTIDA · CONDUCE TÚ", 2.5)

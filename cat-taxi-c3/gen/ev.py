@@ -59,6 +59,10 @@ def CMPV(var, comp, value):
         return C("compare-two-values", "System", **{"first-value": var, "comparison": comp, "second-value": str(value)})
     return C("compare-eventvar", variable=var, comparison=comp, value=str(value))
 
+def CMPX(expr, comp, value):
+    """Compare an expression with a value (compare two values; expressions may use globals and object expressions)."""
+    return C("compare-two-values", "System", **{"first-value": str(expr), "comparison": comp, "second-value": str(value)})
+
 def IV(obj, var, comp, value):
     """Compare an instance variable of obj (liauw: compare-instance-variable comparison/value/variable)."""
     return C("compare-instance-variable", obj, variable=var, comparison=comp, value=str(value))

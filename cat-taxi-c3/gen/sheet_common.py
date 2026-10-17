@@ -7,11 +7,15 @@ def TXT_PICK(tid):
     """Condition that picks the Txt instance with this id (used together with a set-text action)."""
     return IV("Txt", "id", 0, tid)
 
-def TOAST(lname, msg, seconds=2):
-    """(extra conditions, actions) that show this layout's toast. Merge into the sender's event."""
+def TOASTX(lname, text_expr, seconds=2):
+    """(extra conditions, actions) that show this layout's toast with an expression text. Merge into the sender's event."""
     tid = nid(f"{lname}.toasttxt")
-    return [TXT_PICK(tid)], [A("set-text", "Txt", text=f'"{msg}"'), SETV("toastOn", 1),
+    return [TXT_PICK(tid)], [A("set-text", "Txt", text=str(text_expr)), SETV("toastOn", 1),
                              SETV("toastUntil", f"clock+{seconds}")]
+
+def TOAST(lname, msg, seconds=2):
+    """(extra conditions, actions) that show this layout's toast with a fixed message (HTML showToast)."""
+    return TOASTX(lname, f'"{msg}"', seconds)
 
 def common(lname):
     card, txt = nid(f"{lname}.toastcard"), nid(f"{lname}.toasttxt")
@@ -39,7 +43,12 @@ def common(lname):
           ]),
           G("Sound toggle (M key)", [
               B([C("on-key-pressed", "Keyboard", key="77")],
-                [SETV("sound", "1-sound"), SETV("needSave", 1)]),
+                [SETV("sound", "1-sound"), SETV("needSave", 1), SETV("soundToast", 1)]),
+              # HTML L591 showToast(save.sound ? 'Sound on' : 'Sound off') after the toggle
+              B([TICK(), CMPV("soundToast", 0, 1), CMPV("sound", 0, 1)] + TOAST(lname, "Sound on")[0],
+                TOAST(lname, "Sound on")[1] + [SETV("soundToast", 0)]),
+              B([TICK(), CMPV("soundToast", 0, 1), CMPV("sound", 0, 0)] + TOAST(lname, "Sound off")[0],
+                TOAST(lname, "Sound off")[1] + [SETV("soundToast", 0)]),
           ]),
     ]
     return ev
