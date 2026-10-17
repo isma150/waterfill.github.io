@@ -194,29 +194,51 @@ drawCar(211,391,1.20,'#f2bf4f');kitty(329,379,.85,'#f3d5ac');
 card(49,520,322,59,'#fffef9');txt('Rob the banks. Escape the cops!',210,544,18);txt('Steer • Dodge • Auto-shoot',210,566,14,'#797068');
 button('PLAY ▶',74,603,272,60,()=>{screen=save.seenTutorial?'map':'tutorial';tutorialStep=0;beep('click')},{color:'#f8d36d',size:29});
 button('HOW TO PLAY',125,672,170,44,()=>{screen='tutorial';tutorialStep=0},{size:15});txt('HTML5 · Depth & thrown items edition',210,729,11,'#8c847b');}
-function tutorialScreen(){backgroundPaper();header('HOW TO PLAY');const T=[
- ['Bank robber','Rob the bank and escape the police.'],
- ['Drive!','Drag left or right to steer. AUTO drives for you; touch the screen to take over.'],
- ['Police','Police cars chase you from behind and pull up beside the taxi.'],
- ['Auto attack when you go near an enemy','Your cats fire by themselves when a police car is right next to you. Bump into them!'],
- ['Dodge!','Police throw dynamite. Watch the red warning on the road and move away before it lands.'],
- ['get a weapons  ·  get a Coin','Crates give you a temporary weapon. Drive over coins to collect them.'],
- ['Tunnel','After a wave with time left you drive into a tunnel. Collect all its coins for double coins. Nothing can hit you inside.']];
- const n=T.length,st=Math.min(tutorialStep,n-1);
- card(30,88,360,454);txt(T[st][0],210,124,st===3||st===5?17:22);
- ctx.save();ctx.beginPath();ctx.rect(47,150,326,255);ctx.clip();drawBackdrop(st===6?'mountain':st%2===0?'city':'blue');ctx.restore();
- fillRound(48,149,324,256,'#ffffff04',7,'#cbc2b8',2);
- if(st===0){drawCar(140,322,.7,'#f3ba41');fillRound(232,236,110,86,'#c89258',6,'#5b4630',2);polygon([[226,238],[287,206],[348,238]],'#8d5a2e','#5b4630',2);txt('BANK',287,289,15,'#fff9e6')}
- if(st===1){drawCar(210,322,.7,'#f4b940');polygon([[118,380],[150,362],[150,398]],'#eebd56','#b28547',2);polygon([[302,380],[270,362],[270,398]],'#eebd56','#b28547',2)}
- if(st===2){drawCar(140,322,.7,'#f3ba41');policeVan(292,326,.8,'#f2f1e9',false)}
- if(st===3){drawCar(150,322,.7,'#f3ba41');policeVan(278,326,.8,'#f2f1e9',false);drawLock({x:278,y:326,scale:.8})}
- if(st===4){drawCar(210,334,.7,'#f3ba41');polygon([[246,392],[266,358],[286,392]],'#e0584b','#8e2c25',2);txt('!',266,384,16,'#fff');dynamiteSprite(256,300,1.4,.2)}
- if(st===5){supplyCrate(140,335,1.1);coin(270,320,16);coin(318,292,11)}
- if(st===6){ctx.fillStyle='#070707';ctx.fillRect(47,150,326,255);ctx.fillStyle='#e6f6fc';ctx.beginPath();ctx.ellipse(210,300,130,88,0,Math.PI,TAU);ctx.fill();drawCar(210,330,.7,'#1b1b1b','taxi',0)}
- wrapText(T[st][1],210,433,312,15);
+const TUT_PAGES=[
+ {title:'Bank robber',desc:'Rob the bank and escape the police.',task:'Drag the taxi under the bank'},
+ {title:'Drive!',desc:'Drag left or right to steer. AUTO drives for you; touch the screen to take over.',task:'Drag to the left marker, then to the right one'},
+ {title:'Police',desc:'Police cars chase you from behind and pull up beside the taxi.',task:'Get beside the police van as it passes'},
+ {title:'Auto attack when you go near an enemy',desc:'Your cats fire by themselves when a police car is right next to you. Bump into them!',task:'Stay beside the van until the cats shoot it'},
+ {title:'Dodge!',desc:'Police throw dynamite. Watch the red warning on the road and move away before it lands.',task:'Move away from the red warning'},
+ {title:'get a weapons  ·  get a Coin',desc:'Crates give you a temporary weapon. Drive over coins to collect them.',task:'Collect the three coins'},
+ {title:'Tunnel',desc:'After a wave with time left you drive into a tunnel. Collect all its coins for double coins. Nothing can hit you inside.',task:'Watch the tunnel close'}];
+const TP={page:-1,t:0,x:120,target:120,done:false,stage:0,items:[],count:0,msg:'',spawn:0,wait:0,fire:0};
+function tutReset(p){TP.page=p;TP.t=0;TP.x=TP.target=p===0?120:210;TP.done=false;TP.stage=0;TP.items=[];TP.count=0;TP.msg='';TP.spawn=0;TP.wait=0;TP.fire=0}
+function tutorialUpdate(dt){const st=Math.min(tutorialStep,TUT_PAGES.length-1);if(TP.page!==st)tutReset(st);
+ if(keys.ArrowLeft||keys.KeyA)TP.target=Math.max(80,TP.target-dt*240);if(keys.ArrowRight||keys.KeyD)TP.target=Math.min(340,TP.target+dt*240);
+ TP.x=lerp(TP.x,TP.target,1-Math.exp(-dt*9));TP.t+=dt;TP.wait=Math.max(0,TP.wait-dt);const x=TP.x;
+ if(st===0&&!TP.done&&x>262){TP.done=true;TP.msg='Got the money!'}
+ if(st===1&&!TP.done){if(TP.stage===0&&x<130){TP.stage=1;TP.msg='Now the right marker'}else if(TP.stage===1&&x>290){TP.done=true;TP.msg='Nice steering!'}}
+ if((st===2||st===3)&&!TP.done){if(!TP.items.length&&TP.wait<=0)TP.items=[{kind:'van',x:x+(Math.random()<.5?-110:110),p:0,hp:1}];
+  const v=TP.items[0];if(v){v.p+=dt*.8;const dx=Math.abs(v.x-x);
+   if(st===2&&v.p>=1&&dx<75){TP.done=true;TP.msg='Police beside you!'}
+   if(st===3){if(v.p>.5&&v.p<1.05&&dx<90){TP.fire+=dt;v.hp=Math.max(0,1-TP.fire/.9);if(TP.fire>=.9){TP.done=true;TP.msg='The cats got it!'}}else TP.fire=Math.max(0,TP.fire-dt*2)}
+   if(v.p>=1.2&&!TP.done){TP.items=[];TP.fire=0;TP.msg='Too far: get beside it';TP.wait=.4}}}
+ if(st===4&&!TP.done){if(!TP.items.length&&TP.wait<=0)TP.items=[{kind:'dyn',x:x,p:0}];const d=TP.items[0];
+  if(d){d.p+=dt*.75;if(d.p>=1){if(Math.abs(d.x-x)<45){TP.msg='Hit! Move away from the red warning';TP.items=[];TP.wait=1}else{TP.done=true;TP.msg='Dodged!';TP.items=[]}}}}
+ if(st===5&&!TP.done){TP.spawn-=dt;if(TP.spawn<=0&&TP.count+TP.items.length<3){TP.items.push({kind:'coin',x:[130,210,300][(TP.count+TP.items.length)%3],p:0,got:false});TP.spawn=.9}
+  for(const c of TP.items){if(c.got)continue;c.p+=dt*.9;if(c.p>=.9&&Math.abs(c.x-x)<40){c.got=true;TP.count++}}
+  TP.items=TP.items.filter(c=>!c.got&&c.p<1.2);if(TP.count>=3){TP.done=true;TP.msg='All coins!'}}
+ if(st===6&&!TP.done&&TP.t>2.6){TP.done=true;TP.msg='Now you know the tunnel!'}}
+function tutDraw(st){ctx.save();ctx.beginPath();ctx.rect(47,150,326,255);ctx.clip();drawBackdrop(st===6?'mountain':st%2===0?'city':'blue');
+ if(st===0){fillRound(262,236,100,80,'#c89258',6,'#5b4630',2);polygon([[256,238],[312,206],[368,238]],'#8d5a2e','#5b4630',2);txt('BANK',312,289,15,'#fff9e6')}
+ if(st===1){for(const mx of [130,300]){polygon([[mx-16,382],[mx,356],[mx+16,382]],'#eebd56','#b28547',2)}}
+ if(st===2||st===3){for(const v of TP.items){const y=lerp(252,330,v.p),sc=lerp(.32,.7,v.p);policeVan(v.x,y,sc,'#f2f1e9',false);if(st===3&&TP.fire>0){line([[TP.x,300],[v.x,y-20]],'#f2a04a',2.5,.9)}}}
+ if(st===4){for(const d of TP.items){ctx.globalAlpha=.35+.5*d.p;ell(d.x,345,20+30*d.p,7+8*d.p,'#dd6055',null);ctx.globalAlpha=1;dynamiteSprite(d.x,lerp(250,345,d.p),lerp(.35,.8,d.p)*1.3,.3)}}
+ if(st===5){for(const c of TP.items){coin(c.x,lerp(398,330,c.p),8+10*(1-c.p))}}
+ if(st!==6)drawCar(TP.x,330,.7,'#f3ba41','taxi',0);
+ if(st===6){const k=(TP.t%2.0)/1.2,R=tunnelR(k);drawCar(TP.x,330,.7,'#f3ba41','taxi',0);ctx.save();ctx.beginPath();ctx.rect(-10,-10,W+20,H+20);ctx.moveTo(TP.x+R,300);ctx.arc(TP.x,300,R,0,TAU,true);ctx.fillStyle='#050505';ctx.fill('evenodd');ctx.restore();
+  if(R<120){ctx.save();ctx.filter='brightness(0)';drawCar(TP.x,330,.7,'#000','taxi',0);ctx.restore()}}
+ ctx.restore();}
+function tutorialScreen(){backgroundPaper();header('HOW TO PLAY');const n=TUT_PAGES.length,st=Math.min(tutorialStep,n-1),P=TUT_PAGES[st];
+ card(30,88,360,454);txt(P.title,210,124,st===3||st===5?16:22);
+ tutDraw(st);
+ fillRound(60,158,300,24,'#fffdf8e0',8,'#cbc2b8',1.2);txt(P.task,210,175,14,'#2b2a27');
+ if(TP.msg)fillRound(120,378,180,22,'#fffdf8e0',8,'#cbc2b8',1.2),txt(TP.msg,210,393,13,TP.done?'#3c8a3c':'#8a5a1a');
+ wrapText(P.desc,210,433,312,15);
  for(let i=0;i<n;i++)ell(147+i*21,513,5,5,i===st?'#edbd4f':'#d4cfbf',null);
  button('BACK',33,596,126,52,()=>tutorialStep=Math.max(0,tutorialStep-1),{disabled:st===0,size:18});
- button(st===n-1?'LET’S GO!':'NEXT →',173,596,213,52,()=>{beep('click');if(st===n-1){save.seenTutorial=true;persist();screen='map'}else tutorialStep++},{color:'#f9d575',size:20});
+ button(st===n-1?'LET’S GO!':'NEXT →',173,596,213,52,()=>{beep('click');if(st===n-1){save.seenTutorial=true;persist();screen='map'}else tutorialStep++},{color:'#f9d575',size:20,disabled:!TP.done});
  button('SKIP',147,676,126,45,()=>{save.seenTutorial=true;persist();screen='map'},{size:16});}
 
 const mapNodes=[[210,586],[322,555],[259,524],[119,493],[121,462],[262,430],[322,399],[207,368],[97,337],[163,306],[302,275],[297,244],[156,213],[99,182],[216,151]];
@@ -308,10 +330,10 @@ function nextWave(){let m=mission;m.enemies.length=0;if(m.wave>=6)return;m.wave+
 function xpNeeded(lv){return 60+lv*20}
 function gainXp(n){save.xp=(save.xp||0)+n;while(save.xp>=xpNeeded(save.plevel)){save.xp-=xpNeeded(save.plevel);save.plevel++;showToast('LEVEL '+save.plevel+'!',1.2)}}
 function endWave(early){let m=mission;if(m.tunnel)return;let left=early?Math.max(0,m.waveDuration-m.waveTime):0;m.enemies.length=0;
- if(left>=1){m.shots=[];const L=Math.round(left);m.tunnel={t:0,L,left:L,dur:Math.max(1.8,L/4+.5),spawnT:.25,coins:0,got:0};m.shake=save.reducedMotion?0:8;beep('tunnel');return}
+ if(left>=1){m.shots=[];const L=Math.round(left);m.tunnel={t:0,L,left:L,dur:1.2,spawnT:.1,coins:0,got:0};m.shake=save.reducedMotion?0:8;beep('tunnel');return}
  nextWave()}
-function tunnelStep(dt){const m=mission,tu=m.tunnel;tu.t+=dt;tu.left=Math.max(0,tu.L-4*tu.t);tu.spawnT-=dt;
- if(tu.spawnT<=0&&tu.t<tu.dur-1.1){tu.spawnT=.32;tu.coins++;const q=spawnPickup('coin',rnd(110,310),25);if(q){q.tunnel=true;q.duration=1.1}}
+function tunnelStep(dt){const m=mission,tu=m.tunnel;tu.t+=dt;tu.left=Math.max(0,tu.L*(1-tu.t/tu.dur));tu.spawnT-=dt;
+ if(tu.spawnT<=0&&tu.t<tu.dur-.5){tu.spawnT=.22;tu.coins++;const q=spawnPickup('coin',rnd(110,310),25);if(q){q.tunnel=true;q.duration=.6}}
  if(tu.t>=tu.dur)endTunnel()}
 function endTunnel(){const m=mission,tu=m.tunnel;const all=tu.coins>0&&tu.got>=tu.coins;m.killLoot+=tu.L*2+(all?tu.got*25:0);m.pickups.forEach(q=>{if(q.tunnel)q.tunnel=false});m.tunnelBonus={v:tu.L*2,t:0};m.tunnel=null;nextWave()}
 
@@ -380,7 +402,8 @@ function drawEnemyObj(e){let sc=perspectiveScale(e.d);ctx.save();
  else policeVan(e.x,e.y,sc,e.kind==='ambulance'?'#f1f4e3':'#f2f1e9',e.kind==='ambulance');
  ctx.restore();
  if(e.hp<e.maxHp){fillRound(e.x-35*sc,e.y-100*sc,70*sc,6,'#e4e7df',4);fillRound(e.x-35*sc,e.y-100*sc,70*sc*(e.hp/e.maxHp),6,'#6aca51',4)}}
-function drawTunnelMask(m){const tu=m.tunnel,k=clamp(tu.t/tu.dur,0,1),R=lerp(360,96,sstep(k)),cx=m.player.x,cy=ROAD.carY-44;
+function tunnelR(k){return lerp(380,92,clamp(k,0,1))}
+function drawTunnelMask(m){const tu=m.tunnel,k=clamp(tu.t/tu.dur,0,1),R=tunnelR(k),cx=m.player.x,cy=ROAD.carY-44;
  ctx.save();ctx.beginPath();ctx.rect(-10,-10,W+20,H+20);ctx.moveTo(cx+R,cy);ctx.arc(cx,cy,R,0,TAU,true);ctx.fillStyle='#050505';ctx.fill('evenodd');
  ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.strokeStyle='#fffdf0';ctx.globalAlpha=.3;ctx.lineWidth=3;ctx.stroke();ctx.restore()}
 
@@ -395,7 +418,7 @@ list.sort((a,b)=>a.d-b.d);
 for(let it of list)if(it.d<0)it.fn();
 drawCar(m.player.x,ROAD.carY-33*CAR_S,CAR_S,CARS.find(c=>c.id===save.car).color,'taxi',clamp(-m.player.vx/1200,-.22,.22));
 for(let s of m.shots)if(!s.done)drawShot(s);
-if(m.tunnel){drawTunnelMask(m);for(let q of m.pickups)if(q.tunnel&&!q.collected&&q.progress<=1.06)drawTravelingPickup(q)}if(m.tunnel){ctx.save();ctx.filter='brightness(0)';drawCar(m.player.x,ROAD.carY-33*CAR_S,CAR_S,'#000','taxi',0);ctx.restore()}drawPlayerHp(m);
+if(m.tunnel){drawTunnelMask(m);for(let q of m.pickups)if(q.tunnel&&!q.collected&&q.progress<=1.06)drawTravelingPickup(q)}if(m.tunnel&&tunnelR(m.tunnel.t/m.tunnel.dur)<120){ctx.save();ctx.filter='brightness(0)';drawCar(m.player.x,ROAD.carY-33*CAR_S,CAR_S,'#000','taxi',0);ctx.restore()}drawPlayerHp(m);
 for(let it of list)if(it.d>=0)it.fn();
 for(let v of m.particles){let t=1-v.ttl/v.life;if(v.kind==='tracer'){ctx.save();ctx.globalAlpha=1-t;line([[v.x,v.y],[lerp(v.x,v.toX,t),lerp(v.y,v.toY,t)]],'#f3bd5b',2.6);ctx.restore()}else if(v.kind==='muzzle'){ell(v.x,v.y,6*(1-t),5*(1-t),'#ffe6a1',null)}else if(v.kind==='hit'){if(v.amount==='MISS')cloud(v.x,v.y,.65,'#fffdf7','#aea99b',1-t);else txt(v.amount,v.x,v.y-20*t,12+t*8,v.critical?'#d06b40':'#3e3c37')}else if(v.kind==='blast'){ctx.save();ctx.globalAlpha=1-t;ell(v.x,v.y+3,20+t*61,9+t*22,'#f2ad5d44','#d37357',2.5);cloud(v.x,v.y-25*t,.22+t*1.45,'#fff7e9','#ba9985',.85*(1-t));for(let i=0;i<7;i++){let a=i*TAU/7;ell(v.x+Math.cos(a)*(15+75*t),v.y-17*t+Math.sin(a)*20*t,3+4*(1-t),3,'#e17e5c',null)}ctx.restore()}else if(v.kind==='burst'){cloud(v.x,v.y,0.4+t*1.9,'#fffdfa','#9c9790',1-t);for(let i=0;i<5;i++)line([[v.x+Math.cos(i*TAU/5)*20*t,v.y+Math.sin(i*TAU/5)*18*t],[v.x+Math.cos(i*TAU/5)*60*t,v.y+Math.sin(i*TAU/5)*48*t]],'#8b8880',1.7,1-t)}else if(v.kind==='coin'){coin(v.x,v.y,7*(1-t)+2)}else if(v.kind==='hurt'){cloud(v.x,v.y,.5+t,'#f2c4b4','#de7659',1-t)}}
 if(m.weaponBuff>0){txt((m.bonusWeapon||'').toUpperCase()+' BOOST!',m.player.x,242,15,'#be7736')}
@@ -411,8 +434,8 @@ function drawPopup(){if(!popup)return;ctx.fillStyle='#2524209e';ctx.fillRect(0,0
 function resize(){DPR=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);ctx.imageSmoothingEnabled=true}
 function pos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
 function hitRegion(x,y){for(let i=regions.length-1;i>=0;i--){let r=regions[i];if(x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h)return r}return null}
-canvas.addEventListener('pointerdown',e=>{e.preventDefault();try{canvas.setPointerCapture(e.pointerId)}catch(_){}const v=pos(e),ui=!!hitRegion(v.x,v.y);pointer={id:e.pointerId,x:v.x,y:v.y,startX:v.x,startY:v.y,ui,moved:false};if(screen==='game'&&!ui){mission.auto=false;mission.player.target=clamp(v.x,64,356)}},{passive:false});
-canvas.addEventListener('pointermove',e=>{if(!pointer||pointer.id!==e.pointerId)return;e.preventDefault();const v=pos(e);if(Math.abs(v.x-pointer.startX)>9||Math.abs(v.y-pointer.startY)>9)pointer.moved=true;pointer.x=v.x;pointer.y=v.y;if(screen==='game'&&!pointer.ui&&!popup)mission.player.target=clamp(v.x,64,356)},{passive:false});
+canvas.addEventListener('pointerdown',e=>{e.preventDefault();try{canvas.setPointerCapture(e.pointerId)}catch(_){}const v=pos(e),ui=!!hitRegion(v.x,v.y);pointer={id:e.pointerId,x:v.x,y:v.y,startX:v.x,startY:v.y,ui,moved:false};if(screen==='tutorial'&&!ui)TP.target=clamp(v.x,80,340);if(screen==='game'&&!ui){mission.auto=false;mission.player.target=clamp(v.x,64,356)}},{passive:false});
+canvas.addEventListener('pointermove',e=>{if(!pointer||pointer.id!==e.pointerId)return;e.preventDefault();const v=pos(e);if(Math.abs(v.x-pointer.startX)>9||Math.abs(v.y-pointer.startY)>9)pointer.moved=true;pointer.x=v.x;pointer.y=v.y;if(screen==='game'&&!pointer.ui&&!popup)mission.player.target=clamp(v.x,64,356);if(screen==='tutorial'&&!pointer.ui)TP.target=clamp(v.x,80,340)},{passive:false});
 function release(e){if(!pointer||pointer.id!==e.pointerId)return;const v=pos(e),p=pointer;pointer=null;if(p.ui&&!p.moved){const r=hitRegion(p.startX,p.startY);if(r&&v.x>=r.x-9&&v.x<=r.x+r.w+9&&v.y>=r.y-9&&v.y<=r.y+r.h+9){r.fn();beep('click')}}}
 canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',e=>{pointer=null});
 window.addEventListener('keydown',e=>{if(['ArrowRight','ArrowLeft','Space'].includes(e.code))e.preventDefault();keys[e.code]=true;if(e.repeat)return;if(e.code==='KeyP'||e.code==='Escape'){if(screen==='game'){screen='pause';paused=true;}else if(screen==='pause'){screen='game';paused=false;}}if(e.code==='KeyM'){save.sound=!save.sound;persist();showToast(save.sound?'Sound on':'Sound off')}if(e.code==='Enter'&&screen==='home'){screen=save.seenTutorial?'map':'tutorial'}});
@@ -420,11 +443,11 @@ window.addEventListener('keyup',e=>{keys[e.code]=false});window.addEventListener
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&screen==='game'){screen='pause';paused=true}last=performance.now()});
 function frame(now){let dt=Math.min((now-last)/1000,.042);last=now;clock+=dt;accum+=dt;while(accum>=1/60){updateMission(1/60);accum-=1/60}
 if(spin?.active&&screen==='roulette'){let u=clamp((clock-spin.start)/spin.duration,0,1);spin.angle=lerp(spin.from,spin.to,1-Math.pow(1-u,5));if(u>=1){spin.active=false;awardSpin();}}
-regions=[];ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);switch(screen){case'home':homeScreen();break;case'tutorial':tutorialScreen();break;case'map':drawMap();break;case'garage':garageScreen();break;case'shop':shopScreen();break;case'roulette':rouletteScreen();break;case'game':drawGame();break;case'pause':pauseScreen();break;case'defeat':defeatScreen();break;case'results':resultsScreen();break;case'settings':settingsScreen();break;default:screen='home';homeScreen()}
+if(screen==='tutorial')tutorialUpdate(dt);regions=[];ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);switch(screen){case'home':homeScreen();break;case'tutorial':tutorialScreen();break;case'map':drawMap();break;case'garage':garageScreen();break;case'shop':shopScreen();break;case'roulette':rouletteScreen();break;case'game':drawGame();break;case'pause':pauseScreen();break;case'defeat':defeatScreen();break;case'results':resultsScreen();break;case'settings':settingsScreen();break;default:screen='home';homeScreen()}
 if(popup)drawPopup();if(toastUntil&&performance.now()>toastUntil){document.getElementById('toast').classList.remove('visible');toastUntil=0}requestAnimationFrame(frame)}
 if(location.search.includes('debug=1'))window.KittenTaxiQA={
  state:()=>({screen,wave:mission?.wave,seconds:mission?.seconds,health:mission?.player.hp,coins:save.coins,weaponBuff:mission?.weaponBuff,bonusWeapon:mission?.bonusWeapon,itemsCollected:mission?.itemsCollected,bombsDodged:mission?.bombsDodged,shots:mission?.shots.map(q=>({kind:q.kind,progress:q.age/q.fly,x:q.xl,exploded:q.exploded})),pickups:mission?.pickups.map(q=>({kind:q.kind,progress:q.progress,x:q.x})),enemies:mission?.enemies.filter(e=>!e.dead).map(e=>({kind:e.kind,d:+e.d.toFixed(3),lane:Math.round(e.lane),hp:Math.round(e.hp)})),tally:mission?.tally?{left:+mission.tally.left.toFixed(1),bonus:mission.tally.bonus}:null,quota:mission?.quota,spawned:mission?.spawned,px:mission?Math.round(mission.player.x):null,tunnel:mission?.tunnel?{left:+mission.tunnel.left.toFixed(1),got:mission.tunnel.got,coins:mission.tunnel.coins}:null}),
- start:(i=0)=>startMission(i), wave:()=>nextWave(), win:()=>missionVictory(),
+ start:(i=0)=>startMission(i), wave:()=>nextWave(), win:()=>missionVictory(), tut:(i)=>{screen='tutorial';tutorialStep=i},tutState:()=>({page:TP.page,done:TP.done,msg:TP.msg}),
  setPlayer:(x)=>{mission.auto=false;mission.player.x=clamp(x,64,356);mission.player.target=mission.player.x},
  throw:(kind='dynamite',x=210)=>{throwFromEnemy({lane:x,d:-.2},kind);return mission.shots[mission.shots.length-1]},
  pickup:(kind='crate',x=210)=>spawnPickup(kind,x,10,x),
