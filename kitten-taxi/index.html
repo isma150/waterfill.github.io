@@ -194,18 +194,31 @@ drawCar(211,391,1.20,'#f2bf4f');kitty(329,379,.85,'#f3d5ac');
 card(49,520,322,59,'#fffef9');txt('Rob the banks. Escape the cops!',210,544,18);txt('Steer • Dodge • Auto-shoot',210,566,14,'#797068');
 button('PLAY ▶',74,603,272,60,()=>{screen=save.seenTutorial?'map':'tutorial';tutorialStep=0;beep('click')},{color:'#f8d36d',size:29});
 button('HOW TO PLAY',125,672,170,44,()=>{screen='tutorial';tutorialStep=0},{size:15});txt('HTML5 · Depth & thrown items edition',210,729,11,'#8c847b');}
-function tutorialScreen(){backgroundPaper();header('HOW TO PLAY');const instructions=[['1 / 4  DRIVE','Touch and drag LEFT or RIGHT to steer your getaway taxi. You can also use A/D or arrow keys.'],['2 / 4  ATTACK','Your cats FIRE AUTOMATICALLY when a police car is within shooting range. Stay near it, but not too close!'],['3 / 4  SURVIVE','Cops overtake from behind and THROW DYNAMITE forward in an ARC! Dodge the red landing zone. Crates and coins come up the road: line up with them before they reach you!'],['4 / 4  ESCAPE','Clear five police waves and defeat the armored BOSS on wave 6. Upgrade the taxi with your loot.']];
-card(30,88,360,454);txt(instructions[tutorialStep][0],210,124,22);
-ctx.save();ctx.beginPath();ctx.rect(47,150,326,255);ctx.clip();drawBackdrop(tutorialStep%2===0?'city':'blue');ctx.restore(); // backdrop illustration clipped
-// Inset illustration, restyled over clipped vignette.
-fillRound(48,149,324,256,'#ffffff04',7,'#cbc2b8',2);
-if(tutorialStep===0){drawCar(201,320,.62,'#f3ba41');line([[152,380],[100,380]],'#eebd56',5);line([[249,380],[301,380]],'#eebd56',5);txt('◀',83,379,28);txt('▶',324,379,28)}
-if(tutorialStep===1){drawCar(148,324,.58,'#f4b940');carEnemy(284,330,.58,'police','#eeeeea');for(let i=0;i<4;i++){ell(190+i*16,320-i*2,3,3,'#eaa83a',null);line([[188+i*16,323],[192+i*16,325]],'#b28547',1)}}
-if(tutorialStep===2){drawCar(208,318,.58);coin(85,317,17);gem(317,308,17);polygon([[304,366],[315,346],[326,366]],'#e66a50');txt('!',315,360,15,'#fff');}
-if(tutorialStep===3){bossVan(210,310,.77);fillRound(120,179,180,11,'#ddddce',6);fillRound(120,179,129,11,'#74c65a',6);txt('BOSS',210,195,17)}
-wrapText(instructions[tutorialStep][1],210,433,312,15);for(let i=0;i<4;i++)ell(179+i*21,513,5,5,i===tutorialStep?'#edbd4f':'#d4cfbf',null);
-button('BACK',33,596,126,52,()=>tutorialStep=Math.max(0,tutorialStep-1),{disabled:tutorialStep===0,size:18});button(tutorialStep===3?'LET’S GO!':'NEXT →',173,596,213,52,()=>{beep('click');if(tutorialStep===3){save.seenTutorial=true;persist();screen='map'}else tutorialStep++},{color:'#f9d575',size:20});
-button('SKIP',147,676,126,45,()=>{save.seenTutorial=true;persist();screen='map'},{size:16});}
+function tutorialScreen(){backgroundPaper();header('HOW TO PLAY');const T=[
+ ['Bank robber','Rob the bank and escape the police.'],
+ ['Drive!','Drag left or right to steer. AUTO drives for you; touch the screen to take over.'],
+ ['Police','Police cars chase you from behind and pull up beside the taxi.'],
+ ['Auto attack when you go near an enemy','Your cats fire by themselves when a police car is right next to you. Bump into them!'],
+ ['Dodge!','Police throw dynamite. Watch the red warning on the road and move away before it lands.'],
+ ['get a weapons  ·  get a Coin','Crates give you a temporary weapon. Drive over coins to collect them.'],
+ ['Tunnel','After a wave with time left you drive into a tunnel. Collect all its coins for double coins. Nothing can hit you inside.']];
+ const n=T.length,st=Math.min(tutorialStep,n-1);
+ card(30,88,360,454);txt(T[st][0],210,124,st===3||st===5?17:22);
+ ctx.save();ctx.beginPath();ctx.rect(47,150,326,255);ctx.clip();drawBackdrop(st===6?'mountain':st%2===0?'city':'blue');ctx.restore();
+ fillRound(48,149,324,256,'#ffffff04',7,'#cbc2b8',2);
+ if(st===0){drawCar(140,322,.7,'#f3ba41');fillRound(232,236,110,86,'#c89258',6,'#5b4630',2);polygon([[226,238],[287,206],[348,238]],'#8d5a2e','#5b4630',2);txt('BANK',287,289,15,'#fff9e6')}
+ if(st===1){drawCar(210,322,.7,'#f4b940');polygon([[118,380],[150,362],[150,398]],'#eebd56','#b28547',2);polygon([[302,380],[270,362],[270,398]],'#eebd56','#b28547',2)}
+ if(st===2){drawCar(140,322,.7,'#f3ba41');policeVan(292,326,.8,'#f2f1e9',false)}
+ if(st===3){drawCar(150,322,.7,'#f3ba41');policeVan(278,326,.8,'#f2f1e9',false);drawLock({x:278,y:326,scale:.8})}
+ if(st===4){drawCar(210,334,.7,'#f3ba41');polygon([[246,392],[266,358],[286,392]],'#e0584b','#8e2c25',2);txt('!',266,384,16,'#fff');dynamiteSprite(256,300,1.4,.2)}
+ if(st===5){supplyCrate(140,335,1.1);coin(270,320,16);coin(318,292,11)}
+ if(st===6){ctx.fillStyle='#070707';ctx.fillRect(47,150,326,255);ctx.fillStyle='#e6f6fc';ctx.beginPath();ctx.ellipse(210,300,130,88,0,Math.PI,TAU);ctx.fill();drawCar(210,330,.7,'#1b1b1b','taxi',0)}
+ wrapText(T[st][1],210,433,312,15);
+ for(let i=0;i<n;i++)ell(147+i*21,513,5,5,i===st?'#edbd4f':'#d4cfbf',null);
+ button('BACK',33,596,126,52,()=>tutorialStep=Math.max(0,tutorialStep-1),{disabled:st===0,size:18});
+ button(st===n-1?'LET’S GO!':'NEXT →',173,596,213,52,()=>{beep('click');if(st===n-1){save.seenTutorial=true;persist();screen='map'}else tutorialStep++},{color:'#f9d575',size:20});
+ button('SKIP',147,676,126,45,()=>{save.seenTutorial=true;persist();screen='map'},{size:16});}
+
 const mapNodes=[[210,586],[322,555],[259,524],[119,493],[121,462],[262,430],[322,399],[207,368],[97,337],[163,306],[302,275],[297,244],[156,213],[99,182],[216,151]];
 function drawMap(){ctx.save();ctx.fillStyle='#f3ead2';ctx.fillRect(0,0,W,H);
 for(let i=0;i<40;i++){let x=((i*97)%430)-10,y=((i*151)%700)+18,w=34+(i%4)*12,h=26+(i%3)*10;ctx.fillStyle=i%2?'#e7d9b5':'#ebdfc0';ctx.fillRect(x,y,w,h);ctx.strokeStyle='#d7c79f';ctx.lineWidth=1;ctx.strokeRect(x+.5,y+.5,w,h)}
@@ -277,7 +290,7 @@ function enemySpawn(isBoss=false){if(!mission)return;let m=mission,b=m.bank;
  let from=isBoss?lane:210+rnd(-35,35);
  let e={id:rnd(10000,99000),kind,lane:from,laneFrom:from,laneTo:lane,laneT:0,laneDur:.9,dodge:0,dodgeCd:rnd(.6,1.2),d:-.45,vd:isBoss?.1:rnd(.32,.42),hoverD:isBoss?-.05:rnd(-.09,-.04),x:210,y:groundY(-.45),scale:perspectiveScale(-.45),hp,maxHp:hp,age:0,tint:isBoss?b.boss:'',fire:rnd(1.2,2.4),dead:false};
  m.enemies.push(e);if(!isBoss)m.spawned++;if(isBoss){m.bossSpawned=true;m.waveBanner=2;beep('boom')};return e}
-function damagePlayer(n,atX){let m=mission;if(!m||screen!=='game'||m.player.inv>0)return;n=n*(1-Math.min(.4,(m.shields||0)*.08));m.player.hp=clamp(m.player.hp-n,0,m.player.maxHp);m.damageTaken+=n;m.player.inv=.8;m.flash=.33;m.shake=save.reducedMotion?0:7;m.particles.push({kind:'hurt',x:atX||m.player.x,y:357,ttl:.42,life:.42});beep('hit');if(m.player.hp<=0){screen='defeat';paused=true;stopMusic();}}
+function damagePlayer(n,atX){let m=mission;if(!m||screen!=='game'||m.player.inv>0||m.tunnel)return;n=n*(1-Math.min(.4,(m.shields||0)*.08));m.player.hp=clamp(m.player.hp-n,0,m.player.maxHp);m.damageTaken+=n;m.player.inv=.8;m.flash=.33;m.shake=save.reducedMotion?0:7;m.particles.push({kind:'hurt',x:atX||m.player.x,y:357,ttl:.42,life:.42});beep('hit');if(m.player.hp<=0){screen='defeat';paused=true;stopMusic();}}
 function hurtEnemy(e,d,critical=false){let m=mission;if(!m||e.dead)return;e.hp=Math.max(0,e.hp-d);m.particles.push({kind:'hit',x:e.x+rnd(-17,17),y:e.y-24+rnd(-18,18),ttl:.36,life:.36,amount:Math.round(d),critical});if(e.hp===0){e.dead=true;let reward=e.kind==='boss'?110+m.level*42:23+m.level*7+m.wave*3;if(save.owned.luckyPet)reward=Math.round(reward*1.2);m.killLoot+=reward;m.score+=1;gainXp(e.kind==='boss'?30:4);m.particles.push({kind:'burst',x:e.x,y:e.y-8,ttl:.85,life:.85});m.shake=save.reducedMotion?0:e.kind==='boss'?9:4;for(let j=0;j<5;j++)m.particles.push({kind:'coin',x:e.x,y:e.y-25,dx:rnd(-90,90),dy:rnd(-90,-20),ttl:rnd(.5,1.2),life:1});beep('boom');if(Math.random()<.26&&!e.kind.includes('boss'))spawnPickup('coin',clamp(e.x+rnd(-32,32),60,365),50,e.x);if(e.kind==='boss'){missionVictory();}}}
 function shootAt(e){mission.fired=(mission.fired||0)+1;const m=mission,w=WEAPONS.find(v=>v.id===(m.weaponBuff>0&&m.bonusWeapon?m.bonusWeapon:save.weapon)),lv=save.upgrades[w.id]||0,dmg=w.base*(1+.36*lv)*(m.weaponBuff>0?1.4:1);m.particles.push({kind:'tracer',x:m.player.x,y:317,toX:e.x,toY:e.y-30,ttl:.15,life:.15});m.particles.push({kind:'muzzle',x:m.player.x+12,y:282,ttl:.12,life:.12});if(w.id==='bomb'){m.enemies.forEach(o=>{if(!o.dead&&Math.abs(o.x-e.x)<75)hurtEnemy(o,dmg)});m.particles.push({kind:'burst',x:e.x,y:e.y-27,ttl:.34,life:.34})}else if(w.id==='shot'){hurtEnemy(e,dmg*2.2);for(let i=0;i<3;i++)m.particles.push({kind:'tracer',x:m.player.x+rnd(-8,8),y:315,toX:e.x+rnd(-24,24),toY:e.y-25+rnd(-18,18),ttl:.14,life:.14})}else hurtEnemy(e,dmg);if(clock-fxClock>.1){fxClock=clock;beep('shoot')}}
 function spawnPickup(kind,x,amount=0,originX=210){if(!mission)return null;kind=kind==='weapon'?'crate':kind;
@@ -295,7 +308,7 @@ function nextWave(){let m=mission;m.enemies.length=0;if(m.wave>=6)return;m.wave+
 function xpNeeded(lv){return 60+lv*20}
 function gainXp(n){save.xp=(save.xp||0)+n;while(save.xp>=xpNeeded(save.plevel)){save.xp-=xpNeeded(save.plevel);save.plevel++;showToast('LEVEL '+save.plevel+'!',1.2)}}
 function endWave(early){let m=mission;if(m.tunnel)return;let left=early?Math.max(0,m.waveDuration-m.waveTime):0;m.enemies.length=0;
- if(left>=1){const L=Math.round(left);m.tunnel={t:0,L,left:L,dur:Math.max(1.8,L/4+.5),spawnT:.25,coins:0,got:0};m.shake=save.reducedMotion?0:8;beep('tunnel');return}
+ if(left>=1){m.shots=[];const L=Math.round(left);m.tunnel={t:0,L,left:L,dur:Math.max(1.8,L/4+.5),spawnT:.25,coins:0,got:0};m.shake=save.reducedMotion?0:8;beep('tunnel');return}
  nextWave()}
 function tunnelStep(dt){const m=mission,tu=m.tunnel;tu.t+=dt;tu.left=Math.max(0,tu.L-4*tu.t);tu.spawnT-=dt;
  if(tu.spawnT<=0&&tu.t<tu.dur-1.1){tu.spawnT=.32;tu.coins++;const q=spawnPickup('coin',rnd(110,310),25);if(q){q.tunnel=true;q.duration=1.1}}
@@ -303,22 +316,9 @@ function tunnelStep(dt){const m=mission,tu=m.tunnel;tu.t+=dt;tu.left=Math.max(0,
 function endTunnel(){const m=mission,tu=m.tunnel;const all=tu.coins>0&&tu.got>=tu.coins;m.killLoot+=tu.L*2+(all?tu.got*25:0);m.pickups.forEach(q=>{if(q.tunnel)q.tunnel=false});m.tunnelBonus={v:tu.L*2,t:0};m.tunnel=null;nextWave()}
 
 function missionVictory(){let m=mission;if(!m||m.resultSaved)return;m.resultSaved=true;m.perfect=m.damageTaken===0?Math.round((m.bankLoot+m.killLoot)*.15):0;let reward=m.bankLoot+m.killLoot+m.perfect;if(!save.ledger.includes(m.id)){save.ledger.push(m.id);save.ledger=save.ledger.slice(-40);save.coins+=reward;save.clears[m.bankIdx]=(save.clears[m.bankIdx]||0)+1;save.banks=save.banks||{};save.banks[m.bankIdx]={balance:Math.max(0,m.bank.balance-m.bankLoot),level:Math.min(BANKS.length,m.bank.level+1)};save.unlocked=Math.min(BANKS.length-1,Math.max(save.unlocked,m.bankIdx+1));save.selectedBank=Math.min(BANKS.length-1,Math.max(save.selectedBank,m.bankIdx+1));if(m.bankIdx===0&&save.gems<10)save.gems=10;persist()}screen='results';paused=false;beep('coin');stopMusic()}
-const TUT=[
- {id:'robber',text:'Bank robber',when:m=>m.seconds>0,dur:2.4},
- {id:'drive',text:'Arrastra a izquierda o derecha para conducir',when:m=>m.seconds>.8,done:m=>!!m.moved,dur:7,arrows:true},
- {id:'attack',text:'Tus gatos disparan solos cuando un enemigo está pegado al taxi',when:m=>m.enemies.some(e=>!e.dead&&e.d>-.3&&Math.abs(e.lane-m.player.x)<CONTACT.lat*1.8),done:m=>(m.fired||0)>0,dur:7},
- {id:'dodge',text:'Esquiva la dinamita: fíjate en el aviso rojo del suelo',when:m=>m.shots.some(q=>!q.done&&!q.exploded&&q.kind==='dynamite'),done:m=>m.bombsDodged>0,dur:6},
- {id:'weapon',text:'Recoge la caja: te da un arma extra',when:m=>m.pickups.some(q=>!q.collected&&q.kind==='crate'),done:m=>(m.crateGot||0)>0,dur:7},
- {id:'coin',text:'Recoge las monedas: son tu dinero',when:m=>m.pickups.some(q=>!q.collected&&q.kind==='coin'&&!q.tunnel),done:m=>(m.coinGot||0)>0,dur:6},
- {id:'good',text:'¡Arma extra activa! Dispara más rápido',when:m=>m.weaponBuff>0,dur:3.5},
- {id:'tunnel',text:'Túnel: si recoges todas sus monedas, ganas el doble',when:m=>!!m.tunnel,dur:3.2}
-];
-function tutorialCheck(m){if(save.tutGame||m.bankIdx!==0||m.bubble)return;const seen=save.tutSeen||(save.tutSeen={});
- const i=TUT.findIndex(st=>!seen[st.id]);if(i<0){save.tutGame=true;persist();return}
- const st=TUT[i];if(!st.when(m))return;seen[st.id]=true;m.bubble={text:st.text,t:0,dur:st.dur,done:st.done||null,arrows:!!st.arrows,n:i+1,of:TUT.length};persist()}
+
 function updateMission(dt){let m=mission;if(!m||screen!=='game'||paused||popup)return;let p=m.player;
- if(m.bubble){m.bubble.t+=dt;const ok=m.bubble.done&&m.bubble.done(m);if(m.bubble.t>=m.bubble.dur||ok)m.bubble=null;else dt*=.5}
- tutorialCheck(m);if(m.tunnel)tunnelStep(dt);if(m.tunnelBonus){m.tunnelBonus.t+=dt;if(m.tunnelBonus.t>1.6)m.tunnelBonus=null}m.seconds+=dt;m.waveTime+=dt;m.waveBanner=Math.max(0,m.waveBanner-dt);m.flash=Math.max(0,m.flash-dt);m.shake=Math.max(0,m.shake-dt*14);p.inv=Math.max(0,p.inv-dt);m.weaponBuff=Math.max(0,m.weaponBuff-dt);
+ if(m.tunnel)tunnelStep(dt);if(m.tunnelBonus){m.tunnelBonus.t+=dt;if(m.tunnelBonus.t>1.6)m.tunnelBonus=null}m.seconds+=dt;m.waveTime+=dt;m.waveBanner=Math.max(0,m.waveBanner-dt);m.flash=Math.max(0,m.flash-dt);m.shake=Math.max(0,m.shake-dt*14);p.inv=Math.max(0,p.inv-dt);m.weaponBuff=Math.max(0,m.weaponBuff-dt);
 let k=keys.ArrowLeft||keys.KeyA?-1:keys.ArrowRight||keys.KeyD?1:0;if(k||pointer)m.moved=true;
 if(k){m.auto=false;p.target=clamp(p.target+k*dt*330,64,356)}
 if(m.auto){const danger=m.shots.filter(s=>!s.exploded&&!s.done&&Math.abs(s.xl-p.x)<68&&shotPose(s).d>ROAD.hitD&&shotPose(s).d<.75).sort((a,b)=>shotPose(a).d-shotPose(b).d)[0];
@@ -380,17 +380,10 @@ function drawEnemyObj(e){let sc=perspectiveScale(e.d);ctx.save();
  else policeVan(e.x,e.y,sc,e.kind==='ambulance'?'#f1f4e3':'#f2f1e9',e.kind==='ambulance');
  ctx.restore();
  if(e.hp<e.maxHp){fillRound(e.x-35*sc,e.y-100*sc,70*sc,6,'#e4e7df',4);fillRound(e.x-35*sc,e.y-100*sc,70*sc*(e.hp/e.maxHp),6,'#6aca51',4)}}
-function drawTunnelCeiling(m){const tu=m.tunnel,inn=Math.min(1,tu.t/.5),out=Math.min(1,(tu.dur-tu.t)/.4),low=lerp(-70,250,sstep(Math.min(inn,out))),px=m.player.x;
- ctx.save();let g=ctx.createRadialGradient(210,ROAD.horizon,0,210,ROAD.horizon,70);g.addColorStop(0,'#ffffffdd');g.addColorStop(1,'#ffffff00');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
- ctx.beginPath();ctx.moveTo(-10,-10);ctx.lineTo(430,-10);for(let x=430;x>=-10;x-=40){ctx.lineTo(x,low+40*(1-Math.pow((x-210)/230,2)))}ctx.closePath();ctx.fillStyle='#0d0d10';ctx.fill();
- const a=clamp((low-190)/90,0,.55);ctx.globalAlpha=a;ctx.fillStyle='#000';ctx.fillRect(px-75,200,150,150);ctx.globalAlpha=1;
- ctx.beginPath();for(let x=430;x>=-10;x-=40){const y=low+40*(1-Math.pow((x-210)/230,2));x===430?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.strokeStyle='#3a3b42';ctx.lineWidth=4;ctx.stroke();
- ctx.restore()}
-function drawBubble(b){const w=380,x=210-w/2,y=146,h=48;
- ctx.save();ctx.globalAlpha=Math.min(1,b.t*5);fillRound(x+2,y+3,w,h,'#39363125',14);fillRound(x,y,w,h,'#fffdf8',14,'#5b574f',2);
- txt(b.text,210,y+h/2+6,b.text.length>44?15:17,'#2b2a27');txt(`${b.n}/${b.of}`,x+w-16,y+13,11,'#8a847a');
- if(b.arrows){ctx.fillStyle='#2b2a27';polygon([[118,y+h+22],[138,y+h+13],[138,y+h+31]],'#2b2a27',null);polygon([[302,y+h+22],[282,y+h+13],[282,y+h+31]],'#2b2a27',null)}
- ctx.restore()}
+function drawTunnelMask(m){const tu=m.tunnel,k=clamp(tu.t/tu.dur,0,1),R=lerp(360,96,sstep(k)),cx=m.player.x,cy=ROAD.carY-44;
+ ctx.save();ctx.beginPath();ctx.rect(-10,-10,W+20,H+20);ctx.moveTo(cx+R,cy);ctx.arc(cx,cy,R,0,TAU,true);ctx.fillStyle='#050505';ctx.fill('evenodd');
+ ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.strokeStyle='#fffdf0';ctx.globalAlpha=.3;ctx.lineWidth=3;ctx.stroke();ctx.restore()}
+
 function drawTunnelBonus(b){const a=b.t<1.2?1:Math.max(0,1-(b.t-1.2)/.4);ctx.save();ctx.globalAlpha=a;txt(`${b.v/2} x2 Bonus`,210,130,26,'#f5f5ef');ctx.restore()}
 function drawGame(){let m=mission;if(!m){screen='map';return}ctx.save();if(m.shake>0){ctx.translate(rnd(-m.shake,m.shake),rnd(-m.shake*.38,m.shake*.38))}drawBackdrop(m.theme,true);
 // Lo que está detrás del coche se dibuja antes; lo de delante, después.
@@ -402,12 +395,12 @@ list.sort((a,b)=>a.d-b.d);
 for(let it of list)if(it.d<0)it.fn();
 drawCar(m.player.x,ROAD.carY-33*CAR_S,CAR_S,CARS.find(c=>c.id===save.car).color,'taxi',clamp(-m.player.vx/1200,-.22,.22));
 for(let s of m.shots)if(!s.done)drawShot(s);
-if(m.tunnel){drawTunnelCeiling(m);for(let q of m.pickups)if(q.tunnel&&!q.collected&&q.progress<=1.06)drawTravelingPickup(q)}drawPlayerHp(m);
+if(m.tunnel){drawTunnelMask(m);for(let q of m.pickups)if(q.tunnel&&!q.collected&&q.progress<=1.06)drawTravelingPickup(q)}if(m.tunnel){ctx.save();ctx.filter='brightness(0)';drawCar(m.player.x,ROAD.carY-33*CAR_S,CAR_S,'#000','taxi',0);ctx.restore()}drawPlayerHp(m);
 for(let it of list)if(it.d>=0)it.fn();
 for(let v of m.particles){let t=1-v.ttl/v.life;if(v.kind==='tracer'){ctx.save();ctx.globalAlpha=1-t;line([[v.x,v.y],[lerp(v.x,v.toX,t),lerp(v.y,v.toY,t)]],'#f3bd5b',2.6);ctx.restore()}else if(v.kind==='muzzle'){ell(v.x,v.y,6*(1-t),5*(1-t),'#ffe6a1',null)}else if(v.kind==='hit'){if(v.amount==='MISS')cloud(v.x,v.y,.65,'#fffdf7','#aea99b',1-t);else txt(v.amount,v.x,v.y-20*t,12+t*8,v.critical?'#d06b40':'#3e3c37')}else if(v.kind==='blast'){ctx.save();ctx.globalAlpha=1-t;ell(v.x,v.y+3,20+t*61,9+t*22,'#f2ad5d44','#d37357',2.5);cloud(v.x,v.y-25*t,.22+t*1.45,'#fff7e9','#ba9985',.85*(1-t));for(let i=0;i<7;i++){let a=i*TAU/7;ell(v.x+Math.cos(a)*(15+75*t),v.y-17*t+Math.sin(a)*20*t,3+4*(1-t),3,'#e17e5c',null)}ctx.restore()}else if(v.kind==='burst'){cloud(v.x,v.y,0.4+t*1.9,'#fffdfa','#9c9790',1-t);for(let i=0;i<5;i++)line([[v.x+Math.cos(i*TAU/5)*20*t,v.y+Math.sin(i*TAU/5)*18*t],[v.x+Math.cos(i*TAU/5)*60*t,v.y+Math.sin(i*TAU/5)*48*t]],'#8b8880',1.7,1-t)}else if(v.kind==='coin'){coin(v.x,v.y,7*(1-t)+2)}else if(v.kind==='hurt'){cloud(v.x,v.y,.5+t,'#f2c4b4','#de7659',1-t)}}
 if(m.weaponBuff>0){txt((m.bonusWeapon||'').toUpperCase()+' BOOST!',m.player.x,242,15,'#be7736')}
 if(m.flash>0){ctx.save();ctx.globalAlpha=m.flash*.22;ctx.fillStyle='#f5a09c';ctx.fillRect(0,0,W,H);ctx.restore()}
-drawHUD(m);if(m.tunnelBonus)drawTunnelBonus(m.tunnelBonus);if(m.bubble)drawBubble(m.bubble);ctx.restore()}
+drawHUD(m);if(m.tunnelBonus)drawTunnelBonus(m.tunnelBonus);ctx.restore()}
 function defeatScreen(){drawGame();ctx.fillStyle='#27292895';ctx.fillRect(0,0,W,H);card(38,268,344,237,'#fffdf7');txt('OUT OF HEALTH!',210,301,26,'#bc5c55');txt('The police caught your taxi!',210,340,16);button(`◆ 1    CONTINUE`,73,374,274,52,()=>{if(save.gems<1)return showToast('Not enough gems!');save.gems--;persist();mission.player.hp=Math.ceil(mission.player.maxHp*.5);mission.player.inv=2;mission.shots=[];mission.hazards=[];paused=false;screen='game';beep('coin')},{color:'#b9f2f2',size:19});button('GIVE UP',109,445,202,46,()=>{screen='map';paused=false;mission=null},{size:20});}
 function pauseScreen(){drawGame();ctx.fillStyle='#2429259c';ctx.fillRect(0,0,W,H);card(45,242,330,281,'#fffdf6');txt('PAUSED',210,283,29);txt(`Wave ${mission.wave} / 6`,210,328,18);button('RESUME ▶',80,369,262,55,()=>{paused=false;screen='game'},{color:'#f8d16d',size:22});button('QUIT TO MAP',101,446,220,46,()=>{paused=false;mission=null;screen='map'},{size:18});}
 function resultsScreen(){backgroundPaper();txt('ESCAPED!',210,62,39,'#84ad5c');drawCar(210,217,.92,CARS.find(c=>c.id===save.car).color);for(let i=0;i<14;i++){let x=(i*47.13)%W,y=140+(i*39)%200;ctx.save();ctx.translate(x,y);ctx.rotate(i*.8);fillRound(0,0,6,13,i%2?'#b6d98c':'#f8d37d',2,null);ctx.restore()}
