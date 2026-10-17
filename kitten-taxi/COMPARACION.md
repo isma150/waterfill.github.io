@@ -224,7 +224,9 @@ Decisiones que necesito de ti:
 
 ## 9. Calibración con los vídeos
 
-Recuento hecho sobre la parte 1 (muestreo de 2 fps). Los tiempos de inicio y fin son firmes (±0.5 s). Los números de enemigos son estimaciones (±1–2). La parte 2 está pendiente de recuento.
+Recuento hecho con un agente por vídeo, con muestreo de 2 fps. Los tiempos y tallies son firmes (±0.5 s). Los números de enemigos son estimaciones (±1–2 por oleada). Parte 1: niveles 1 a 3. Parte 2: niveles 4 y 5.
+
+### 9.1 Parte 1 (niveles 1 a 3)
 
 | Oleada | Tiempo (s) | Cronómetro al inicio → al terminar | Enemigos (est.) | Pantalla vacía al terminar |
 |---|---|---|---|---|
@@ -257,7 +259,7 @@ Conclusiones:
 - **Lados:** llegan de ambos lados. Se quedan junto al taxi y a veces detrás o encima de él. No se ha visto ninguno pasar a través.
 - **Esquive:** **no observado en la parte 1**. El único aviso es "Dodge!" del tutorial. Esto contradice la observación del usuario. Queda pendiente de verificar con la parte 2 y con un vistazo dirigido.
 - **Dinamita:** cae delante del taxi. Aparece un triángulo rojo de aviso antes del impacto (281, 325, 469, 685, 697, 712–714 y 728 s, con muestreo ligero). El lanzamiento no se vio.
-- **Vida del taxi:** en L1 baja 38 → 36 → 31 → 26 → 21 en cinco oleadas, unos 4 puntos por golpe, o sea, un golpe por oleada. No se puede distinguir si el choque con la furgoneta hace daño o solo la nube de la dinamita.
+- **Barra inferior izquierda (corregido):** no es la vida del taxi. Es el progreso de nivel: estrella, «N Lv» y un porcentaje. Lo confirmé en las dos partes. Las cifras 38 → 21 que leí antes eran ese porcentaje, así que **el daño del original no está calibrado**. Su vida no aparece en el HUD.
 - **Jefes:** L1 W6 (147–173 s, muere hacia 158 s), L2 W6 (355–381 s, camión azul), L3-A W6 (521–554 s, camión azul) y L3-B W6 (754–773 s o más, camión verde). Terminan en la pantalla de resultados.
 - **Sin identificar:** resplandores amarillos sobre el taxi en 121–123, 484–485, 531–535 y 764–772 s.
 
@@ -265,4 +267,40 @@ Consecuencias para la base (aplicadas):
 - Cronómetro `10 + 5·ola`.
 - Cuota por oleada `[3,4,4,3,4]`, con uno menos en nivel 1.
 - Aparición de enemigos cada 0.9–1.6 s, hasta 2 vivos en la oleada 1 y 3 después.
-- Cadencia de disparo enemiga de 4.5–6.5 s. La base disparaba cada 3–4 s, demasiado a menudo frente a un golpe por oleada del original.
+- Cadencia de disparo enemiga: vuelve a 3–4.2 s. El valor de 4.5–6.5 s que puse antes se basaba en la lectura errónea de la barra de nivel.
+
+### 9.2 Parte 2 (niveles 4 y 5)
+
+Cuatro partidas completas: A y B en nivel 4, C1 y C2 en nivel 5. Cada una con cinco oleadas y un jefe. Celda: ventana de juego en segundos · tally al terminar · enemigos estimados.
+
+| Oleada | A (nivel 4) | B (nivel 4) | C1 (nivel 5) | C2 (nivel 5) |
+|---|---|---|---|---|
+| W1 | 70–81 · 8 · ~6 | 268–282 · 5 · ~4 | 423–434 · 7 · ~7 | 581–592 · 4 · ~5 |
+| W2 | 84–103 · 5 · ~10 | 284–296 · 9 · ~8 | 438–451 · 10 · ~8 | 596–612 · 9 · ~9 |
+| W3 | 106–116 · 18 · ~4 | 299–308 · 18 · ~3 | 455–464 · 20 · ~6 | 617–627 · 15 · ~5 |
+| W4 | 121–138 · 17 · ~10 | 313–323 · 20 · ~6 | 470–483 · 20 · ~8 | 632–647 · 15 · ~9 |
+| W5 | 142–151 · 30 · ~3 | 328–340 · 24 · ~4 | 489–498 · 28 · ~5 | 652–662 · 25 · ~6 |
+| Jefe | 161–182 · muerto | 349–378 · derrota | 506–540 · muerto | 670–697 · muerto |
+
+Conclusiones:
+- **Todas las oleadas acaban al despejarse.** Quedan entre 5 y 30 s en el cronómetro y en ningún caso llega a cero.
+- **Más enemigos que en niveles 1 a 3:** la media por oleada pasa de unas 3.5 a unas 6.3. Las oleadas pares (W2 y W4) son las más pobladas, con 8 a 10 enemigos.
+- **Cronómetro:** la suma de ventana y tally da unos 18–19 s en W1 y 35–39 s en W5. Respecto al nivel 1 a 3, son unos 3 s más.
+- **Tally:** cuenta atrás de unos 4 por segundo.
+- **Jefe:** siguen llegando furgonetas normales durante la pelea. El jefe se mata con el disparo automático. No se puede contar cuántos golpes necesita.
+- **Derrota:** solo en B, en el jefe. Un destello rojo a pantalla completa marca el golpe directo (376.8, 533.0 y 601.8 s).
+- **Pausa del cronómetro:** 4.5 s congelados durante un golpe en C2 W2 (601.8–606.3 s). Solo se ha visto una vez; no está implementado.
+- **Aviso de bomba:** un «!» rojo marca el punto de impacto antes de que caiga la bomba. Las bombas se lanzan desde el costado y desde lejos.
+
+Consecuencias para la base (aplicadas):
+- Cuota por oleada: niveles 1 a 3, `[3,4,4,3,4]` (uno menos en nivel 1). Niveles 4 y 5, `[6,9,5,8,5]`. Para niveles 6 o más no hay datos; se usa la de niveles 4 y 5.
+- Cronómetro: `10 + 5·ola`, y 3 s más desde el nivel 4.
+- Tally: cuenta atrás de unos 4 por segundo.
+- Jefe: las furgonetas normales siguen llegando durante la pelea.
+
+### 9.3 Conflictos sin resolver
+
+- **«x2 Bonus»:** lo vi en la parte 1, en fotogramas de 116 a 119 s. El agente de la parte 2 no lo vio en seis momentos. El código sigue con ×2 y el multiplicador exacto está por confirmar.
+- **Esquive:** ni el agente de la parte 1 ni el de la parte 2 lo confirman. La parte 2 anota un posible cambio de lado en 4:32–4:34 de B W1, sin poder saber cuál de los dos coches se movió. El esquive se mantiene porque lo pediste, pero hay que confirmarlo en el vídeo.
+- **Vida del taxi:** no se ve en el HUD. El daño por golpe de la base es provisional.
+- **Dirección de lanzamiento:** la parte 2 confirma que las bombas caen delante del taxi. No se ha medido si el lanzamiento viene de detrás o del costado en cada caso.
