@@ -1,0 +1,5469 @@
+{
+ "name": "Event Home",
+ "events": [
+  {
+   "eventType": "comment",
+   "text": "Event Home: global variables (top level = global, as in the template) and the Home screen.",
+   "text-color": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "background-color": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "eventType": "variable",
+   "name": "screen",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 932933217591384
+  },
+  {
+   "eventType": "variable",
+   "name": "prevScreen",
+   "type": "number",
+   "initialValue": "2",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 770599387919444
+  },
+  {
+   "eventType": "variable",
+   "name": "gearTab",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 983248921247589
+  },
+  {
+   "eventType": "variable",
+   "name": "shopTab",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 172821418685434
+  },
+  {
+   "eventType": "variable",
+   "name": "selectedItem",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 306182463491212
+  },
+  {
+   "eventType": "variable",
+   "name": "popupOpen",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 329859070461524
+  },
+  {
+   "eventType": "variable",
+   "name": "popupKind",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 798254078495107
+  },
+  {
+   "eventType": "variable",
+   "name": "popupConfirm",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 154239456817339
+  },
+  {
+   "eventType": "variable",
+   "name": "paused",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 131340066732461
+  },
+  {
+   "eventType": "variable",
+   "name": "clock",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 741998492615679
+  },
+  {
+   "eventType": "variable",
+   "name": "ddt",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 797330729778811
+  },
+  {
+   "eventType": "variable",
+   "name": "needSave",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 474073552946357
+  },
+  {
+   "eventType": "variable",
+   "name": "toastUntil",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 417479903694791
+  },
+  {
+   "eventType": "variable",
+   "name": "toastOn",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 418139460908549
+  },
+  {
+   "eventType": "variable",
+   "name": "spinActive",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 268661995902369
+  },
+  {
+   "eventType": "variable",
+   "name": "spinT",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 765305129745475
+  },
+  {
+   "eventType": "variable",
+   "name": "spinTurns",
+   "type": "number",
+   "initialValue": "5",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 663380912356727
+  },
+  {
+   "eventType": "variable",
+   "name": "spinDesired",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 674299289634069
+  },
+  {
+   "eventType": "variable",
+   "name": "spinPhase",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 118187392833765
+  },
+  {
+   "eventType": "variable",
+   "name": "spinCost",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 640706681768109
+  },
+  {
+   "eventType": "variable",
+   "name": "popTitle",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 130765869238970
+  },
+  {
+   "eventType": "variable",
+   "name": "popMsg",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 212853951322061
+  },
+  {
+   "eventType": "variable",
+   "name": "popAmount",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 208027621287246
+  },
+  {
+   "eventType": "variable",
+   "name": "spinFrom",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 264847922329084
+  },
+  {
+   "eventType": "variable",
+   "name": "spinTo",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 766256579833478
+  },
+  {
+   "eventType": "variable",
+   "name": "spinAngle",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 545531344640594
+  },
+  {
+   "eventType": "variable",
+   "name": "spinOutcome",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 214649595062026
+  },
+  {
+   "eventType": "variable",
+   "name": "spinAwarded",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 630064293813400
+  },
+  {
+   "eventType": "variable",
+   "name": "selectedBankRun",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 956890672152176
+  },
+  {
+   "eventType": "variable",
+   "name": "mActive",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 985426293758195
+  },
+  {
+   "eventType": "variable",
+   "name": "mBank",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 192581185310590
+  },
+  {
+   "eventType": "variable",
+   "name": "mLevel",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 529051161284713
+  },
+  {
+   "eventType": "variable",
+   "name": "mTheme",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 449084445652903
+  },
+  {
+   "eventType": "variable",
+   "name": "mWave",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 736406963619197
+  },
+  {
+   "eventType": "variable",
+   "name": "mWaveTime",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 914981281055127
+  },
+  {
+   "eventType": "variable",
+   "name": "mWaveDur",
+   "type": "number",
+   "initialValue": "15",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 916756519601712
+  },
+  {
+   "eventType": "variable",
+   "name": "mSeconds",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 300908516790756
+  },
+  {
+   "eventType": "variable",
+   "name": "mSpawned",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 612084997088180
+  },
+  {
+   "eventType": "variable",
+   "name": "mQuota",
+   "type": "number",
+   "initialValue": "3",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 532650320748909
+  },
+  {
+   "eventType": "variable",
+   "name": "mMaxAlive",
+   "type": "number",
+   "initialValue": "2",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 247293259134630
+  },
+  {
+   "eventType": "variable",
+   "name": "mBossAdds",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 592854529748969
+  },
+  {
+   "eventType": "variable",
+   "name": "mBossSpawned",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 757370129762709
+  },
+  {
+   "eventType": "variable",
+   "name": "mSpawnTimer",
+   "type": "number",
+   "initialValue": "0.65",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 150263509633298
+  },
+  {
+   "eventType": "variable",
+   "name": "mPickupTimer",
+   "type": "number",
+   "initialValue": "3",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 775648400486358
+  },
+  {
+   "eventType": "variable",
+   "name": "mBulletTimer",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 577238468963515
+  },
+  {
+   "eventType": "variable",
+   "name": "mKillLoot",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 369306898567384
+  },
+  {
+   "eventType": "variable",
+   "name": "mBankLoot",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 944691869229246
+  },
+  {
+   "eventType": "variable",
+   "name": "mWeaponBuff",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 839093651292690
+  },
+  {
+   "eventType": "variable",
+   "name": "mBonusWeapon",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 148017887360701
+  },
+  {
+   "eventType": "variable",
+   "name": "mFlash",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 740244480628848
+  },
+  {
+   "eventType": "variable",
+   "name": "mShake",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 158993062818932
+  },
+  {
+   "eventType": "variable",
+   "name": "mWaveBanner",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 936515851471238
+  },
+  {
+   "eventType": "variable",
+   "name": "mPX",
+   "type": "number",
+   "initialValue": "210",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 767812980835471
+  },
+  {
+   "eventType": "variable",
+   "name": "mTarget",
+   "type": "number",
+   "initialValue": "210",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 215176593336802
+  },
+  {
+   "eventType": "variable",
+   "name": "mVX",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 598204414003251
+  },
+  {
+   "eventType": "variable",
+   "name": "mHP",
+   "type": "number",
+   "initialValue": "100",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 646166411317681
+  },
+  {
+   "eventType": "variable",
+   "name": "mMaxHP",
+   "type": "number",
+   "initialValue": "100",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 362653324000797
+  },
+  {
+   "eventType": "variable",
+   "name": "mInv",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 350533889942302
+  },
+  {
+   "eventType": "variable",
+   "name": "mAuto",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 462893530762362
+  },
+  {
+   "eventType": "variable",
+   "name": "mMoved",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 811566607345317
+  },
+  {
+   "eventType": "variable",
+   "name": "mDeathReason",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 736767736159452
+  },
+  {
+   "eventType": "variable",
+   "name": "mTouchUI",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 954210190069783
+  },
+  {
+   "eventType": "variable",
+   "name": "mTouching",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 575362863932375
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuide",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 338465966484695
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideStage",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 889968343945792
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideTime",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 928233188432381
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideReady",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 624645020527826
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideLeft",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 759275618729131
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideRight",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 273199444282041
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideHit",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 749380195250968
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideAvoided",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 970036401176011
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideCrate",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 958911662831614
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideCoin",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 169943416975477
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideRetry",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 437429334296078
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideWait",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 831282149560518
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideShotMade",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 590534369136451
+  },
+  {
+   "eventType": "variable",
+   "name": "mTunnel",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 790084049564847
+  },
+  {
+   "eventType": "variable",
+   "name": "mTunnelT",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 729610243110888
+  },
+  {
+   "eventType": "variable",
+   "name": "mTunnelL",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 704369763581723
+  },
+  {
+   "eventType": "variable",
+   "name": "mTunnelLeft",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 792853993702213
+  },
+  {
+   "eventType": "variable",
+   "name": "mTunnelTrain",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 852601256663617
+  },
+  {
+   "eventType": "variable",
+   "name": "mBonusV",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 156283121478516
+  },
+  {
+   "eventType": "variable",
+   "name": "mBonusT",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 763343073444165
+  },
+  {
+   "eventType": "variable",
+   "name": "mEnded",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 502043133242249
+  },
+  {
+   "eventType": "variable",
+   "name": "mIdSeq",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 161125701079880
+  },
+  {
+   "eventType": "variable",
+   "name": "bestId",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 304760851671197
+  },
+  {
+   "eventType": "variable",
+   "name": "bestVal",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 854502422436589
+  },
+  {
+   "eventType": "variable",
+   "name": "lockId",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 516978909621431
+  },
+  {
+   "eventType": "variable",
+   "name": "bossTarget",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 647763431869109
+  },
+  {
+   "eventType": "variable",
+   "name": "targetLane",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 993868087514000
+  },
+  {
+   "eventType": "variable",
+   "name": "targetX",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 304823313398141
+  },
+  {
+   "eventType": "variable",
+   "name": "aliveCount",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 670123626111351
+  },
+  {
+   "eventType": "variable",
+   "name": "guideCount",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 456865918701910
+  },
+  {
+   "eventType": "variable",
+   "name": "loadStarted",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 545309262703446
+  },
+  {
+   "eventType": "variable",
+   "name": "startReq",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 397668784963286
+  },
+  {
+   "eventType": "variable",
+   "name": "startGuide",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 803705433426454
+  },
+  {
+   "eventType": "variable",
+   "name": "startBank",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 274943908509570
+  },
+  {
+   "eventType": "variable",
+   "name": "awardNeeded",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 602600622127867
+  },
+  {
+   "eventType": "variable",
+   "name": "toastReq",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 703858358930455
+  },
+  {
+   "eventType": "variable",
+   "name": "toastDur",
+   "type": "number",
+   "initialValue": "2",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 974782850374966
+  },
+  {
+   "eventType": "variable",
+   "name": "pendingToast",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 937583125718292
+  },
+  {
+   "eventType": "variable",
+   "name": "startToast",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 136355953159992
+  },
+  {
+   "eventType": "variable",
+   "name": "mBossRatio",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 618494322770726
+  },
+  {
+   "eventType": "variable",
+   "name": "mGuideSpawned",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 760592961668953
+  },
+  {
+   "eventType": "variable",
+   "name": "mEndTunnel",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 747533391571535
+  },
+  {
+   "eventType": "variable",
+   "name": "mDeathNow",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 419591449707833
+  },
+  {
+   "eventType": "variable",
+   "name": "mSetupWave",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 952025320295066
+  },
+  {
+   "eventType": "variable",
+   "name": "mWeapon",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 258675958968311
+  },
+  {
+   "eventType": "variable",
+   "name": "mRate",
+   "type": "number",
+   "initialValue": "1.1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 510501379075916
+  },
+  {
+   "eventType": "variable",
+   "name": "mDmg",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 803644135462134
+  },
+  {
+   "eventType": "variable",
+   "name": "mHit",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 520833150118471
+  },
+  {
+   "eventType": "variable",
+   "name": "mBase",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 389144480299294
+  },
+  {
+   "eventType": "variable",
+   "name": "mBankBal",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 832113971816369
+  },
+  {
+   "eventType": "variable",
+   "name": "mRemain",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 100834992765671
+  },
+  {
+   "eventType": "variable",
+   "name": "mReward",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 767123239600978
+  },
+  {
+   "eventType": "variable",
+   "name": "mPerfect",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 930726476509092
+  },
+  {
+   "eventType": "variable",
+   "name": "mBoss",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 736758160268560
+  },
+  {
+   "eventType": "variable",
+   "name": "mEndNow",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 383582339451260
+  },
+  {
+   "eventType": "variable",
+   "name": "pOld",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 706163187391724
+  },
+  {
+   "eventType": "variable",
+   "name": "thLane",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 627934336575489
+  },
+  {
+   "eventType": "variable",
+   "name": "thD",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 478964450980363
+  },
+  {
+   "eventType": "variable",
+   "name": "tSX",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 509735373269577
+  },
+  {
+   "eventType": "variable",
+   "name": "tAny",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 847199839693121
+  },
+  {
+   "eventType": "variable",
+   "name": "tBoss",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 448423452435940
+  },
+  {
+   "eventType": "variable",
+   "name": "aDanger",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 190662523181291
+  },
+  {
+   "eventType": "variable",
+   "name": "aPrize",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 889977087050814
+  },
+  {
+   "eventType": "variable",
+   "name": "aBoss",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 219092090245152
+  },
+  {
+   "eventType": "variable",
+   "name": "aEnemy",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 480471230217717
+  },
+  {
+   "eventType": "variable",
+   "name": "aLock",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 964745879859055
+  },
+  {
+   "eventType": "variable",
+   "name": "dangerXl",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 346674525672892
+  },
+  {
+   "eventType": "variable",
+   "name": "prizeX",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 923390377723312
+  },
+  {
+   "eventType": "variable",
+   "name": "bossLane",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 482766497303503
+  },
+  {
+   "eventType": "variable",
+   "name": "enemyLane",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 666663878457440
+  },
+  {
+   "eventType": "variable",
+   "name": "bossNow",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 655567413621942
+  },
+  {
+   "eventType": "variable",
+   "name": "bx",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 148359976963423
+  },
+  {
+   "eventType": "variable",
+   "name": "by",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 643722053224175
+  },
+  {
+   "eventType": "variable",
+   "name": "kx",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 186867363726954
+  },
+  {
+   "eventType": "variable",
+   "name": "ky",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 840831093814103
+  },
+  {
+   "eventType": "variable",
+   "name": "kDrop",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 733521763640549
+  },
+  {
+   "eventType": "variable",
+   "name": "rDrop",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 798290936752668
+  },
+  {
+   "eventType": "variable",
+   "name": "rKind",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 715296121137864
+  },
+  {
+   "eventType": "variable",
+   "name": "rSide",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 896656700367208
+  },
+  {
+   "eventType": "variable",
+   "name": "rLane",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 746866434512927
+  },
+  {
+   "eventType": "variable",
+   "name": "rPick",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 194638869065432
+  },
+  {
+   "eventType": "variable",
+   "name": "rThrow",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 734454551260152
+  },
+  {
+   "eventType": "variable",
+   "name": "wxl",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 635219360784657
+  },
+  {
+   "eventType": "variable",
+   "name": "wdl",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 533465004166948
+  },
+  {
+   "eventType": "variable",
+   "name": "wid",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 963985587969209
+  },
+  {
+   "eventType": "variable",
+   "name": "popKind",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 221024984353790
+  },
+  {
+   "eventType": "variable",
+   "name": "nodeOn",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 335600471726634
+  },
+  {
+   "eventType": "variable",
+   "name": "keyLast",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 630021295160718
+  },
+  {
+   "eventType": "variable",
+   "name": "coins",
+   "type": "number",
+   "initialValue": "800",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 159013925628489
+  },
+  {
+   "eventType": "variable",
+   "name": "gems",
+   "type": "number",
+   "initialValue": "10",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 564618899563533
+  },
+  {
+   "eventType": "variable",
+   "name": "keys",
+   "type": "number",
+   "initialValue": "4",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 827811922758479
+  },
+  {
+   "eventType": "variable",
+   "name": "unlocked",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 646025826132710
+  },
+  {
+   "eventType": "variable",
+   "name": "selectedBank",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 854323105836930
+  },
+  {
+   "eventType": "variable",
+   "name": "weapon",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 470222238633986
+  },
+  {
+   "eventType": "variable",
+   "name": "car",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 222117325949306
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_pistol",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 766873961507407
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_bomb",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 909857657595140
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_shot",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 669948092603196
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_machine",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 656475601008411
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_car",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 866568356825417
+  },
+  {
+   "eventType": "variable",
+   "name": "upg_block",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 435683718412202
+  },
+  {
+   "eventType": "variable",
+   "name": "own_bomb",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 456185615365473
+  },
+  {
+   "eventType": "variable",
+   "name": "own_shot",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 254193534742891
+  },
+  {
+   "eventType": "variable",
+   "name": "own_machine",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 763090862727804
+  },
+  {
+   "eventType": "variable",
+   "name": "own_blue",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 128471109162311
+  },
+  {
+   "eventType": "variable",
+   "name": "own_mint",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 884950523456952
+  },
+  {
+   "eventType": "variable",
+   "name": "own_speedDriver",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 813401555237326
+  },
+  {
+   "eventType": "variable",
+   "name": "own_medicCat",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 527452286543515
+  },
+  {
+   "eventType": "variable",
+   "name": "own_luckyPet",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 163343906181661
+  },
+  {
+   "eventType": "variable",
+   "name": "sound",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 248424958674629
+  },
+  {
+   "eventType": "variable",
+   "name": "reducedMotion",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 202362138461677
+  },
+  {
+   "eventType": "variable",
+   "name": "seenTutorial",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 474100326192704
+  },
+  {
+   "eventType": "variable",
+   "name": "spinCount",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 605164705310019
+  },
+  {
+   "eventType": "variable",
+   "name": "xp",
+   "type": "number",
+   "initialValue": "0",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 141415102835280
+  },
+  {
+   "eventType": "variable",
+   "name": "plevel",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 356608110412392
+  },
+  {
+   "eventType": "variable",
+   "name": "bank0_bal",
+   "type": "number",
+   "initialValue": "100",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 542155117442514
+  },
+  {
+   "eventType": "variable",
+   "name": "bank1_bal",
+   "type": "number",
+   "initialValue": "150",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 257643344981731
+  },
+  {
+   "eventType": "variable",
+   "name": "bank2_bal",
+   "type": "number",
+   "initialValue": "200",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 598715357340006
+  },
+  {
+   "eventType": "variable",
+   "name": "bank3_bal",
+   "type": "number",
+   "initialValue": "250",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 520850450088881
+  },
+  {
+   "eventType": "variable",
+   "name": "bank4_bal",
+   "type": "number",
+   "initialValue": "300",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 401896981090530
+  },
+  {
+   "eventType": "variable",
+   "name": "bank5_bal",
+   "type": "number",
+   "initialValue": "360",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 206506831918887
+  },
+  {
+   "eventType": "variable",
+   "name": "bank6_bal",
+   "type": "number",
+   "initialValue": "430",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 662503211148176
+  },
+  {
+   "eventType": "variable",
+   "name": "bank7_bal",
+   "type": "number",
+   "initialValue": "520",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 737798201187432
+  },
+  {
+   "eventType": "variable",
+   "name": "bank8_bal",
+   "type": "number",
+   "initialValue": "650",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 710901763417158
+  },
+  {
+   "eventType": "variable",
+   "name": "bank9_bal",
+   "type": "number",
+   "initialValue": "770",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 985130808183865
+  },
+  {
+   "eventType": "variable",
+   "name": "bank10_bal",
+   "type": "number",
+   "initialValue": "900",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 304719344808236
+  },
+  {
+   "eventType": "variable",
+   "name": "bank11_bal",
+   "type": "number",
+   "initialValue": "1100",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 828487761526086
+  },
+  {
+   "eventType": "variable",
+   "name": "bank12_bal",
+   "type": "number",
+   "initialValue": "1250",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 623153455402696
+  },
+  {
+   "eventType": "variable",
+   "name": "bank13_bal",
+   "type": "number",
+   "initialValue": "1500",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 291765212230247
+  },
+  {
+   "eventType": "variable",
+   "name": "bank14_bal",
+   "type": "number",
+   "initialValue": "2000",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 608939007098322
+  },
+  {
+   "eventType": "variable",
+   "name": "bank0_lvl",
+   "type": "number",
+   "initialValue": "1",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 684300075365640
+  },
+  {
+   "eventType": "variable",
+   "name": "bank1_lvl",
+   "type": "number",
+   "initialValue": "2",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 470038871264588
+  },
+  {
+   "eventType": "variable",
+   "name": "bank2_lvl",
+   "type": "number",
+   "initialValue": "3",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 728858870465492
+  },
+  {
+   "eventType": "variable",
+   "name": "bank3_lvl",
+   "type": "number",
+   "initialValue": "4",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 789098325806218
+  },
+  {
+   "eventType": "variable",
+   "name": "bank4_lvl",
+   "type": "number",
+   "initialValue": "5",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 356037978608148
+  },
+  {
+   "eventType": "variable",
+   "name": "bank5_lvl",
+   "type": "number",
+   "initialValue": "6",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 854899044436943
+  },
+  {
+   "eventType": "variable",
+   "name": "bank6_lvl",
+   "type": "number",
+   "initialValue": "7",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 137466104160652
+  },
+  {
+   "eventType": "variable",
+   "name": "bank7_lvl",
+   "type": "number",
+   "initialValue": "8",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 332042090209374
+  },
+  {
+   "eventType": "variable",
+   "name": "bank8_lvl",
+   "type": "number",
+   "initialValue": "9",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 102261735244065
+  },
+  {
+   "eventType": "variable",
+   "name": "bank9_lvl",
+   "type": "number",
+   "initialValue": "10",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 278741809228622
+  },
+  {
+   "eventType": "variable",
+   "name": "bank10_lvl",
+   "type": "number",
+   "initialValue": "11",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 447505709831867
+  },
+  {
+   "eventType": "variable",
+   "name": "bank11_lvl",
+   "type": "number",
+   "initialValue": "12",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 416884463522983
+  },
+  {
+   "eventType": "variable",
+   "name": "bank12_lvl",
+   "type": "number",
+   "initialValue": "13",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 796573923494194
+  },
+  {
+   "eventType": "variable",
+   "name": "bank13_lvl",
+   "type": "number",
+   "initialValue": "14",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 394760253657732
+  },
+  {
+   "eventType": "variable",
+   "name": "bank14_lvl",
+   "type": "number",
+   "initialValue": "15",
+   "comment": "",
+   "isStatic": false,
+   "isConstant": false,
+   "sid": 221475549441839
+  },
+  {
+   "eventType": "comment",
+   "text": "Home: saved data is loaded here once. Globals are declared at the top of this sheet.",
+   "text-color": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "background-color": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Load saved data (LocalStorage, once)",
+   "description": "Load saved data (LocalStorage, once)",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-start-of-layout",
+       "objectClass": "System",
+       "sid": 883409016190179
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 226634496965913,
+       "parameters": {
+        "variable": "loadStarted",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 401798074431116,
+       "parameters": {
+        "variable": "loadStarted",
+        "value": "1"
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 350605326912814,
+       "parameters": {
+        "key": "\"cat_taxi_v6_coins\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 300701371810650,
+       "parameters": {
+        "key": "\"cat_taxi_v6_gems\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 348221024975736,
+       "parameters": {
+        "key": "\"cat_taxi_v6_keys\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 519666606287198,
+       "parameters": {
+        "key": "\"cat_taxi_v6_unlocked\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 392712065837369,
+       "parameters": {
+        "key": "\"cat_taxi_v6_selectedBank\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 810328803137142,
+       "parameters": {
+        "key": "\"cat_taxi_v6_weapon\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 891452696992123,
+       "parameters": {
+        "key": "\"cat_taxi_v6_car\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 182203408540783,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_pistol\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 924467929903476,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_bomb\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 376038212371412,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_shot\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 984721211881651,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_machine\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 368402858980487,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_car\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 563968334750938,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_block\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 921755367922702,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_bomb\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 659300050038044,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_shot\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 294585436570678,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_machine\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 861525155423314,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_blue\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 960924174051388,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_mint\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 419166122701313,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_speedDriver\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 147179499766026,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_medicCat\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 451223427880493,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_luckyPet\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 937126871042872,
+       "parameters": {
+        "key": "\"cat_taxi_v6_sound\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 647829579683407,
+       "parameters": {
+        "key": "\"cat_taxi_v6_reducedMotion\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 598462893171412,
+       "parameters": {
+        "key": "\"cat_taxi_v6_seenTutorial\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 991316532125137,
+       "parameters": {
+        "key": "\"cat_taxi_v6_spinCount\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 270066838821906,
+       "parameters": {
+        "key": "\"cat_taxi_v6_xp\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 777566002874896,
+       "parameters": {
+        "key": "\"cat_taxi_v6_plevel\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 399732879419530,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 886829542483514,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 536697254188304,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 915513692478718,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 344788960570292,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 373231761254531,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 381265465429620,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 343515856031758,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 209130770333996,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 733428782607139,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 518323628116034,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 823517165601668,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 467376006947685,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 784045657317018,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 531810917988891,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_bal\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 210790596089285,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 358176150505640,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 783087603873389,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 950570232860611,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 934483428014909,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 259825395213657,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 407771659117115,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 338139147795083,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 420463719640297,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 863639642924200,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 326751732376725,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 243888933895218,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 903044512935997,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 314557458883182,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_lvl\""
+       }
+      },
+      {
+       "id": "get-item",
+       "objectClass": "LocalStorage",
+       "sid": 454174857712375,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_lvl\""
+       }
+      }
+     ],
+     "sid": 452881841600910
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 692552693462434,
+       "parameters": {
+        "key": "\"cat_taxi_v6_coins\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 654695076478080,
+       "parameters": {
+        "variable": "coins",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 377207960480138
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 133093989576308,
+       "parameters": {
+        "key": "\"cat_taxi_v6_gems\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 926687472894048,
+       "parameters": {
+        "variable": "gems",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 840874852666659
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 472401127060842,
+       "parameters": {
+        "key": "\"cat_taxi_v6_keys\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 408058997665821,
+       "parameters": {
+        "variable": "keys",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 947117810591217
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 165791466449679,
+       "parameters": {
+        "key": "\"cat_taxi_v6_unlocked\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 780520473693215,
+       "parameters": {
+        "variable": "unlocked",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 212618154797075
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 585095577872528,
+       "parameters": {
+        "key": "\"cat_taxi_v6_selectedBank\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 892335095914925,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 322132224018160
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 800124465622482,
+       "parameters": {
+        "key": "\"cat_taxi_v6_weapon\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 934623044315578,
+       "parameters": {
+        "variable": "weapon",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 571122522665566
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 132289558382686,
+       "parameters": {
+        "key": "\"cat_taxi_v6_car\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 432216183885108,
+       "parameters": {
+        "variable": "car",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 517232040589086
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 742966832798240,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_pistol\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 825186480910389,
+       "parameters": {
+        "variable": "upg_pistol",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 247950167624588
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 425805719071939,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_bomb\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 985457814913472,
+       "parameters": {
+        "variable": "upg_bomb",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 271377454251106
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 860383486032229,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_shot\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 552482242300366,
+       "parameters": {
+        "variable": "upg_shot",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 760954344095915
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 171484797149800,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_machine\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 119075362640470,
+       "parameters": {
+        "variable": "upg_machine",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 962648423513718
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 682788894680390,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_car\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 361830003482897,
+       "parameters": {
+        "variable": "upg_car",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 715450280354519
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 751670567783204,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_block\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 608351269839667,
+       "parameters": {
+        "variable": "upg_block",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 549098261047856
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 976605239118334,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_bomb\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 766304308676656,
+       "parameters": {
+        "variable": "own_bomb",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 947508428636766
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 216130125639512,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_shot\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 960045561401924,
+       "parameters": {
+        "variable": "own_shot",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 343851404984890
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 101134270187492,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_machine\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 765799420785399,
+       "parameters": {
+        "variable": "own_machine",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 421735461497606
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 832683971586764,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_blue\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 192000499975123,
+       "parameters": {
+        "variable": "own_blue",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 685119811507257
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 216051524548060,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_mint\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 822644671272218,
+       "parameters": {
+        "variable": "own_mint",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 833654663617877
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 641653379135866,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_speedDriver\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 812020645247212,
+       "parameters": {
+        "variable": "own_speedDriver",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 710223739028200
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 946837185210026,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_medicCat\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 906223800810204,
+       "parameters": {
+        "variable": "own_medicCat",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 517203129234129
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 638597374879752,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_luckyPet\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 172285243372185,
+       "parameters": {
+        "variable": "own_luckyPet",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 585034211044517
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 846962901762338,
+       "parameters": {
+        "key": "\"cat_taxi_v6_sound\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 522470739958308,
+       "parameters": {
+        "variable": "sound",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 513537401427519
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 247919519303436,
+       "parameters": {
+        "key": "\"cat_taxi_v6_reducedMotion\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 338550380272080,
+       "parameters": {
+        "variable": "reducedMotion",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 647254761761957
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 889041680985829,
+       "parameters": {
+        "key": "\"cat_taxi_v6_seenTutorial\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 583284701519728,
+       "parameters": {
+        "variable": "seenTutorial",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 228551646921845
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 689734972706601,
+       "parameters": {
+        "key": "\"cat_taxi_v6_spinCount\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 642314268769532,
+       "parameters": {
+        "variable": "spinCount",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 355181608449252
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 669780913966765,
+       "parameters": {
+        "key": "\"cat_taxi_v6_xp\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 451941998195926,
+       "parameters": {
+        "variable": "xp",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 462131223301939
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 322786870268108,
+       "parameters": {
+        "key": "\"cat_taxi_v6_plevel\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 544632082672118,
+       "parameters": {
+        "variable": "plevel",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 190860212326924
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 901854807204930,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 655260144005549,
+       "parameters": {
+        "variable": "bank0_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 744807617921843
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 320033014990945,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 575723911198848,
+       "parameters": {
+        "variable": "bank1_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 436109586268945
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 759098540896480,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 719188269494415,
+       "parameters": {
+        "variable": "bank2_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 467469266474185
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 509884066696848,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 534073852112073,
+       "parameters": {
+        "variable": "bank3_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 725419977411641
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 711849250587254,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 748026121684026,
+       "parameters": {
+        "variable": "bank4_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 333137196459517
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 140540014367166,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 860213548451665,
+       "parameters": {
+        "variable": "bank5_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 863607832142228
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 504888996372802,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 751954498799607,
+       "parameters": {
+        "variable": "bank6_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 384924264429323
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 824409815750038,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 775860598366320,
+       "parameters": {
+        "variable": "bank7_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 288726684596057
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 161091177181681,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 767971309731073,
+       "parameters": {
+        "variable": "bank8_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 390956688434362
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 637513802739520,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 705438054143624,
+       "parameters": {
+        "variable": "bank9_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 114843356323619
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 691017176134343,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 388484684564043,
+       "parameters": {
+        "variable": "bank10_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 469861451025514
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 474886313529165,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 429973800430021,
+       "parameters": {
+        "variable": "bank11_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 580230551845821
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 349515204428886,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 948038858777736,
+       "parameters": {
+        "variable": "bank12_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 904876254765501
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 602778422913106,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 630855553191832,
+       "parameters": {
+        "variable": "bank13_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 332711079355264
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 944015613279145,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_bal\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 210446748250093,
+       "parameters": {
+        "variable": "bank14_bal",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 388517900812762
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 508411021692322,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 387791321492790,
+       "parameters": {
+        "variable": "bank0_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 176770585681427
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 975621234048245,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 390224218455303,
+       "parameters": {
+        "variable": "bank1_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 907888117539609
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 973733330351040,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 587716440393663,
+       "parameters": {
+        "variable": "bank2_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 442264541020722
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 686924970743446,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 482523909651018,
+       "parameters": {
+        "variable": "bank3_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 793151903477741
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 635756871468782,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 120170725169786,
+       "parameters": {
+        "variable": "bank4_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 741258411569665
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 821867492643696,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 331696023030938,
+       "parameters": {
+        "variable": "bank5_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 539115429238761
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 217258214475694,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 608862268447846,
+       "parameters": {
+        "variable": "bank6_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 286724375984276
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 963693038149135,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 518581947333637,
+       "parameters": {
+        "variable": "bank7_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 726066809790835
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 536984163405444,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 337269307326791,
+       "parameters": {
+        "variable": "bank8_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 151576116292364
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 296622979015732,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 734189156339679,
+       "parameters": {
+        "variable": "bank9_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 901209153693904
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 293542418489854,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 436384942298356,
+       "parameters": {
+        "variable": "bank10_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 689230730982432
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 916642158713405,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 253321548117617,
+       "parameters": {
+        "variable": "bank11_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 613636867292603
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 640172072518414,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 253696599837882,
+       "parameters": {
+        "variable": "bank12_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 833467250681731
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 259266208259967,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 764097468511341,
+       "parameters": {
+        "variable": "bank13_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 288235802749599
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-item-get",
+       "objectClass": "LocalStorage",
+       "sid": 389830466919027,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_lvl\""
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 706586778302089,
+       "parameters": {
+        "variable": "bank14_lvl",
+        "value": "LocalStorage.ItemValue"
+       }
+      }
+     ],
+     "sid": 940726338390233
+    }
+   ],
+   "sid": 191727388962913
+  },
+  {
+   "eventType": "comment",
+   "text": "Common: clock, toast, save, sound. Same events in every layout sheet.",
+   "text-color": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "background-color": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Clock",
+   "description": "Clock",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 977137092688236
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 678046916547186,
+       "parameters": {
+        "variable": "ddt",
+        "value": "min(dt, 0.042)"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 971535840015071,
+       "parameters": {
+        "variable": "clock",
+        "value": "clock+ddt"
+       }
+      }
+     ],
+     "sid": 353234048546384
+    }
+   ],
+   "sid": 834331222481833
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Toast",
+   "description": "Toast",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 117891276020056
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 156887496757543,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 227458940379492,
+       "parameters": {
+        "variable": "clock",
+        "comparison": 4,
+        "value": "toastUntil"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 582581690016263,
+       "parameters": {
+        "variable": "toastOn",
+        "value": "0"
+       }
+      }
+     ],
+     "sid": 353109479054382
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 221026220110768
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 323298001764170,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 436676498653508,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 776138668974917,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Card",
+       "sid": 878637300876311,
+       "parameters": {
+        "x": "210",
+        "y": "75"
+       }
+      }
+     ],
+     "sid": 175337049399944
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 314317269083418
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 621581132303287,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 874228267356742,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 207799684088563,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Txt",
+       "sid": 352857489307096,
+       "parameters": {
+        "x": "210",
+        "y": "93"
+       }
+      }
+     ],
+     "sid": 831477785636051
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 463844941490772
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 434268531791722,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 671022037585564,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 522900886356979,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 3,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 183179589195113,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 452791743293794,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Card",
+       "sid": 664060543410232,
+       "parameters": {
+        "x": "210",
+        "y": "530"
+       }
+      }
+     ],
+     "sid": 823257524306490
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 347368182171465
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 753474434289283,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 853921580314890,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 356823576194429,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 3,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 258353901349288,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 758141377305702,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Txt",
+       "sid": 999815090409070,
+       "parameters": {
+        "x": "210",
+        "y": "548"
+       }
+      }
+     ],
+     "sid": 900115815548813
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 726342748177821
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 131436275492067,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 163737073789121,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 565292172884240,
+       "parameters": {
+        "visibility": "invisible"
+       }
+      }
+     ],
+     "sid": 437902384731021
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 404609915070192
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 503348782206543,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 795639321903503,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 982815130017189,
+       "parameters": {
+        "visibility": "invisible"
+       }
+      }
+     ],
+     "sid": 317423937659588
+    }
+   ],
+   "sid": 556145218168058
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Save",
+   "description": "Save",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 529186828953161
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 587837167583073,
+       "parameters": {
+        "variable": "needSave",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 392881312559918,
+       "parameters": {
+        "key": "\"cat_taxi_v6_coins\"",
+        "value": "coins"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 638067517260807,
+       "parameters": {
+        "key": "\"cat_taxi_v6_gems\"",
+        "value": "gems"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 831649832756874,
+       "parameters": {
+        "key": "\"cat_taxi_v6_keys\"",
+        "value": "keys"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 678483924277688,
+       "parameters": {
+        "key": "\"cat_taxi_v6_unlocked\"",
+        "value": "unlocked"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 333618262066282,
+       "parameters": {
+        "key": "\"cat_taxi_v6_selectedBank\"",
+        "value": "selectedBank"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 517313306050991,
+       "parameters": {
+        "key": "\"cat_taxi_v6_weapon\"",
+        "value": "weapon"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 165337680868715,
+       "parameters": {
+        "key": "\"cat_taxi_v6_car\"",
+        "value": "car"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 814187565935392,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_pistol\"",
+        "value": "upg_pistol"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 366414930415135,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_bomb\"",
+        "value": "upg_bomb"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 325086410665999,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_shot\"",
+        "value": "upg_shot"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 899357444748115,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_machine\"",
+        "value": "upg_machine"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 721971811591289,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_car\"",
+        "value": "upg_car"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 419860407533549,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_block\"",
+        "value": "upg_block"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 828611384623212,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_bomb\"",
+        "value": "own_bomb"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 263314514187924,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_shot\"",
+        "value": "own_shot"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 202712919528511,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_machine\"",
+        "value": "own_machine"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 585038778783134,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_blue\"",
+        "value": "own_blue"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 176328882861827,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_mint\"",
+        "value": "own_mint"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 105095218009305,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_speedDriver\"",
+        "value": "own_speedDriver"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 894797847890511,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_medicCat\"",
+        "value": "own_medicCat"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 352422345274877,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_luckyPet\"",
+        "value": "own_luckyPet"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 443547738069010,
+       "parameters": {
+        "key": "\"cat_taxi_v6_sound\"",
+        "value": "sound"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 870844188257194,
+       "parameters": {
+        "key": "\"cat_taxi_v6_reducedMotion\"",
+        "value": "reducedMotion"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 238854554506194,
+       "parameters": {
+        "key": "\"cat_taxi_v6_seenTutorial\"",
+        "value": "seenTutorial"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 333524267901782,
+       "parameters": {
+        "key": "\"cat_taxi_v6_spinCount\"",
+        "value": "spinCount"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 212502051446761,
+       "parameters": {
+        "key": "\"cat_taxi_v6_xp\"",
+        "value": "xp"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 335281878180416,
+       "parameters": {
+        "key": "\"cat_taxi_v6_plevel\"",
+        "value": "plevel"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 400863289882573,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_bal\"",
+        "value": "bank0_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 756378588974091,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_bal\"",
+        "value": "bank1_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 788181253217248,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_bal\"",
+        "value": "bank2_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 115711944447789,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_bal\"",
+        "value": "bank3_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 849156706927221,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_bal\"",
+        "value": "bank4_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 551455199584045,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_bal\"",
+        "value": "bank5_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 946114034343663,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_bal\"",
+        "value": "bank6_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 183625473420465,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_bal\"",
+        "value": "bank7_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 615039979942215,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_bal\"",
+        "value": "bank8_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 850906071012113,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_bal\"",
+        "value": "bank9_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 898245865398619,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_bal\"",
+        "value": "bank10_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 944072012377585,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_bal\"",
+        "value": "bank11_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 844738590888395,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_bal\"",
+        "value": "bank12_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 445158014746543,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_bal\"",
+        "value": "bank13_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 872464809788737,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_bal\"",
+        "value": "bank14_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 335281170749274,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_lvl\"",
+        "value": "bank0_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 639896249573403,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_lvl\"",
+        "value": "bank1_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 582352008506529,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_lvl\"",
+        "value": "bank2_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 639495302036190,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_lvl\"",
+        "value": "bank3_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 431997070995581,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_lvl\"",
+        "value": "bank4_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 966188157769198,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_lvl\"",
+        "value": "bank5_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 955011244445463,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_lvl\"",
+        "value": "bank6_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 981867785227758,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_lvl\"",
+        "value": "bank7_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 766190627413500,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_lvl\"",
+        "value": "bank8_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 615519250038853,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_lvl\"",
+        "value": "bank9_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 970364667577622,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_lvl\"",
+        "value": "bank10_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 996457778802097,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_lvl\"",
+        "value": "bank11_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 301776364798031,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_lvl\"",
+        "value": "bank12_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 788500269049225,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_lvl\"",
+        "value": "bank13_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 579285501068990,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_lvl\"",
+        "value": "bank14_lvl"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 921216326948084,
+       "parameters": {
+        "variable": "needSave",
+        "value": "0"
+       }
+      }
+     ],
+     "sid": 842736468989098
+    }
+   ],
+   "sid": 605997517672755
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Sound toggle (M key)",
+   "description": "Sound toggle (M key)",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-key-pressed",
+       "objectClass": "Keyboard",
+       "sid": 477225373788629,
+       "parameters": {
+        "key": "77"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 983765547310430,
+       "parameters": {
+        "variable": "sound",
+        "value": "1-sound"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 552516394912309,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 652885595521884
+    }
+   ],
+   "sid": 840430465005361
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Buttons",
+   "description": "Buttons",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 930781503352696,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 234308813926874,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "6"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 708451040369685,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 580933253202271,
+       "parameters": {
+        "variable": "seenTutorial",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 282876670823950,
+       "parameters": {
+        "variable": "screen",
+        "value": "1"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 125452620180700,
+       "parameters": {
+        "layout": "Map"
+       }
+      }
+     ],
+     "sid": 931822441256139
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 309932264475832,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 275459758174005,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "6"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 300219739792732,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 930799416969012,
+       "parameters": {
+        "variable": "seenTutorial",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 777634410217759,
+       "parameters": {
+        "variable": "startReq",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 987312387081911,
+       "parameters": {
+        "variable": "startGuide",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 712417238612905,
+       "parameters": {
+        "variable": "startBank",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 216935145659415,
+       "parameters": {
+        "variable": "screen",
+        "value": "5"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 231552784936403,
+       "parameters": {
+        "layout": "Game"
+       }
+      }
+     ],
+     "sid": 675630013951347
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 238999657060187,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 233394459589437,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "8"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 931489479846312,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 162570390085663,
+       "parameters": {
+        "variable": "startReq",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 247207135251000,
+       "parameters": {
+        "variable": "startGuide",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 515559328403639,
+       "parameters": {
+        "variable": "startBank",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 361737283698309,
+       "parameters": {
+        "variable": "pendingToast",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 349089246616799,
+       "parameters": {
+        "variable": "screen",
+        "value": "5"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 979800435946899,
+       "parameters": {
+        "layout": "Game"
+       }
+      }
+     ],
+     "sid": 323457360336770
+    }
+   ],
+   "sid": 927711430729759
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Keyboard: Enter on home",
+   "description": "Keyboard: Enter on home",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-key-pressed",
+       "objectClass": "Keyboard",
+       "sid": 511119195078436,
+       "parameters": {
+        "key": "13"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 145583067152792,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 0,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 164888812836244,
+       "parameters": {
+        "variable": "seenTutorial",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 451656823564619,
+       "parameters": {
+        "variable": "screen",
+        "value": "1"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 310460573242038,
+       "parameters": {
+        "layout": "Map"
+       }
+      }
+     ],
+     "sid": 905924797917623
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-key-pressed",
+       "objectClass": "Keyboard",
+       "sid": 208937721101454,
+       "parameters": {
+        "key": "13"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 590314441333034,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 0,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 391955807945215,
+       "parameters": {
+        "variable": "seenTutorial",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 154941418088903,
+       "parameters": {
+        "variable": "startReq",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 726945888962402,
+       "parameters": {
+        "variable": "startGuide",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 874272310499556,
+       "parameters": {
+        "variable": "startBank",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 743064063789282,
+       "parameters": {
+        "variable": "screen",
+        "value": "5"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 282021983420694,
+       "parameters": {
+        "layout": "Game"
+       }
+      }
+     ],
+     "sid": 237454846166360
+    }
+   ],
+   "sid": 145369464679271
+  }
+ ],
+ "sid": 149072746273232
+}

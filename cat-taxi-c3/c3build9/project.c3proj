@@ -1,0 +1,297 @@
+{
+ "projectFormatVersion": 1,
+ "savedWithRelease": 50600,
+ "name": "Cat Taxi v9 (Construct port)",
+ "runtime": "c3",
+ "useWorker": "auto",
+ "bundleAddons": false,
+ "usedAddons": [
+  {
+   "type": "plugin",
+   "id": "Audio",
+   "name": "Audio",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "LocalStorage",
+   "name": "Local storage",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "Sprite",
+   "name": "Sprite",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "TiledBg",
+   "name": "Tiled Background",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "Touch",
+   "name": "Touch",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "behavior",
+   "id": "Tween",
+   "name": "Tween",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "Keyboard",
+   "name": "Keyboard",
+   "author": "Scirra",
+   "bundled": false
+  },
+  {
+   "type": "plugin",
+   "id": "Text",
+   "name": "Text",
+   "author": "Scirra",
+   "bundled": false
+  }
+ ],
+ "uniqueId": "1mdkr8fsj9k9v",
+ "objectTypes": {
+  "items": [
+   "Audio",
+   "Touch",
+   "LocalStorage",
+   "BgSample",
+   "Bg",
+   "Taxi",
+   "Enemy",
+   "Boss",
+   "Shot",
+   "Warn",
+   "Pickup",
+   "Fx",
+   "EnemyBar",
+   "Speed",
+   "Btn",
+   "Card",
+   "Shape",
+   "Needle",
+   "Icon",
+   "Wheel",
+   "Logo",
+   "Cloud",
+   "Node",
+   "Roulette",
+   "Txt",
+   "TxtHit",
+   "Keyboard"
+  ],
+  "subfolders": [
+   {
+    "items": [
+     "PauseBg",
+     "UI_Sprites",
+     "TemplateSprite"
+    ],
+    "subfolders": [],
+    "name": "UI"
+   }
+  ]
+ },
+ "functionsName": "Functions",
+ "autosaveData": null,
+ "containers": [],
+ "families": {
+  "items": [],
+  "subfolders": []
+ },
+ "layouts": {
+  "items": [
+   "Home",
+   "Map",
+   "Garage",
+   "Shop",
+   "Roulette",
+   "Settings",
+   "Game",
+   "Results"
+  ],
+  "subfolders": []
+ },
+ "eventSheets": {
+  "items": [
+   "Event Home",
+   "Event Map",
+   "Event Garage",
+   "Event Shop",
+   "Event Roulette",
+   "Event Settings",
+   "Event Game",
+   "Event Results"
+  ],
+  "subfolders": []
+ },
+ "rootFileFolders": {
+  "script": {
+   "items": [],
+   "subfolders": []
+  },
+  "sound": {
+   "items": [],
+   "subfolders": []
+  },
+  "music": {
+   "items": [],
+   "subfolders": []
+  },
+  "video": {
+   "items": [],
+   "subfolders": []
+  },
+  "font": {
+   "items": [],
+   "subfolders": []
+  },
+  "icon": {
+   "items": [
+    {
+     "name": "icon-16.png",
+     "type": "image/png",
+     "sid": 655467487216690,
+     "icon-info": {
+      "purpose": "app-icon"
+     }
+    },
+    {
+     "name": "icon-32.png",
+     "type": "image/png",
+     "sid": 826672949358947,
+     "icon-info": {
+      "purpose": "app-icon"
+     }
+    },
+    {
+     "name": "icon-114.png",
+     "type": "image/png",
+     "sid": 428531453005747,
+     "icon-info": {
+      "purpose": "app-icon"
+     }
+    },
+    {
+     "name": "icon-128.png",
+     "type": "image/png",
+     "sid": 292708095686559,
+     "icon-info": {
+      "purpose": "app-icon"
+     }
+    },
+    {
+     "name": "icon-256.png",
+     "type": "image/png",
+     "sid": 430197449645492,
+     "icon-info": {
+      "purpose": "app-icon"
+     }
+    },
+    {
+     "name": "loading-logo.png",
+     "type": "image/png",
+     "sid": 763564429986359,
+     "icon-info": {
+      "purpose": "loading-logo"
+     }
+    }
+   ],
+   "subfolders": []
+  },
+  "general": {
+   "items": [],
+   "subfolders": []
+  }
+ },
+ "timelines": {
+  "items": [],
+  "subfolders": [
+   {
+    "items": [],
+    "subfolders": []
+   }
+  ]
+ },
+ "flowcharts": {
+  "items": [],
+  "subfolders": []
+ },
+ "models3d": {
+  "items": [],
+  "subfolders": []
+ },
+ "properties": {
+  "description": "",
+  "version": "1.0.0.0",
+  "autoIncrementVersion": false,
+  "author": "",
+  "authorEmail": "",
+  "authorWebsite": "http://",
+  "appId": "com.mycompany.myapp",
+  "saveLLMContextFile": true,
+  "pixelRounding": false,
+  "fov": 0.7853981633974483,
+  "useLoaderLayout": false,
+  "fullscreenMode": "scale-outer",
+  "fullscreenQuality": "high",
+  "viewportFit": "auto",
+  "backgroundColor": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "splashColor": [
+   1,
+   1,
+   1,
+   0
+  ],
+  "useThemeColor": false,
+  "themeColor": [
+   1,
+   1,
+   1,
+   0
+  ],
+  "orientations": "portrait",
+  "webgpu": "auto",
+  "multitexturing": "auto",
+  "gpuPreference": "high-performance",
+  "framerateMode": "vsync",
+  "fixedFramerate": 30,
+  "sampling": "trilinear",
+  "downscaling": "medium",
+  "renderingMode": "auto",
+  "anisotropicFiltering": "auto",
+  "zNear": 1,
+  "zFar": 10000,
+  "maxSpriteSheetSize": 2048,
+  "loaderStyle": "progress-logo",
+  "preloadSounds": true,
+  "uidAllocationMode": "increment",
+  "zAxisScale": "regular",
+  "cordovaiOSScheme": "app",
+  "cordovaAndroidScheme": "https",
+  "exportFileStructure": "folders",
+  "scriptsType": "module"
+ },
+ "viewportWidth": 360,
+ "viewportHeight": 640,
+ "firstLayout": "Home"
+}

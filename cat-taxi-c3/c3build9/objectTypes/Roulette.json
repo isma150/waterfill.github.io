@@ -1,0 +1,49 @@
+{
+ "name": "Roulette",
+ "plugin-id": "Sprite",
+ "sid": 343592864025937,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 570016313669918
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 222,
+      "height": 451,
+      "originX": 0.504505,
+      "originY": 0.594235,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 227021233850857,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 836030344402753,
+    "name": "base",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

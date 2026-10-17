@@ -1,0 +1,6693 @@
+{
+ "name": "Event Map",
+ "events": [
+  {
+   "eventType": "comment",
+   "text": "Map: nodes, bank card, START, keys.",
+   "text-color": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "background-color": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "eventType": "comment",
+   "text": "Common: clock, toast, save, sound. Same events in every layout sheet.",
+   "text-color": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "background-color": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Clock",
+   "description": "Clock",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 554660082365076
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 338949993906227,
+       "parameters": {
+        "variable": "ddt",
+        "value": "min(dt, 0.042)"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 446658126712362,
+       "parameters": {
+        "variable": "clock",
+        "value": "clock+ddt"
+       }
+      }
+     ],
+     "sid": 658217229999730
+    }
+   ],
+   "sid": 783603421658314
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Toast",
+   "description": "Toast",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 472783043679432
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 622178516342759,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 719407088833542,
+       "parameters": {
+        "variable": "clock",
+        "comparison": 4,
+        "value": "toastUntil"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 441288401742402,
+       "parameters": {
+        "variable": "toastOn",
+        "value": "0"
+       }
+      }
+     ],
+     "sid": 857667207646365
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 712829205882924
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 240374456383064,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 356947587183504,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 859415571973560,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Card",
+       "sid": 215628249285361,
+       "parameters": {
+        "x": "210",
+        "y": "75"
+       }
+      }
+     ],
+     "sid": 450760196545308
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 916333330678008
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 166571707426512,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 832186932968029,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 399511815267853,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Txt",
+       "sid": 306762018764510,
+       "parameters": {
+        "x": "210",
+        "y": "93"
+       }
+      }
+     ],
+     "sid": 615591412759188
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 623602047069884
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 570812717097563,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 667924518467647,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 437290085581388,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 3,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 716609670250422,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 187678910742275,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Card",
+       "sid": 985902658971729,
+       "parameters": {
+        "x": "210",
+        "y": "530"
+       }
+      }
+     ],
+     "sid": 419195904062878
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 294693367850015
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 985572975033116,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 176301872429515,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 256139815634957,
+       "parameters": {
+        "variable": "screen",
+        "comparison": 3,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 678089450361914,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 409328089067808,
+       "parameters": {
+        "visibility": "visible"
+       }
+      },
+      {
+       "id": "set-position",
+       "objectClass": "Txt",
+       "sid": 507365131660492,
+       "parameters": {
+        "x": "210",
+        "y": "548"
+       }
+      }
+     ],
+     "sid": 638258746244287
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 978949070321827
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 721254930197769,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Card",
+       "sid": 850926092573780,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Card",
+       "sid": 842156010488290,
+       "parameters": {
+        "visibility": "invisible"
+       }
+      }
+     ],
+     "sid": 801360999396739
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 767324137418026
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 422699113990461,
+       "parameters": {
+        "variable": "toastOn",
+        "comparison": 1,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 472792940762821,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-visible",
+       "objectClass": "Txt",
+       "sid": 564435035957661,
+       "parameters": {
+        "visibility": "invisible"
+       }
+      }
+     ],
+     "sid": 852199876570722
+    }
+   ],
+   "sid": 196913758628635
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Save",
+   "description": "Save",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 292440156072851
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 710158348144699,
+       "parameters": {
+        "variable": "needSave",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 132214389212074,
+       "parameters": {
+        "key": "\"cat_taxi_v6_coins\"",
+        "value": "coins"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 934512408192960,
+       "parameters": {
+        "key": "\"cat_taxi_v6_gems\"",
+        "value": "gems"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 465972084881637,
+       "parameters": {
+        "key": "\"cat_taxi_v6_keys\"",
+        "value": "keys"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 443379728916437,
+       "parameters": {
+        "key": "\"cat_taxi_v6_unlocked\"",
+        "value": "unlocked"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 385592692695373,
+       "parameters": {
+        "key": "\"cat_taxi_v6_selectedBank\"",
+        "value": "selectedBank"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 936205621708386,
+       "parameters": {
+        "key": "\"cat_taxi_v6_weapon\"",
+        "value": "weapon"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 947548974519271,
+       "parameters": {
+        "key": "\"cat_taxi_v6_car\"",
+        "value": "car"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 373826500714897,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_pistol\"",
+        "value": "upg_pistol"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 300905840645989,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_bomb\"",
+        "value": "upg_bomb"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 176664476638664,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_shot\"",
+        "value": "upg_shot"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 176057494963237,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_machine\"",
+        "value": "upg_machine"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 282471938898744,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_car\"",
+        "value": "upg_car"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 377711518268045,
+       "parameters": {
+        "key": "\"cat_taxi_v6_upg_block\"",
+        "value": "upg_block"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 878469030806083,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_bomb\"",
+        "value": "own_bomb"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 521519395318292,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_shot\"",
+        "value": "own_shot"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 493788642986351,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_machine\"",
+        "value": "own_machine"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 702007307771558,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_blue\"",
+        "value": "own_blue"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 482345316456985,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_mint\"",
+        "value": "own_mint"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 226474099317394,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_speedDriver\"",
+        "value": "own_speedDriver"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 338338269500859,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_medicCat\"",
+        "value": "own_medicCat"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 382145286926207,
+       "parameters": {
+        "key": "\"cat_taxi_v6_own_luckyPet\"",
+        "value": "own_luckyPet"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 730015603806329,
+       "parameters": {
+        "key": "\"cat_taxi_v6_sound\"",
+        "value": "sound"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 622320819240228,
+       "parameters": {
+        "key": "\"cat_taxi_v6_reducedMotion\"",
+        "value": "reducedMotion"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 604676462487776,
+       "parameters": {
+        "key": "\"cat_taxi_v6_seenTutorial\"",
+        "value": "seenTutorial"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 862826489255948,
+       "parameters": {
+        "key": "\"cat_taxi_v6_spinCount\"",
+        "value": "spinCount"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 993239450936233,
+       "parameters": {
+        "key": "\"cat_taxi_v6_xp\"",
+        "value": "xp"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 786331036515701,
+       "parameters": {
+        "key": "\"cat_taxi_v6_plevel\"",
+        "value": "plevel"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 805092723894862,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_bal\"",
+        "value": "bank0_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 355874786839691,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_bal\"",
+        "value": "bank1_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 258948473732119,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_bal\"",
+        "value": "bank2_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 753739636388463,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_bal\"",
+        "value": "bank3_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 587521655006228,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_bal\"",
+        "value": "bank4_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 905483429888828,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_bal\"",
+        "value": "bank5_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 904633335027549,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_bal\"",
+        "value": "bank6_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 569093935474464,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_bal\"",
+        "value": "bank7_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 848236721661783,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_bal\"",
+        "value": "bank8_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 792575722184832,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_bal\"",
+        "value": "bank9_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 176576125404720,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_bal\"",
+        "value": "bank10_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 237975937744528,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_bal\"",
+        "value": "bank11_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 907089839994355,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_bal\"",
+        "value": "bank12_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 141734704332781,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_bal\"",
+        "value": "bank13_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 483811761895836,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_bal\"",
+        "value": "bank14_bal"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 329579878621219,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank0_lvl\"",
+        "value": "bank0_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 211087427795445,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank1_lvl\"",
+        "value": "bank1_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 542234833568858,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank2_lvl\"",
+        "value": "bank2_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 648837866957267,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank3_lvl\"",
+        "value": "bank3_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 320426943626937,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank4_lvl\"",
+        "value": "bank4_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 465490746741269,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank5_lvl\"",
+        "value": "bank5_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 301836918822350,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank6_lvl\"",
+        "value": "bank6_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 563839064279844,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank7_lvl\"",
+        "value": "bank7_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 726620587499334,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank8_lvl\"",
+        "value": "bank8_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 651830237465988,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank9_lvl\"",
+        "value": "bank9_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 944411376991902,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank10_lvl\"",
+        "value": "bank10_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 704625654264518,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank11_lvl\"",
+        "value": "bank11_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 797102157324403,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank12_lvl\"",
+        "value": "bank12_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 217839737864082,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank13_lvl\"",
+        "value": "bank13_lvl"
+       }
+      },
+      {
+       "id": "set-item",
+       "objectClass": "LocalStorage",
+       "sid": 694708964168906,
+       "parameters": {
+        "key": "\"cat_taxi_v6_bank14_lvl\"",
+        "value": "bank14_lvl"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 404362795714794,
+       "parameters": {
+        "variable": "needSave",
+        "value": "0"
+       }
+      }
+     ],
+     "sid": 240195671093219
+    }
+   ],
+   "sid": 223086659046560
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Sound toggle (M key)",
+   "description": "Sound toggle (M key)",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-key-pressed",
+       "objectClass": "Keyboard",
+       "sid": 593777027276345,
+       "parameters": {
+        "key": "77"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 151294265789664,
+       "parameters": {
+        "variable": "sound",
+        "value": "1-sound"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 690653917702287,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 623552330111536
+    }
+   ],
+   "sid": 685921420633193
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Choose bank",
+   "description": "Choose bank",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 504984250831598,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 370821153400841,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 696417838381761,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 667085694498180,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 674722352695467,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 774878787827960
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 288173550435671,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 811870685081601,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "15"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 166962481014313,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 739171281529415,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 296997736145713,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 861584153548475
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 796447299286721,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 368754024270405,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "16"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 998368088569147,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 230270083025057,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "2"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 890000407597963,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 605229044523399
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 731226115985053,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 578077852065438,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "17"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 740237641735357,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 136479429839061,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "3"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 241469836226742,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 843691651663067
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 647252440328911,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 152406679268552,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "18"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 577719991625311,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 236712676854639,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "4"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 694383433177013,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 803361161552985
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 360035216763615,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 407338062884743,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "19"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 199171179580527,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 496286309103217,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "5"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 848000952060297,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 428040679481385
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 192384947176800,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 946371377338279,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "20"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 151807294550849,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 424502426737897,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "6"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 487060070169455,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 518547114658427
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 848304566150310,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 592210511051185,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "21"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 101638392882535,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 490737761638045,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "7"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 520236966650589,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 864824517428041
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 646700613372986,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 574055577235955,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "22"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 501145907340838,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 624196861702819,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "8"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 121616725706913,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 496626540576301
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 490157411273557,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 781491317797602,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "23"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 275509720363871,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 752221357769889,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "9"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 436359324211098,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 984961794223029
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 243830101765118,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 188740497844856,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "24"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 658757296351871,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 911797164066460,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "10"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 446538154153585,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 295460645739239
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 179373364826018,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 963781723906816,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "25"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 309637407673633,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 318935924107754,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "11"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 942402462278611,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 423842109415826
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 227712179986904,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 654709970565786,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "26"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 585583988472248,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 462066584814413,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "12"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 918430886247178,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 860339537152588
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 265559360343703,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 346090351641743,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "27"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 563331899435034,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 490360904428546,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "13"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 404490890130965,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 501669356176496
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 632555209907186,
+       "parameters": {
+        "object": "Node",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 849150243406984,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "28"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 945424510890084,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 794790921812772,
+       "parameters": {
+        "variable": "selectedBank",
+        "value": "14"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 290926712621148,
+       "parameters": {
+        "variable": "needSave",
+        "value": "1"
+       }
+      }
+     ],
+     "sid": 194063198679239
+    }
+   ],
+   "sid": 120108423177551
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Node pictures",
+   "description": "Node pictures",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 180368137496058
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 176754650656355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 314939124007584,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 475919976485968,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 288973206782514
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 541140944042132
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 176754650656355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 589718897664364,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 436628530275216,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 155027233859152,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 777449332426228
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 109282327396263
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 176754650656355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 350504435943668,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "0"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 205734035421230,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 933864835210524,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 489076448916290
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 449139491954128
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 231412379949465,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "15"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 565633978750655,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 418397503534688,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 592858509426663
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 402180634000823
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 231412379949465,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "15"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 496788794326663,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 597798900710286,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 269167805269121,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 256910809948657
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 860133227021038
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 231412379949465,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "15"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 514731275665394,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "1"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 192522979089239,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 371016139973023,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 903961468960258
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 170708471296085
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347980107298648,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "16"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 884095678089087,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 583353133955537,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 681485632064393
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 958070004889811
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347980107298648,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "16"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 167452281552468,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "2"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 297371439738211,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 697955893672746,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 584806461567503
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 323379993812819
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347980107298648,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "16"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 780232719510737,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "2"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 970251248212006,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 485626766480111,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 764584236635160
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 218402868135017
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347464015830307,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "17"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 693013519991109,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 271114201129046,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 235216866744974
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 451352801279378
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347464015830307,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "17"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 692905108737064,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "3"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 197769868576916,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 472044937200782,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 261484200839991
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 631096677626984
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 347464015830307,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "17"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 272001350130839,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "3"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 377988559060714,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 744624213556629,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 122331491915606
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 103834565921979
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 296370472064256,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "18"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 592499527471866,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 798322138003960,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 624779820209358
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 119383136449452
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 296370472064256,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "18"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 563382996099480,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "4"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 512519808757141,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 797703577571071,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 891340387235559
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 491511424838269
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 296370472064256,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "18"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 348676452539674,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "4"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 724253894429911,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 573658060428509,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 964201524328493
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 769417619466566
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 783554062100808,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "19"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 613326991023413,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 850881705744056,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 773866892862462
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 955379128849795
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 783554062100808,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "19"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 612120814736340,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 261445794779056,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 393331100840493,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 892820094301489
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 679699027809836
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 783554062100808,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "19"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 910637624136036,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "5"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 274276851450017,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 702389520598510,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 573644050541203
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 483096249113612
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 923929786503995,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "20"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 855920689283613,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 164980085747369,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 746735806401680
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 265344876606646
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 923929786503995,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "20"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 236128618256899,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "6"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 550602452976537,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 860653778337336,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 239060525247695
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 201957547058356
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 923929786503995,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "20"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 467867505866417,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "6"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 451229571480572,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 659540339147676,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 848020080181383
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 593844656521643
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 429017169076434,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "21"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 240213826697705,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 237207980203578,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 809883117878013
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 282516890048472
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 429017169076434,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "21"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 143859032085131,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 930123485524048,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 630789806111997,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 388759681060952
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 630924736695650
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 429017169076434,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "21"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 835072805007440,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "7"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 897331211159250,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 748802713265851,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 103060799995685
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 759241008694436
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 974598308729327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "22"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 254254227116695,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 920912310571271,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 861669585813784
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 916693911699907
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 974598308729327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "22"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 884449566576276,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "8"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 495897514918816,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 950133767395879,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 458996335504091
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 784777053525876
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 974598308729327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "22"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 698824778893715,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "8"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 273358195886652,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 776673816153245,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 842426288125065
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 294182774159094
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 524676930503355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "23"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 299443523817556,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 651600633270685,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 598205148207018
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 655053412962430
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 524676930503355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "23"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 792491307199331,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "9"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 618844399727723,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 614722036865848,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 934131811351918
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 971164547775902
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 524676930503355,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "23"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 610423464005416,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "9"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 684202555665509,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 815123582225069,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 437498835258377
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 805476079012974
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 319728905861568,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "24"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 871371674792269,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 863855384108026,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 652214653638107
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 335794682424799
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 319728905861568,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "24"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 169270757723466,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "10"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 785493951434326,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 365035000808778,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 573601028098243
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 775894942281847
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 319728905861568,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "24"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 447192319069892,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "10"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 200642488509405,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 513518769669273,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 214239231400186
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 564695893264241
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 676292384220455,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "25"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 295840486409837,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 502094248607051,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 594644413539386
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 880178799345859
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 676292384220455,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "25"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 248356768270695,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "11"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 675856680649567,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 749002542177424,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 105075138879621
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 934004506681731
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 676292384220455,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "25"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 391887399752216,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "11"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 938465285291504,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 169380653675214,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 370742397009879
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 803202933933340
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 807052007590706,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "26"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 420493604687178,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 219029749619605,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 743292199199137
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 309283383095471
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 807052007590706,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "26"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 917602631072032,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "12"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 533722762745310,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 205091387908091,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 617319281789248
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 775208946848170
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 807052007590706,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "26"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 539633996291213,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "12"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 721545463772585,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 996226580295054,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 872516610342202
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 836502298651354
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 664311342115327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "27"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 417086173552409,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 995821832058168,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 413410058832146
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 843356669727186
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 664311342115327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "27"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 325541306887514,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "13"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 782633614623049,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 282547401784969,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 430227417461653
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 164329067434931
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 664311342115327,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "27"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 871220850848215,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "13"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 707350816376577,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 156042686163970,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 525988737841956
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 553204329501772
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 680686280798534,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "28"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 284624250774788,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 2,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 853378050123469,
+       "parameters": {
+        "animation": "\"locked\""
+       }
+      }
+     ],
+     "sid": 119540707749063
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 800222095644260
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 680686280798534,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "28"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 107156608148424,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 876444643551654,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 574704966675843,
+       "parameters": {
+        "animation": "\"active\""
+       }
+      }
+     ],
+     "sid": 458740176591474
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 341528432857277
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Node",
+       "sid": 680686280798534,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "28"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 557759771618453,
+       "parameters": {
+        "variable": "unlocked",
+        "comparison": 5,
+        "value": "14"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 422832252605059,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 1,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Node",
+       "sid": 362473470515697,
+       "parameters": {
+        "animation": "\"normal\""
+       }
+      }
+     ],
+     "sid": 435353566989702
+    }
+   ],
+   "sid": 750813650914834
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Bank card text",
+   "description": "Bank card text",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 360505924191001
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 787334632803945,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 331869306163271,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 477569888128174,
+       "parameters": {
+        "text": "\"Banco Lunar\""
+       }
+      }
+     ],
+     "sid": 111527553560769
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 106211583759368
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 437811073045686,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 257471544545662,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 873306521327183,
+       "parameters": {
+        "text": "\"Level : \" & bank0_lvl"
+       }
+      }
+     ],
+     "sid": 253353398674569
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 130711409088571
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 818570871604748,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 606847518604653,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 468995060477711,
+       "parameters": {
+        "text": "bank0_bal"
+       }
+      }
+     ],
+     "sid": 886824098700495
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 687056534607138
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 521104043146902,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 308873828810239,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 292805205995074,
+       "parameters": {
+        "text": "\"Banco Mirador\""
+       }
+      }
+     ],
+     "sid": 205506477078186
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 859152868995770
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 501332613972385,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 232615199575993,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 804836069320682,
+       "parameters": {
+        "text": "\"Level : \" & bank1_lvl"
+       }
+      }
+     ],
+     "sid": 966174455169394
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 529138603503368
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 806560422176366,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 431358302997531,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 452367646517895,
+       "parameters": {
+        "text": "bank1_bal"
+       }
+      }
+     ],
+     "sid": 326962848800378
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 207470927589299
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 484839714984054,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 613240441523361,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 462344008290301,
+       "parameters": {
+        "text": "\"Banco del Puerto\""
+       }
+      }
+     ],
+     "sid": 618544924780104
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 835992141686090
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 435207567367112,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 603653361916317,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 171014054136297,
+       "parameters": {
+        "text": "\"Level : \" & bank2_lvl"
+       }
+      }
+     ],
+     "sid": 131864513911766
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 343912471449825
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 409587737110961,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 816015829263853,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 749408949571839,
+       "parameters": {
+        "text": "bank2_bal"
+       }
+      }
+     ],
+     "sid": 139547341537193
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 323109689681774
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 182996009299292,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 865882819377739,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 767493537532513,
+       "parameters": {
+        "text": "\"Banco Solano\""
+       }
+      }
+     ],
+     "sid": 108376448424747
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 243373171104836
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 424726842904939,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 704621201150571,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 978089079526610,
+       "parameters": {
+        "text": "\"Level : \" & bank3_lvl"
+       }
+      }
+     ],
+     "sid": 812831965241934
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 964901270999420
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 749109151163454,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 107300573805222,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 293430684634653,
+       "parameters": {
+        "text": "bank3_bal"
+       }
+      }
+     ],
+     "sid": 858067629988254
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 996835046240064
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 872403756188729,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 366958754998792,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 899769531184116,
+       "parameters": {
+        "text": "\"Banco Ceniza\""
+       }
+      }
+     ],
+     "sid": 310782121557476
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 923726040428492
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 959856905912810,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 371985746587818,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 585941404460810,
+       "parameters": {
+        "text": "\"Level : \" & bank4_lvl"
+       }
+      }
+     ],
+     "sid": 564779607946457
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 559201641387043
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 127954019562669,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 979381946527233,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "4"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 332049443222841,
+       "parameters": {
+        "text": "bank4_bal"
+       }
+      }
+     ],
+     "sid": 918611514214038
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 538135414231982
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 804748652310040,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 748970240544553,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 855850947396802,
+       "parameters": {
+        "text": "\"City Reserve\""
+       }
+      }
+     ],
+     "sid": 616195726490491
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 914712680539887
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 569502068407111,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 739104882549335,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 105092113841819,
+       "parameters": {
+        "text": "\"Level : \" & bank5_lvl"
+       }
+      }
+     ],
+     "sid": 213005038781271
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 181740626396380
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 498903768918867,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 580019522786967,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "5"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 755321799194355,
+       "parameters": {
+        "text": "bank5_bal"
+       }
+      }
+     ],
+     "sid": 767814391359347
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 737720075872718
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 427303307194408,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 996183955417598,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 960411829064551,
+       "parameters": {
+        "text": "\"Marble Finance\""
+       }
+      }
+     ],
+     "sid": 264952596410128
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 757443894074092
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 816510478739325,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 629053494464564,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 828726780314347,
+       "parameters": {
+        "text": "\"Level : \" & bank6_lvl"
+       }
+      }
+     ],
+     "sid": 260503065715017
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 968872791539619
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 826712483681646,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 305247129945879,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "6"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 356651758227004,
+       "parameters": {
+        "text": "bank6_bal"
+       }
+      }
+     ],
+     "sid": 465404315603385
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 748644517117065
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 422832101792752,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 133638869622341,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 508457624236400,
+       "parameters": {
+        "text": "\"Grand National\""
+       }
+      }
+     ],
+     "sid": 366925288901551
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 848627374811874
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 269039827370291,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 822807358897724,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 787219461275418,
+       "parameters": {
+        "text": "\"Level : \" & bank7_lvl"
+       }
+      }
+     ],
+     "sid": 213217409938484
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 623293154677176
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 466388333349859,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 579796377832529,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "7"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 687365875544450,
+       "parameters": {
+        "text": "bank7_bal"
+       }
+      }
+     ],
+     "sid": 404530165354578
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 955173301531078
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 600344429466166,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 612449156331565,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 828850704789584,
+       "parameters": {
+        "text": "\"Harbor Vault\""
+       }
+      }
+     ],
+     "sid": 246746041340212
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 209996375896727
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 260146462616495,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 479620427862537,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 679377060368266,
+       "parameters": {
+        "text": "\"Level : \" & bank8_lvl"
+       }
+      }
+     ],
+     "sid": 554303270094741
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 511050415517114
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 951352692865930,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 716915260289124,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "8"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 482926297814431,
+       "parameters": {
+        "text": "bank8_bal"
+       }
+      }
+     ],
+     "sid": 428092508557941
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 128965353277886
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 983856631727635,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 269798394643802,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 247165658742797,
+       "parameters": {
+        "text": "\"Goldstone Bank\""
+       }
+      }
+     ],
+     "sid": 612626405598150
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 618323818630194
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 647104435549277,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 693099996207321,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 311541457692444,
+       "parameters": {
+        "text": "\"Level : \" & bank9_lvl"
+       }
+      }
+     ],
+     "sid": 611982221501183
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 604108656534175
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 345354616335691,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 484843645773432,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "9"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 504673835181467,
+       "parameters": {
+        "text": "bank9_bal"
+       }
+      }
+     ],
+     "sid": 624997445895530
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 635864967978327
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 843873034481862,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 218031928239043,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 183081392670785,
+       "parameters": {
+        "text": "\"West Savings\""
+       }
+      }
+     ],
+     "sid": 524222516270086
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 910324903832665
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 915794648325158,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 488767349338386,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 591291660960250,
+       "parameters": {
+        "text": "\"Level : \" & bank10_lvl"
+       }
+      }
+     ],
+     "sid": 925160971279882
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 892275230720155
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 725412376270398,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 233278678472496,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "10"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 446885312714869,
+       "parameters": {
+        "text": "bank10_bal"
+       }
+      }
+     ],
+     "sid": 583991466607687
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 275480231594847
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 185970792372519,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 292606582494201,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 219398349588808,
+       "parameters": {
+        "text": "\"Northern Trust\""
+       }
+      }
+     ],
+     "sid": 389464076678312
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 454907962323710
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 577926417065185,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 360281008550692,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 392022650700818,
+       "parameters": {
+        "text": "\"Level : \" & bank11_lvl"
+       }
+      }
+     ],
+     "sid": 740279359712993
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 327541551620679
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 995055742530780,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 429709313713986,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "11"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 100974503482905,
+       "parameters": {
+        "text": "bank11_bal"
+       }
+      }
+     ],
+     "sid": 442816746293329
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 350560627973012
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 121430643326177,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 413261770820044,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 661281519296199,
+       "parameters": {
+        "text": "\"Tower Bank\""
+       }
+      }
+     ],
+     "sid": 994478990439093
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 636953022723708
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 769658072736091,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 959655768623960,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 115437610180189,
+       "parameters": {
+        "text": "\"Level : \" & bank12_lvl"
+       }
+      }
+     ],
+     "sid": 402571938658401
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 726540376894317
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 360884229910500,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 569640819522464,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "12"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 220477762419054,
+       "parameters": {
+        "text": "bank12_bal"
+       }
+      }
+     ],
+     "sid": 306588015317396
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 492174635643090
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 796618151871441,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 736301902663097,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 341924397911553,
+       "parameters": {
+        "text": "\"Diamond Credit\""
+       }
+      }
+     ],
+     "sid": 284553461243680
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 150814755954920
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 344315974413911,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 611510301463838,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 694533680661136,
+       "parameters": {
+        "text": "\"Level : \" & bank13_lvl"
+       }
+      }
+     ],
+     "sid": 393994278343742
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 203009912248928
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 916766741949038,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 571471612721173,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "13"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 932790193713895,
+       "parameters": {
+        "text": "bank13_bal"
+       }
+      }
+     ],
+     "sid": 656377037878247
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 221750875732876
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 471714648770325,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "29"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 932602264492745,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 684130526331389,
+       "parameters": {
+        "text": "\"Central Bank\""
+       }
+      }
+     ],
+     "sid": 640736329598797
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 703983692133191
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 834908467979771,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "30"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 245715411642609,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 719176219581308,
+       "parameters": {
+        "text": "\"Level : \" & bank14_lvl"
+       }
+      }
+     ],
+     "sid": 470766405533396
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 208328143287835
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 132754416668620,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "31"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 328956126538354,
+       "parameters": {
+        "variable": "selectedBank",
+        "comparison": 0,
+        "value": "14"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 364315949173541,
+       "parameters": {
+        "text": "bank14_bal"
+       }
+      }
+     ],
+     "sid": 679897020360567
+    }
+   ],
+   "sid": 692166884509952
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Buttons",
+   "description": "Buttons",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 316656046232760,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 489173457152831,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "32"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 637125918948126,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 130270645412928,
+       "parameters": {
+        "variable": "screen",
+        "value": "2"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 681677300015583,
+       "parameters": {
+        "variable": "gearTab",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 105849192215926,
+       "parameters": {
+        "variable": "selectedItem",
+        "value": "weapon"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 963868928865034,
+       "parameters": {
+        "layout": "Garage"
+       }
+      }
+     ],
+     "sid": 403135411943500
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 507467469071168,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 936753866074043,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "33"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 978477982157996,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 218023673354407,
+       "parameters": {
+        "variable": "spinActive",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 277508882996492,
+       "parameters": {
+        "variable": "screen",
+        "value": "4"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 105104290953368,
+       "parameters": {
+        "layout": "Roulette"
+       }
+      }
+     ],
+     "sid": 977350822899496
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 264260579477766,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 938655523662251,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "34"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 916315821447400,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 861079006049503,
+       "parameters": {
+        "variable": "screen",
+        "value": "3"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 946474255027598,
+       "parameters": {
+        "layout": "Shop"
+       }
+      }
+     ],
+     "sid": 102077165568496
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 678182481929197,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 414079058884386,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "35"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 231688161181189,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 608116703169410,
+       "parameters": {
+        "variable": "screen",
+        "value": "0"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 798896524996193,
+       "parameters": {
+        "layout": "Home"
+       }
+      }
+     ],
+     "sid": 298948441807827
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "on-touched-object",
+       "objectClass": "Touch",
+       "sid": 964011876872424,
+       "parameters": {
+        "object": "Btn",
+        "type": "start"
+       }
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Btn",
+       "sid": 833055332937847,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "36"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 738633545262104,
+       "parameters": {
+        "variable": "popupOpen",
+        "comparison": 0,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 765391873076512,
+       "parameters": {
+        "variable": "startReq",
+        "value": "1"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 663389386521290,
+       "parameters": {
+        "variable": "startGuide",
+        "value": "0"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 179470420015887,
+       "parameters": {
+        "variable": "startBank",
+        "value": "selectedBank"
+       }
+      },
+      {
+       "id": "set-eventvar-value",
+       "objectClass": "System",
+       "sid": 987962892682430,
+       "parameters": {
+        "variable": "screen",
+        "value": "5"
+       }
+      },
+      {
+       "id": "go-to-layout",
+       "objectClass": "System",
+       "sid": 315365853613822,
+       "parameters": {
+        "layout": "Game"
+       }
+      }
+     ],
+     "sid": 142691940773287
+    }
+   ],
+   "sid": 167879584510446
+  },
+  {
+   "eventType": "group",
+   "disabled": false,
+   "title": "Keys and resources",
+   "description": "Keys and resources",
+   "isActiveOnStart": true,
+   "children": [
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 254915324339769
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 250150230540310,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "37"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 677541057256536,
+       "parameters": {
+        "text": "\"\" & keys & \"/4\""
+       }
+      }
+     ],
+     "sid": 756961155855453
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 867622066277842
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 215959424403497,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "38"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 772762066232346,
+       "parameters": {
+        "text": "coins"
+       }
+      }
+     ],
+     "sid": 560101575120982
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 991894277257061
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 163727892348922,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "39"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 595149065812108,
+       "parameters": {
+        "text": "gems"
+       }
+      }
+     ],
+     "sid": 748308829300293
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 696542084725822
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Txt",
+       "sid": 396213507766443,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "38"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-text",
+       "objectClass": "Txt",
+       "sid": 100070204962971,
+       "parameters": {
+        "text": "coins"
+       }
+      }
+     ],
+     "sid": 375253459422706
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 225123394268694
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 478698906566369,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "40"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 258038877176798,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 4,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 142335993929690,
+       "parameters": {
+        "animation": "\"key_on\""
+       }
+      }
+     ],
+     "sid": 466530392392919
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 719373627409998
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 980048262753123,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "41"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 623190550676042,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 4,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 201838135874277,
+       "parameters": {
+        "animation": "\"key_on\""
+       }
+      }
+     ],
+     "sid": 802424522724696
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 522746498480380
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 180755895575633,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "42"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 679667514856756,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 4,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 256910109288262,
+       "parameters": {
+        "animation": "\"key_on\""
+       }
+      }
+     ],
+     "sid": 991904280804548
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 511839674560215
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 446925221615329,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "43"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 493840647021452,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 4,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 762296143970741,
+       "parameters": {
+        "animation": "\"key_on\""
+       }
+      }
+     ],
+     "sid": 614811156534378
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 280652802180410
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 477521177619689,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "40"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 826181423753622,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 3,
+        "value": "0"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 359894343795609,
+       "parameters": {
+        "animation": "\"key_off\""
+       }
+      }
+     ],
+     "sid": 806970870535689
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 304124024888739
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 377023332370581,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "41"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 477411899394954,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 3,
+        "value": "1"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 261729321363971,
+       "parameters": {
+        "animation": "\"key_off\""
+       }
+      }
+     ],
+     "sid": 166984523416471
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 299663213476979
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 698914845122017,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "42"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 480735794775395,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 3,
+        "value": "2"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 699649603386233,
+       "parameters": {
+        "animation": "\"key_off\""
+       }
+      }
+     ],
+     "sid": 766450370759744
+    },
+    {
+     "eventType": "block",
+     "conditions": [
+      {
+       "id": "every-tick",
+       "objectClass": "System",
+       "sid": 721801625327411
+      },
+      {
+       "id": "compare-instance-variable",
+       "objectClass": "Icon",
+       "sid": 518705289857457,
+       "parameters": {
+        "variable": "id",
+        "comparison": 0,
+        "value": "43"
+       }
+      },
+      {
+       "id": "compare-eventvar",
+       "objectClass": "System",
+       "sid": 548428133435837,
+       "parameters": {
+        "variable": "keys",
+        "comparison": 3,
+        "value": "3"
+       }
+      }
+     ],
+     "actions": [
+      {
+       "id": "set-animation",
+       "objectClass": "Icon",
+       "sid": 137198252107030,
+       "parameters": {
+        "animation": "\"key_off\""
+       }
+      }
+     ],
+     "sid": 123287247279866
+    }
+   ],
+   "sid": 794084978927971
+  }
+ ],
+ "sid": 902627310325868
+}

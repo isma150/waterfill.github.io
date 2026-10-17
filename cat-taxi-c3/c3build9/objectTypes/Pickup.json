@@ -1,0 +1,178 @@
+{
+ "name": "Pickup",
+ "plugin-id": "Sprite",
+ "sid": 678262024362698,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 585485006826052
+  },
+  {
+   "name": "progress",
+   "type": "number",
+   "initialValue": "0.02",
+   "desc": "",
+   "show": true,
+   "sid": 485719941997051
+  },
+  {
+   "name": "duration",
+   "type": "number",
+   "initialValue": "2.25",
+   "desc": "",
+   "show": true,
+   "sid": 615955231095983
+  },
+  {
+   "name": "amount",
+   "type": "number",
+   "initialValue": "25",
+   "desc": "",
+   "show": true,
+   "sid": 182649183770070
+  },
+  {
+   "name": "lane",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 705923559989780
+  },
+  {
+   "name": "training",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 709707488043652
+  },
+  {
+   "name": "collected",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 939264382594549
+  },
+  {
+   "name": "sx",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 578054293834541
+  },
+  {
+   "name": "sy",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 970114815780308
+  },
+  {
+   "name": "sc",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 775385320773423
+  },
+  {
+   "name": "pick",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 403587519114565
+  },
+  {
+   "name": "prev",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 295882445412870
+  },
+  {
+   "name": "dist",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 355573849110627
+  },
+  {
+   "name": "isCrate",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 380518632326947
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 57,
+      "height": 61,
+      "originX": 0.491228,
+      "originY": 0.52459,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 253218304896589,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 980390481377662,
+    "name": "crate",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 42,
+      "height": 42,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 444994073079176,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 226660780616651,
+    "name": "coin",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

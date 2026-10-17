@@ -1,0 +1,169 @@
+{
+ "name": "Shot",
+ "plugin-id": "Sprite",
+ "sid": 507062058335703,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 616952657059886
+  },
+  {
+   "name": "x0",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 580239951674160
+  },
+  {
+   "name": "d0",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 639427985573913
+  },
+  {
+   "name": "xl",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 801954355442420
+  },
+  {
+   "name": "dl",
+   "type": "number",
+   "initialValue": "0.5",
+   "desc": "",
+   "show": true,
+   "sid": 629736381567283
+  },
+  {
+   "name": "fly",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 629904312723981
+  },
+  {
+   "name": "age",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 243501742587002
+  },
+  {
+   "name": "exploded",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 496655291543778
+  },
+  {
+   "name": "done",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 711416621393590
+  },
+  {
+   "name": "training",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 685788231016204
+  },
+  {
+   "name": "sx",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 602159025585894
+  },
+  {
+   "name": "sy",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 423005221479017
+  },
+  {
+   "name": "sc",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 197902245884845
+  },
+  {
+   "name": "d",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 744739106382266
+  },
+  {
+   "name": "landed",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 685304284277304
+  },
+  {
+   "name": "dist",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 498063988061317
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 21,
+      "height": 55,
+      "originX": 0.428571,
+      "originY": 0.709091,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 635888209019793,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 221953541517839,
+    "name": "dyn",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

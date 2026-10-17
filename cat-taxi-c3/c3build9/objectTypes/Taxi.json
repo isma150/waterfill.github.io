@@ -1,0 +1,124 @@
+{
+ "name": "Taxi",
+ "plugin-id": "Sprite",
+ "sid": 583219559145080,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 512051871026315
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 150,
+      "height": 128,
+      "originX": 0.5,
+      "originY": 0.648438,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 505920716974291,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 529635557246667,
+    "name": "taxi",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 166,
+      "height": 118,
+      "originX": 0.5,
+      "originY": 0.59322,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 485634413521832,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 526915326510472,
+    "name": "blue",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 166,
+      "height": 118,
+      "originX": 0.5,
+      "originY": 0.59322,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 284798559676883,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 446901247024315,
+    "name": "mint",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 150,
+      "height": 128,
+      "originX": 0.5,
+      "originY": 0.648438,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 497221436001968,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 999969169026384,
+    "name": "home",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

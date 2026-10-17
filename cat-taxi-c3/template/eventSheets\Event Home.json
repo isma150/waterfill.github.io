@@ -1,0 +1,1043 @@
+{
+	"name": "Event Home",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "Music_ONOFF",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 475774274551360
+		},
+		{
+			"eventType": "variable",
+			"name": "Sound_ONOFF",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 715659805761536
+		},
+		{
+			"eventType": "comment",
+			"text": "The \"PLAYABLE AREA\" is the common part for all resolutions that will be visible on any device. Place all the important elements in it.",
+			"text-color": [
+				0,
+				0,
+				0,
+				0
+			],
+			"background-color": [
+				0.5686274509803921,
+				1,
+				0.5098039215686274,
+				1
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 653119868010678
+				}
+			],
+			"actions": [
+				{
+					"id": "scroll-to-position",
+					"objectClass": "System",
+					"sid": 574331266044705,
+					"parameters": {
+						"x": "240",
+						"y": "320"
+					}
+				},
+				{
+					"id": "stop-all",
+					"objectClass": "Audio",
+					"sid": 137786038518634
+				},
+				{
+					"id": "check-item-exists",
+					"objectClass": "LocalStorage",
+					"sid": 186265840910809,
+					"parameters": {
+						"key": "\"SoundKey\""
+					}
+				},
+				{
+					"id": "check-item-exists",
+					"objectClass": "LocalStorage",
+					"sid": 310908857607002,
+					"parameters": {
+						"key": "\"MusicKey\""
+					}
+				}
+			],
+			"sid": 525346469102777
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Audio",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Sound Load",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "For all the sounds fx, etc use the tag \"Sound\"",
+							"text-color": [
+								0,
+								0,
+								0,
+								0
+							],
+							"background-color": [
+								1,
+								1,
+								1,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-exists",
+									"objectClass": "LocalStorage",
+									"sid": 692013448748613,
+									"parameters": {
+										"key": "\"SoundKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "get-item",
+									"objectClass": "LocalStorage",
+									"sid": 582721189160517,
+									"parameters": {
+										"key": "\"SoundKey\""
+									}
+								}
+							],
+							"sid": 667805082563738
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-get",
+									"objectClass": "LocalStorage",
+									"sid": 463652173873285,
+									"parameters": {
+										"key": "\"SoundKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 893402505627948,
+									"parameters": {
+										"variable": "Sound_ONOFF",
+										"value": "LocalStorage.ItemValue"
+									}
+								}
+							],
+							"sid": 650018707128587,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-animation-playing",
+											"objectClass": "UI_Sprites",
+											"sid": 199434540604112,
+											"parameters": {
+												"animation": "\"Sound\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 625958235659805,
+											"parameters": {
+												"frame-number": "Sound_ONOFF"
+											}
+										}
+									],
+									"sid": 485999456569390
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-missing",
+									"objectClass": "LocalStorage",
+									"sid": 615639755165795,
+									"parameters": {
+										"key": "\"SoundKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-item",
+									"objectClass": "LocalStorage",
+									"sid": 751925591632388,
+									"parameters": {
+										"key": "\"SoundKey\"",
+										"value": "\"0\""
+									}
+								}
+							],
+							"sid": 280552186938656
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-frame",
+									"objectClass": "UI_Sprites",
+									"sid": 674625243893086,
+									"parameters": {
+										"comparison": 0,
+										"number": "0"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 765471661690206,
+									"parameters": {
+										"animation": "\"Sound\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 318697879310820,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 756600007418342
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 181258621304500
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 803948163556132,
+											"parameters": {
+												"tag": "\"Sound\"",
+												"state": "unmuted"
+											}
+										}
+									],
+									"sid": 323791698567682
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-frame",
+									"objectClass": "UI_Sprites",
+									"sid": 894596270022554,
+									"parameters": {
+										"comparison": 0,
+										"number": "1"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 501066630213203,
+									"parameters": {
+										"animation": "\"Sound\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 336453739125104,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 148474148755920
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 566890828488842
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 675009451104361,
+											"parameters": {
+												"tag": "\"Sound\"",
+												"state": "muted"
+											}
+										}
+									],
+									"sid": 966498918335541
+								}
+							]
+						}
+					],
+					"sid": 385040451692914
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Music Load",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "For all the songs and music, use the tag \"Music\"",
+							"text-color": [
+								0,
+								0,
+								0,
+								0
+							],
+							"background-color": [
+								1,
+								1,
+								1,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-exists",
+									"objectClass": "LocalStorage",
+									"sid": 475147893056074,
+									"parameters": {
+										"key": "\"MusicKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "get-item",
+									"objectClass": "LocalStorage",
+									"sid": 867783202571569,
+									"parameters": {
+										"key": "\"MusicKey\""
+									}
+								}
+							],
+							"sid": 255897491815314
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-get",
+									"objectClass": "LocalStorage",
+									"sid": 229915254956757,
+									"parameters": {
+										"key": "\"MusicKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 183475052193087,
+									"parameters": {
+										"variable": "Music_ONOFF",
+										"value": "LocalStorage.ItemValue"
+									}
+								}
+							],
+							"sid": 338226129417836,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-animation-playing",
+											"objectClass": "UI_Sprites",
+											"sid": 189575194242141,
+											"parameters": {
+												"animation": "\"Music\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 388088896541763,
+											"parameters": {
+												"frame-number": "Music_ONOFF"
+											}
+										}
+									],
+									"sid": 199641924289328,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "UI_Sprites",
+													"sid": 970704512278858,
+													"parameters": {
+														"comparison": 0,
+														"number": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "wait-for-previous-actions",
+													"objectClass": "System",
+													"sid": 500192219286876
+												},
+												{
+													"id": "set-muted",
+													"objectClass": "Audio",
+													"sid": 994845153399235,
+													"parameters": {
+														"tag": "\"Music\"",
+														"state": "unmuted"
+													}
+												}
+											],
+											"sid": 643060539495197
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "UI_Sprites",
+													"sid": 215016597401756,
+													"parameters": {
+														"comparison": 0,
+														"number": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "wait-for-previous-actions",
+													"objectClass": "System",
+													"sid": 267186055727845
+												},
+												{
+													"id": "set-muted",
+													"objectClass": "Audio",
+													"sid": 734122648505650,
+													"parameters": {
+														"tag": "\"Music\"",
+														"state": "muted"
+													}
+												}
+											],
+											"sid": 476069522193495
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-item-missing",
+									"objectClass": "LocalStorage",
+									"sid": 769301682849410,
+									"parameters": {
+										"key": "\"MusicKey\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-item",
+									"objectClass": "LocalStorage",
+									"sid": 974940441747912,
+									"parameters": {
+										"key": "\"MusicKey\"",
+										"value": "\"0\""
+									}
+								}
+							],
+							"sid": 441532788944471
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-frame",
+									"objectClass": "UI_Sprites",
+									"sid": 207609856412629,
+									"parameters": {
+										"comparison": 0,
+										"number": "0"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 232849190175133,
+									"parameters": {
+										"animation": "\"Music\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 654949471729750,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 217783050045183
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 250689648077506
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 219574035487373,
+											"parameters": {
+												"tag": "\"Music\"",
+												"state": "unmuted"
+											}
+										}
+									],
+									"sid": 443572799105009
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-frame",
+									"objectClass": "UI_Sprites",
+									"sid": 959502085315999,
+									"parameters": {
+										"comparison": 0,
+										"number": "1"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 191658794753574,
+									"parameters": {
+										"animation": "\"Music\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 570556296788080,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 264326709163260
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 602987079910993
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 870781774375389,
+											"parameters": {
+												"tag": "\"Music\"",
+												"state": "muted"
+											}
+										}
+									],
+									"sid": 960755175568499
+								}
+							]
+						}
+					],
+					"sid": 951224677917374
+				}
+			],
+			"sid": 322007020033594
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Home Buttons",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-touched-object",
+							"objectClass": "Touch",
+							"sid": 785765787950579,
+							"parameters": {
+								"object": "UI_Sprites",
+								"type": "start"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-object-time-scale",
+							"objectClass": "System",
+							"sid": 699827883307993,
+							"parameters": {
+								"object": "UI_Sprites",
+								"time-scale": "1.0"
+							}
+						},
+						{
+							"id": "set-size",
+							"objectClass": "UI_Sprites",
+							"sid": 986880979323545,
+							"parameters": {
+								"width": "Self.Width-5",
+								"height": "Self.Height-5"
+							}
+						},
+						{
+							"id": "tween-two-properties",
+							"objectClass": "UI_Sprites",
+							"sid": 535061821100882,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"Size\"",
+								"property": "size",
+								"end-x": "Self.Width+5",
+								"end-y": "Self.Height+5",
+								"time": "0.1",
+								"ease": "default",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 676420978907670,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Resume Game",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0,
+								0,
+								0,
+								0
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 389955098843611,
+									"parameters": {
+										"animation": "\"Play\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "wait-for-previous-actions",
+									"objectClass": "System",
+									"sid": 840395246922104
+								},
+								{
+									"id": "set-time-scale",
+									"objectClass": "System",
+									"sid": 203901425732866,
+									"parameters": {
+										"time-scale": "1.0"
+									}
+								},
+								{
+									"id": "go-to-layout",
+									"objectClass": "System",
+									"sid": 365593325885379,
+									"parameters": {
+										"layout": "Game"
+									}
+								}
+							],
+							"sid": 966458352302960
+						},
+						{
+							"eventType": "comment",
+							"text": "Mute/Unmute  Sound",
+							"text-color": [
+								0,
+								0,
+								0,
+								1
+							],
+							"background-color": [
+								1,
+								1,
+								1,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 517413275948687,
+									"parameters": {
+										"animation": "\"Sound\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 505434474264078,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 821606348885133,
+											"parameters": {
+												"comparison": 0,
+												"number": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 610383331444161
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 314967236129044,
+											"parameters": {
+												"frame-number": "1"
+											}
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 630449498496794,
+											"parameters": {
+												"tag": "\"Sound\"",
+												"state": "muted"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 197409026435431,
+											"parameters": {
+												"variable": "Sound_ONOFF",
+												"value": "1"
+											}
+										},
+										{
+											"id": "set-item",
+											"objectClass": "LocalStorage",
+											"sid": 988713926011315,
+											"parameters": {
+												"key": "\"SoundKey\"",
+												"value": "Sound_ONOFF"
+											}
+										}
+									],
+									"sid": 306698625910238
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 451971406055036,
+											"parameters": {
+												"comparison": 0,
+												"number": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "wait-for-previous-actions",
+											"objectClass": "System",
+											"sid": 117852303544995
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 166064902227348,
+											"parameters": {
+												"frame-number": "0"
+											}
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 742834520387081,
+											"parameters": {
+												"tag": "\"Sound\"",
+												"state": "unmuted"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 603323622025880,
+											"parameters": {
+												"variable": "Sound_ONOFF",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-item",
+											"objectClass": "LocalStorage",
+											"sid": 490145500289687,
+											"parameters": {
+												"key": "\"SoundKey\"",
+												"value": "Sound_ONOFF"
+											}
+										}
+									],
+									"sid": 642397725629182
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Mute/Unmute  Music",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0,
+								0,
+								0,
+								0
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "UI_Sprites",
+									"sid": 869097510870905,
+									"parameters": {
+										"animation": "\"Music\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 146964005821108,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 716378745520049,
+											"parameters": {
+												"comparison": 0,
+												"number": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 472424291860312,
+											"parameters": {
+												"seconds": "0.1",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 860313414198728,
+											"parameters": {
+												"frame-number": "1"
+											}
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 947921895061833,
+											"parameters": {
+												"tag": "\"Music\"",
+												"state": "muted"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 234048053527775,
+											"parameters": {
+												"variable": "Music_ONOFF",
+												"value": "1"
+											}
+										},
+										{
+											"id": "set-item",
+											"objectClass": "LocalStorage",
+											"sid": 477641385310669,
+											"parameters": {
+												"key": "\"MusicKey\"",
+												"value": "Music_ONOFF"
+											}
+										}
+									],
+									"sid": 456990380073886
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 913959985175441,
+											"parameters": {
+												"comparison": 0,
+												"number": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 785828366488316,
+											"parameters": {
+												"seconds": "0.1",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "UI_Sprites",
+											"sid": 796714493217254,
+											"parameters": {
+												"frame-number": "0"
+											}
+										},
+										{
+											"id": "set-muted",
+											"objectClass": "Audio",
+											"sid": 569859906913384,
+											"parameters": {
+												"tag": "\"Music\"",
+												"state": "unmuted"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 381171480791640,
+											"parameters": {
+												"variable": "Music_ONOFF",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-item",
+											"objectClass": "LocalStorage",
+											"sid": 473773556676715,
+											"parameters": {
+												"key": "\"MusicKey\"",
+												"value": "Music_ONOFF"
+											}
+										}
+									],
+									"sid": 710330344679884
+								}
+							]
+						}
+					]
+				}
+			],
+			"sid": 597308484514428
+		}
+	],
+	"sid": 971425221833914
+}

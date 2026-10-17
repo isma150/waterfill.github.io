@@ -1,0 +1,899 @@
+{
+ "name": "Btn",
+ "plugin-id": "Sprite",
+ "sid": 877115090659118,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 924526929644593
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 581512607396673,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 580010245724157,
+    "name": "cfffdf7",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 208729314192413,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 378533657653830,
+    "name": "cfffcf7",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 563340294042731,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 483341620866476,
+    "name": "cedb847",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 812350676427831,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 729698818660580,
+    "name": "c568dce",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 922943363813989,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 605433101271866,
+    "name": "c67b6a4",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 446054622986789,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 346142344792081,
+    "name": "cf8d36d",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 686600150749494,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 407918179756644,
+    "name": "cf9d575",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 633477214737187,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 711618915469287,
+    "name": "cf5cf67",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 825165026392861,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 156691506829515,
+    "name": "cb4ecbf",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 630153252386238,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 565176507798056,
+    "name": "c9ee4f5",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 755288410943445,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 866276028695905,
+    "name": "ce6e4dd",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 809252807155571,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 168654331605046,
+    "name": "cf6d06b",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 880424580229425,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 916405074823005,
+    "name": "cf7d46d",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 516821051681474,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 214028806563519,
+    "name": "cf5a48e",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 550034451376276,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 457353978094728,
+    "name": "cf5d47b",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 503663901636670,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 791479958704650,
+    "name": "cf5dda8",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 348467942834420,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 433179045331469,
+    "name": "cb9f2f2",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 846792459265321,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 801689289904810,
+    "name": "cf8d16d",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 212997440940426,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 197899756260297,
+    "name": "cedc5b8",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 204365214207134,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 341219104524504,
+    "name": "cd9ddd4",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 581462438436311,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 530432263202138,
+    "name": "cf0d389",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 827728141238556,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 512999309934366,
+    "name": "ceec0ae",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 287473401338358,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 938725151456367,
+    "name": "cf7d376",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 884992998686152,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 190012507579027,
+    "name": "cbedfc4",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 123991012829164,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 269861241739250,
+    "name": "cc8ecae",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 768339875976552,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 393884942750858,
+    "name": "cfff0aa",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 644994305509213,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 241600043084031,
+    "name": "cf5f1e9",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 910943810458078,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 511032121308427,
+    "name": "cffe8a9",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 359409627713272,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 541000083673877,
+    "name": "cffefb9",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 481499543143350,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 281841547579172,
+    "name": "cfffef6",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 553338693689538,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 208978335311091,
+    "name": "ceee8dc",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 564156965296141,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 393768721835568,
+    "name": "ce7e2d9",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 219424642294460,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 742449439239531,
+    "name": "cfffcf6",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 726851124434910,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 212296019517640,
+    "name": "cfff5df",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 250,
+      "height": 150,
+      "originX": 0.5,
+      "originY": 0.5,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 528681104189903,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 158121472184751,
+    "name": "cclear",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

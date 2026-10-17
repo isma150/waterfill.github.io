@@ -1,0 +1,9 @@
+{
+  "name": "cat-taxi-c3-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Validation tools for the Cat Taxi v9 Construct 3 port",
+  "dependencies": {
+    "@genvidtech/c3source": "2.1.0"
+  }
+}

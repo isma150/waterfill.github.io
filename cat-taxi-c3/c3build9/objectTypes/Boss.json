@@ -1,0 +1,317 @@
+{
+ "name": "Boss",
+ "plugin-id": "Sprite",
+ "sid": 881028804640373,
+ "isGlobal": false,
+ "editorNewInstanceIsReplica": true,
+ "instanceVariables": [
+  {
+   "name": "id",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 515604541258178
+  },
+  {
+   "name": "lane",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 436680736307151
+  },
+  {
+   "name": "laneFrom",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 231506160226236
+  },
+  {
+   "name": "laneTo",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 711118072408579
+  },
+  {
+   "name": "laneT",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 880633896115922
+  },
+  {
+   "name": "laneDur",
+   "type": "number",
+   "initialValue": "0.9",
+   "desc": "",
+   "show": true,
+   "sid": 262801700849866
+  },
+  {
+   "name": "d",
+   "type": "number",
+   "initialValue": "-0.45",
+   "desc": "",
+   "show": true,
+   "sid": 753299493886269
+  },
+  {
+   "name": "vd",
+   "type": "number",
+   "initialValue": "0.11",
+   "desc": "",
+   "show": true,
+   "sid": 327824635647227
+  },
+  {
+   "name": "hoverD",
+   "type": "number",
+   "initialValue": "-0.055",
+   "desc": "",
+   "show": true,
+   "sid": 832126360266023
+  },
+  {
+   "name": "hp",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 421773645920277
+  },
+  {
+   "name": "maxHp",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 155222915090192
+  },
+  {
+   "name": "fire",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 960015835438996
+  },
+  {
+   "name": "age",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 879264922309997
+  },
+  {
+   "name": "phase",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 717644678114631
+  },
+  {
+   "name": "state",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 592932198089724
+  },
+  {
+   "name": "sx",
+   "type": "number",
+   "initialValue": "210",
+   "desc": "",
+   "show": true,
+   "sid": 429647447146446
+  },
+  {
+   "name": "sy",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 609244570110598
+  },
+  {
+   "name": "sc",
+   "type": "number",
+   "initialValue": "1",
+   "desc": "",
+   "show": true,
+   "sid": 949055013256007
+  },
+  {
+   "name": "dist",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 168093016535205
+  },
+  {
+   "name": "inAoe",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 807245313530967
+  },
+  {
+   "name": "isTarget",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 502599682416613
+  },
+  {
+   "name": "pick",
+   "type": "number",
+   "initialValue": "0",
+   "desc": "",
+   "show": true,
+   "sid": 748236117493075
+  }
+ ],
+ "behaviorTypes": [],
+ "effectTypes": [],
+ "animations": {
+  "items": [
+   {
+    "frames": [
+     {
+      "width": 196,
+      "height": 173,
+      "originX": 0.5,
+      "originY": 0.745665,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 217302539821708,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 212035131271192,
+    "name": "convoy",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 196,
+      "height": 173,
+      "originX": 0.5,
+      "originY": 0.745665,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 750709063558890,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 237709075500421,
+    "name": "armored",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 196,
+      "height": 173,
+      "originX": 0.5,
+      "originY": 0.745665,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 600591027860770,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 450303803955352,
+    "name": "green",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 196,
+      "height": 173,
+      "originX": 0.5,
+      "originY": 0.745665,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 674203762205508,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 660675120428063,
+    "name": "orange",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   },
+   {
+    "frames": [
+     {
+      "width": 196,
+      "height": 176,
+      "originX": 0.5,
+      "originY": 0.75,
+      "originalSource": "",
+      "exportFormat": "lossless",
+      "exportQuality": 0.8,
+      "fileType": "image/png",
+      "imageSpriteId": 995171540032002,
+      "useCollisionPoly": false,
+      "duration": 1,
+      "tag": ""
+     }
+    ],
+    "sid": 122812273301808,
+    "name": "police",
+    "isLooping": false,
+    "isPingPong": false,
+    "repeatCount": 1,
+    "repeatTo": 0,
+    "speed": 5
+   }
+  ],
+  "subfolders": []
+ }
+}

@@ -1,0 +1,312 @@
+{
+ "action|LocalStorage|get-item": [
+  "key"
+ ],
+ "condition|LocalStorage|on-item-get": [
+  "key"
+ ],
+ "action|System|set-eventvar-value": [
+  "value",
+  "variable"
+ ],
+ "condition|System|on-start-of-layout": [],
+ "condition|System|compare-eventvar": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "condition|System|every-tick": [],
+ "condition|Card|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Card|set-visible": [
+  "visibility"
+ ],
+ "action|Card|set-position": [
+  "x",
+  "y"
+ ],
+ "condition|Txt|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Txt|set-visible": [
+  "visibility"
+ ],
+ "action|Txt|set-position": [
+  "x",
+  "y"
+ ],
+ "action|LocalStorage|set-item": [
+  "key",
+  "value"
+ ],
+ "condition|Keyboard|on-key-pressed": [
+  "key"
+ ],
+ "action|System|go-to-layout": [
+  "layout"
+ ],
+ "condition|Touch|on-touched-object": [
+  "object",
+  "type"
+ ],
+ "condition|Btn|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "condition|Node|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Node|set-animation": [
+  "animation"
+ ],
+ "action|Txt|set-text": [
+  "text"
+ ],
+ "condition|Icon|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Icon|set-animation": [
+  "animation"
+ ],
+ "action|System|set-layer-visible": [
+  "layer",
+  "visibility"
+ ],
+ "action|Btn|set-animation": [
+  "animation"
+ ],
+ "condition|Shape|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Shape|set-animation": [
+  "animation"
+ ],
+ "action|Shape|set-visible": [
+  "visibility"
+ ],
+ "action|Btn|set-visible": [
+  "visibility"
+ ],
+ "action|Btn|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Btn|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Txt|set-size": [
+  "height",
+  "width"
+ ],
+ "condition|Taxi|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Taxi|set-animation": [
+  "animation"
+ ],
+ "action|Taxi|set-visible": [
+  "visibility"
+ ],
+ "action|Icon|set-visible": [
+  "visibility"
+ ],
+ "condition|Wheel|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Wheel|set-angle": [
+  "angle"
+ ],
+ "condition|Touch|is-in-touch": [],
+ "condition|Keyboard|is-key-down": [
+  "key"
+ ],
+ "condition|System|compare-two-values": [
+  "comparison",
+  "first-value",
+  "second-value"
+ ],
+ "action|System|create-object": [
+  "create-hierarchy",
+  "layer",
+  "object-to-create",
+  "template-name",
+  "x",
+  "y"
+ ],
+ "action|Enemy|set-animation": [
+  "animation"
+ ],
+ "action|Enemy|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "action|Boss|set-animation": [
+  "animation"
+ ],
+ "action|Boss|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "condition|Enemy|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "condition|Boss|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "condition|Enemy|pick-lowest-instvar": [
+  "variable"
+ ],
+ "action|Shot|set-animation": [
+  "animation"
+ ],
+ "action|Shot|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "action|Warn|set-animation": [
+  "animation"
+ ],
+ "action|Warn|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "condition|Shot|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Fx|set-animation": [
+  "animation"
+ ],
+ "action|Fx|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "action|Shot|destroy": [],
+ "action|Pickup|set-animation": [
+  "animation"
+ ],
+ "action|Pickup|set-instvar-value": [
+  "value",
+  "variable"
+ ],
+ "condition|Pickup|compare-instance-variable": [
+  "comparison",
+  "value",
+  "variable"
+ ],
+ "action|Pickup|destroy": [],
+ "action|Enemy|destroy": [],
+ "action|Boss|destroy": [],
+ "condition|Shot|pick-lowest-instvar": [
+  "variable"
+ ],
+ "condition|Pickup|pick-highest-instvar": [
+  "variable"
+ ],
+ "action|Shape|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Warn|destroy": [],
+ "action|Taxi|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Taxi|set-angle": [
+  "angle"
+ ],
+ "action|Taxi|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Enemy|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Enemy|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Boss|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Boss|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Shot|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Shot|set-angle": [
+  "angle"
+ ],
+ "action|Shot|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Warn|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Warn|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Pickup|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Pickup|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Speed|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Speed|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Speed|set-angle": [
+  "angle"
+ ],
+ "action|Icon|set-position": [
+  "x",
+  "y"
+ ],
+ "action|Shape|set-size": [
+  "height",
+  "width"
+ ],
+ "action|Needle|set-angle": [
+  "angle"
+ ],
+ "action|Bg|set-animation": [
+  "animation"
+ ]
+}
