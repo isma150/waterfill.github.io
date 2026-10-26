@@ -104,6 +104,24 @@ GROUP_RULES = {
 }
 
 
+def rotate_vec(q, v):
+    """Aplica el cuaternión q (xyzw) al vector v."""
+    return qmul(qmul(q, np.concatenate([v, [0.0]])), qconj(q))[:3]
+
+
+def parent_world_rot(g, node):
+    """Rotación en reposo del padre en espacio de mundo (producto de los ancestros)."""
+    chain = []
+    p = g.parent.get(node)
+    while p is not None:
+        chain.append(p)
+        p = g.parent.get(p)
+    w = np.array([0.0, 0.0, 0.0, 1.0])
+    for a in reversed(chain):
+        w = qmul(w, g.rest_trs(a)[1])
+    return w
+
+
 def pose_at(g, clip, t):
     """Rotación local de cada hueso en el instante t de un clip existente: {node: (4,)}."""
     samples, _ = g.sample_clip(clip)
@@ -125,6 +143,10 @@ def build_clip(g, spec):
     tmap = piecewise_map(spec['timeline'])
     settle = spec.get('settle')
     neutral = pose_at(g, spec.get('settle_clip', 'Idle'), 0.0) if settle else None
+    # Ancla de la cadera: posición neutra de Idle (t=0). Es la postura que usan los clips.
+    idle_samples, _ = g.sample_clip('Idle')
+    idle_hips = idle_samples[g.index['mixamorig:Hips']]['t']
+    hips_anchor = sample_channel(idle_hips[0], idle_hips[1], np.array([0.0]))[0]
 
     rot, trn = {}, {}
     for node in g.joints:
@@ -163,9 +185,12 @@ def build_clip(g, spec):
             base = rest_t[None, :] + np.zeros((len(grid), 3))
             if 't' in ch:
                 base = sample_channel(ch['t'][0], ch['t'][1], src_t)
-            offset = np.zeros((len(grid), 3))
-            offset[:, 1] = dip
-            trn[node] = (base + offset).astype(np.float32)
+            # `dip` va en el eje Y del mundo. Golem_Rig gira 90° en X, así que el eje Y
+            # local de la cadera apunta al Z del mundo: el vector se convierte al espacio local.
+            up_local = rotate_vec(qconj(parent_world_rot(g, node)), np.array([0.0, 1.0, 0.0]))
+            # Sin desplazamiento horizontal: del mocap solo se conserva la altura de la cadera.
+            vertical = (base - hips_anchor[None, :]) @ up_local
+            trn[node] = (hips_anchor[None, :] + (vertical + dip)[:, None] * up_local[None, :]).astype(np.float32)
     return grid, rot, trn
 
 
@@ -210,6 +235,29 @@ CLIPS = [
                 (1.05, -0.10), (1.20, -0.03), (1.70, 0.0)],
         'settle': (1.15, 1.70),
         'extras': {'impactos_s': [1.05], 'hit_stop_s': [1.05, 1.15]},
+    },
+    {
+        # Puñetazo recto: base Golpe02_Cruzado (el brazo avanza en línea recta).
+        # Las piernas casi no se mueven en ese clip, así que se exagera su ganancia.
+        'name': 'Golpe_Recto_v2',
+        'src': 'Golpe02_Cruzado',
+        'duration': 1.25,
+        'timeline': [
+            (0.00, 0.00, 'inout'),   # preparación
+            (0.25, 0.15, 'inout'),   # carga del brazo
+            (0.40, 0.30, 'in'),      # inicio del avance
+            (0.50, 0.40, 'in'),      # aceleración del golpe
+            (0.58, 0.60, 'out'),     # impacto
+            (0.70, 0.62, 'out'),     # pausa de impacto (hit-stop visual)
+            (1.25, 1.20, 'out'),     # recuperación
+        ],
+        'dip': [(0.00, 0.0), (0.25, -0.03), (0.50, -0.01), (0.70, 0.0), (1.25, 0.0)],
+        'settle': (0.70, 1.25),
+        'gain_override': {
+            'mixamorig:LeftUpLeg': 1.5, 'mixamorig:RightUpLeg': 1.5,
+            'mixamorig:LeftLeg': 1.5, 'mixamorig:RightLeg': 1.5,
+        },
+        'extras': {'impactos_s': [0.58], 'hit_stop_s': [0.58, 0.70]},
     },
 ]
 

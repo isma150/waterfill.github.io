@@ -82,17 +82,21 @@ let current = null;
 let playing = true;
 let t = 0;
 
-// Instantes de impacto de los clips nuevos (mismos valores que "impactos_s" en generar_animaciones.py).
-const IMPACTOS = { Golpe_Pesado_v2: [0.58], Salto_Impacto_v2: [1.05] };
+// Los "extras" de cada animación (impactos_s, hit_stop_s) no los expone three.js en el clip:
+// se leen del JSON del GLB que ya ha parseado el loader.
+const animJson = gltf.parser ? gltf.parser.json.animations : [];
 
 function play(name) {
   current = actions[name];
   mixer.stopAllAction();
-  current.setLoop(THREE.LoopOnce, 0);
-  current.clampWhenFinished = true;
+  // LoopRepeat: con LoopOnce three.js pausa la acción al final y el visor se quedaría congelado.
+  // El bucle lo gestiona el propio visor en tick().
+  current.setLoop(THREE.LoopRepeat, Infinity);
+  current.clampWhenFinished = false;
   current.reset().play();
   t = 0;
-  const imp = IMPACTOS[name];
+  const meta = animJson.find((a) => a.name === name);
+  const imp = meta && meta.extras ? meta.extras.impactos_s : null;
   info.dataset.imp = imp ? ` · impacto ${imp.join(', ')} s` : '';
 }
 
