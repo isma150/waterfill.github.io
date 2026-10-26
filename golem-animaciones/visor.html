@@ -51,7 +51,7 @@ const key = new THREE.DirectionalLight(0xffffff, 1.9);
 key.position.set(2, 3, 4);
 scene.add(key);
 
-const gltf = await new GLTFLoader().loadAsync('Golem_Piedra_Animaciones_v2.glb');
+const gltf = await new GLTFLoader().loadAsync('Golem_Piedra_Animaciones_v3.glb');
 const root = gltf.scene;
 scene.add(root);
 const mixer = new THREE.AnimationMixer(root);
@@ -96,8 +96,10 @@ function play(name) {
   current.reset().play();
   t = 0;
   const meta = animJson.find((a) => a.name === name);
-  const imp = meta && meta.extras ? meta.extras.impactos_s : null;
-  info.dataset.imp = imp ? ` · impacto ${imp.join(', ')} s` : '';
+  const ex = meta && meta.extras ? meta.extras : {};
+  const imp = ex.impactos_s ? ` · impacto ${ex.impactos_s.join(', ')} s` : '';
+  const can = ex.cancelable_s !== undefined ? ` · cancelable desde ${ex.cancelable_s} s` : '';
+  info.dataset.imp = imp + can;
 }
 
 function resize() {
@@ -121,8 +123,8 @@ tl.addEventListener('input', () => {
   t = (tl.value / 1000) * current.getClip().duration;
 });
 
-play(select.value = 'Golpe_Pesado_v2');
-select.value = 'Golpe_Pesado_v2';
+play(select.value = 'Golpe_Recto_v3');
+select.value = 'Golpe_Recto_v3';
 
 const clock = new THREE.Clock();
 function tick() {

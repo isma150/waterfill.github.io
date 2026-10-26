@@ -5,11 +5,18 @@ Uso:
 
 Cada clip nuevo se construye a partir de un clip mocap del propio GLB:
   1. Remapeo temporal con curvas de easing (preparación, golpe, impacto, recuperación).
-  2. Retraso por cadena: antebrazo, mano y cabeza van 2-4 fotogramas detrás del brazo.
+  2. Retraso por cadena: antebrazo, mano y cabeza van 1-4 fotogramas detrás del brazo.
   3. Exageración del giro respecto al reposo, con tope de ángulo en cadera, columna y cabeza.
   4. Peso corporal: la cadera baja en la preparación y vuelve en el impacto.
-Los 23 clips originales se mantienen intactos. Los clips nuevos llevan en `extras`
-los instantes de impacto, para que el motor dispare el hit-stop y los efectos.
+  5. Postura de combate: los golpes v3 entran desde la postura y terminan en ella.
+
+Clips generados:
+  - Postura_Combate: bucle de 2 s (la primera y la última pose coinciden).
+  - *_v2: primera versión (se conservan para comparar en el visor).
+  - *_v3: tiempos medidos en el vídeo de referencia (preparación, pausa de impacto y
+    recuperación completa), con `cancelable_s` para encadenar como en el combo.
+
+Los 23 clips originales se mantienen intactos. Los impactos y las pausas van en `extras`.
 """
 import os
 import sys
@@ -21,6 +28,11 @@ from glb_lib import Glb, Writer, qmul, qconj, qnorm, qslerp, sample_channel  # n
 
 FPS = 60
 DT = 1.0 / FPS
+BLEND_IN_S = 0.10          # 6 fotogramas: entrada desde la postura de combate
+STANCE_PERIOD_S = 2.0      # duración del bucle Postura_Combate
+STANCE_CROUCH = 0.5        # mezcla de piernas y cadera hacia la postura agachada (Jump t=0)
+STANCE_DROP_M = -0.03      # la cadera baja 3 % de la altura en postura
+STANCE_BREATH_DEG = 2.0    # respiración: giro de la columna
 
 
 # ---------- utilidades ----------
@@ -122,6 +134,12 @@ def parent_world_rot(g, node):
     return w
 
 
+def hips_up_local(g):
+    """Vector 'arriba' del mundo expresado en el espacio local de la cadera."""
+    hips = g.index['mixamorig:Hips']
+    return rotate_vec(qconj(parent_world_rot(g, hips)), np.array([0.0, 1.0, 0.0]))
+
+
 def pose_at(g, clip, t):
     """Rotación local de cada hueso en el instante t de un clip existente: {node: (4,)}."""
     samples, _ = g.sample_clip(clip)
@@ -135,18 +153,88 @@ def pose_at(g, clip, t):
     return pose
 
 
-def build_clip(g, spec):
+def hips_translation_at(g, clip, t):
+    samples, _ = g.sample_clip(clip)
+    hips = g.index['mixamorig:Hips']
+    ch = samples.get(hips, {})
+    if 't' in ch:
+        return sample_channel(ch['t'][0], ch['t'][1], np.array([t]))[0]
+    return g.rest_trs(hips)[0]
+
+
+def clamp_group_1d(g, node, q):
+    """Aplica el tope de ángulo de su grupo a una rotación (4,) respecto al reposo."""
+    max_deg = GROUP_RULES[group_of(g.names[node])]['max_deg']
+    if max_deg is None:
+        return q
+    rest = g.rest_trs(node)[1]
+    delta = qmul(qconj(rest), q)
+    ang = np.degrees(angle_of(delta[None, :]))[0]
+    if ang <= max_deg:
+        return q
+    return qnorm(qmul(rest, qpow_v(delta[None, :], max_deg / ang)[0]))
+
+
+def stance_sources(g):
+    """Poses de origen de la postura de combate: Idle (base), Punch2 t=0 (guardia de brazos),
+    Jump t=0 (agachado para piernas y cadera) y la altura de cadera de Idle."""
+    return {
+        'base': pose_at(g, 'Idle', 0.0),
+        'guard': pose_at(g, 'Punch2', 0.0),
+        'crouch': pose_at(g, 'Jump', 0.0),
+        'hips': hips_translation_at(g, 'Idle', 0.0),
+    }
+
+
+def stance_pose(g, src, t):
+    """Postura de combate en el instante t. Devuelve ({node: (4,)}, cadera (3,))."""
+    breath = np.radians(STANCE_BREATH_DEG) * np.sin(2 * np.pi * t / STANCE_PERIOD_S)
+    breath_q = np.array([np.sin(breath / 2), 0.0, 0.0, np.cos(breath / 2)])
+    rot = {}
+    for node in g.joints:
+        name = g.names[node]
+        grp = group_of(name)
+        if grp in ('arm', 'shoulder', 'forearm', 'hand'):
+            q = src['guard'][node]
+        elif grp in ('leg', 'hips'):
+            q = qslerp(src['base'][node][None, :], src['crouch'][node][None, :], STANCE_CROUCH)[0]
+            q = clamp_group_1d(g, node, q)
+        else:
+            q = src['base'][node]
+        if name == 'mixamorig:Spine1':
+            q = qnorm(qmul(q, breath_q))
+        rot[node] = q
+    hips = src['hips'] + STANCE_DROP_M * hips_up_local(g)
+    return rot, hips
+
+
+def build_stance_clip(g, src):
+    """Postura_Combate: bucle exacto de STANCE_PERIOD_S (el último fotograma es el primero)."""
+    grid = np.arange(0, STANCE_PERIOD_S + 1e-9, DT)
+    frames = [stance_pose(g, src, t) for t in grid]
+    rot = {n: np.stack([f[0][n] for f in frames]).astype(np.float32) for n in g.joints}
+    hips = np.stack([f[1] for f in frames]).astype(np.float32)
+    return grid, rot, {g.index['mixamorig:Hips']: hips}
+
+
+def build_clip(g, spec, src):
     """Construye los tracks de un clip nuevo. Devuelve (grid, rot{node}, trn{node})."""
     src_samples, src_dur = g.sample_clip(spec['src'])
     total = spec['duration']
     grid = np.arange(0, total + 1e-9, DT)
     tmap = piecewise_map(spec['timeline'])
     settle = spec.get('settle')
-    neutral = pose_at(g, spec.get('settle_clip', 'Idle'), 0.0) if settle else None
-    # Ancla de la cadera: posición neutra de Idle (t=0). Es la postura que usan los clips.
-    idle_samples, _ = g.sample_clip('Idle')
-    idle_hips = idle_samples[g.index['mixamorig:Hips']]['t']
-    hips_anchor = sample_channel(idle_hips[0], idle_hips[1], np.array([0.0]))[0]
+    stance = spec.get('stance', False)
+    lift_gain = spec.get('lift_gain', 1.0)
+    if stance:
+        stance_rot, stance_hips = stance_pose(g, src, 0.0)
+        neutral = stance_rot
+        hips_target = stance_hips
+    else:
+        neutral = pose_at(g, 'Idle', 0.0) if settle else None
+        hips_target = None
+    hips_anchor = src['hips']
+    up_local = hips_up_local(g)
 
     rot, trn = {}, {}
     for node in g.joints:
@@ -170,10 +258,14 @@ def build_clip(g, spec):
             delta = qpow_v(delta, k)
         q_out = qnorm(qmul(rest_r[None, :].repeat(len(grid), 0), delta))
         if settle:
-            # Asentamiento: la pose vuelve a la postura neutra (Idle, t=0) tras el impacto.
+            # Asentamiento: la pose vuelve a la postura neutra tras el impacto.
             s0, s1 = settle
             b = ease('inout', (grid - s0) / (s1 - s0))
             q_out = qslerp(q_out, neutral[node][None, :].repeat(len(grid), 0), b[:, None])
+        if stance:
+            # Entrada: los primeros fotogramas parten exactamente de la postura de combate.
+            w_in = ease('inout', grid / BLEND_IN_S)
+            q_out = qslerp(np.tile(stance_rot[node], (len(grid), 1)), q_out, w_in[:, None])
         # Continuidad de hemisferio para que no haya giros de 360 grados.
         for i in range(1, len(q_out)):
             if np.dot(q_out[i], q_out[i - 1]) < 0:
@@ -185,51 +277,57 @@ def build_clip(g, spec):
             base = rest_t[None, :] + np.zeros((len(grid), 3))
             if 't' in ch:
                 base = sample_channel(ch['t'][0], ch['t'][1], src_t)
-            # `dip` va en el eje Y del mundo. Golem_Rig gira 90° en X, así que el eje Y
-            # local de la cadera apunta al Z del mundo: el vector se convierte al espacio local.
-            up_local = rotate_vec(qconj(parent_world_rot(g, node)), np.array([0.0, 1.0, 0.0]))
-            # Sin desplazamiento horizontal: del mocap solo se conserva la altura de la cadera.
+            # Vertical del mundo convertido al espacio local (Golem_Rig gira 90° en X).
+            # Sin desplazamiento horizontal: del mocap solo se conserva la altura.
             vertical = (base - hips_anchor[None, :]) @ up_local
-            trn[node] = (hips_anchor[None, :] + (vertical + dip)[:, None] * up_local[None, :]).astype(np.float32)
+            vertical = np.where(vertical > 0, vertical * lift_gain, vertical)
+            trn_out = hips_anchor[None, :] + (vertical + dip)[:, None] * up_local[None, :]
+            if stance:
+                s0, s1 = settle
+                b = ease('inout', (grid - s0) / (s1 - s0))
+                trn_out = trn_out * (1 - b[:, None]) + hips_target[None, :] * b[:, None]
+                w_in = ease('inout', grid / BLEND_IN_S)
+                trn_out = hips_target[None, :] * (1 - w_in[:, None]) + trn_out * w_in[:, None]
+            trn[node] = trn_out.astype(np.float32)
     return grid, rot, trn
 
 
 # ---------- definición de los clips ----------
+# Tiempos de v3 medidos en el vídeo de referencia (60 fps, contador de golpes como impacto):
+#   puñetazo recto: preparación visible ~8-10 fotogramas, pausa de impacto ~4-5 fotogramas,
+#   recuperación a la guardia ancha ~0,25 s. Se usa una preparación algo más larga para
+#   que se lea a la velocidad del juego (la superposición amarilla oculta el inicio).
 CLIPS = [
     {
-        # Golpe pesado con preparación: base Punch2, pausa en el impacto y recuperación suave.
+        # v2: primer intento con preparación de 0,58 s. Se conserva para comparar.
         'name': 'Golpe_Pesado_v2',
         'src': 'Punch2',
         'duration': 1.30,
-        # (t_salida, t_fuente, easing del tramo que sale de esta clave)
         'timeline': [
             (0.00, 0.00, 'inout'),
-            (0.30, 0.45, 'inout'),   # preparación: el brazo se carga hacia atrás
-            (0.40, 0.58, 'in'),      # última fase de carga
-            (0.50, 0.95, 'in'),      # aceleración del golpe
-            (0.58, 1.20, 'out'),     # impacto
-            (0.70, 1.26, 'out'),     # pausa de impacto (hit-stop visual)
-            (1.30, 2.05, 'out'),     # recuperación
+            (0.30, 0.45, 'inout'),
+            (0.40, 0.58, 'in'),
+            (0.50, 0.95, 'in'),
+            (0.58, 1.20, 'out'),
+            (0.70, 1.26, 'out'),
+            (1.30, 2.05, 'out'),
         ],
-        # Peso: la cadera baja al cargar y sube en el golpe.
         'dip': [(0.00, 0.0), (0.30, -0.035), (0.50, -0.012), (0.70, 0.0), (1.30, 0.0)],
-        'settle': (0.70, 1.30),  # vuelve a la postura Idle después del impacto
+        'settle': (0.70, 1.30),
         'extras': {'impactos_s': [0.58], 'hit_stop_s': [0.58, 0.70]},
     },
     {
-        # Salto con caída: agachado, despegue, suspensión, caída rápida y aterrizaje
-        # con compresión de cadera. Base: Jump (mocap del propio GLB).
         'name': 'Salto_Impacto_v2',
         'src': 'Jump',
         'duration': 1.70,
         'timeline': [
-            (0.00, 0.00, 'inout'),   # agachado (preparación)
-            (0.35, 0.20, 'in'),      # despegue
-            (0.50, 0.40, 'out'),     # suspensión en el aire
-            (0.95, 0.72, 'lin'),     # inicio de la caída
-            (1.05, 0.90, 'in'),      # aterrizaje: impacto
-            (1.15, 0.95, 'out'),     # pausa de impacto
-            (1.70, 1.00, 'out'),     # fin
+            (0.00, 0.00, 'inout'),
+            (0.35, 0.20, 'in'),
+            (0.50, 0.40, 'out'),
+            (0.95, 0.72, 'lin'),
+            (1.05, 0.90, 'in'),
+            (1.15, 0.95, 'out'),
+            (1.70, 1.00, 'out'),
         ],
         'dip': [(0.00, 0.0), (0.35, -0.06), (0.50, 0.05), (0.95, 0.05),
                 (1.05, -0.10), (1.20, -0.03), (1.70, 0.0)],
@@ -237,19 +335,17 @@ CLIPS = [
         'extras': {'impactos_s': [1.05], 'hit_stop_s': [1.05, 1.15]},
     },
     {
-        # Puñetazo recto: base Golpe02_Cruzado (el brazo avanza en línea recta).
-        # Las piernas casi no se mueven en ese clip, así que se exagera su ganancia.
         'name': 'Golpe_Recto_v2',
         'src': 'Golpe02_Cruzado',
         'duration': 1.25,
         'timeline': [
-            (0.00, 0.00, 'inout'),   # preparación
-            (0.25, 0.15, 'inout'),   # carga del brazo
-            (0.40, 0.30, 'in'),      # inicio del avance
-            (0.50, 0.40, 'in'),      # aceleración del golpe
-            (0.58, 0.60, 'out'),     # impacto
-            (0.70, 0.62, 'out'),     # pausa de impacto (hit-stop visual)
-            (1.25, 1.20, 'out'),     # recuperación
+            (0.00, 0.00, 'inout'),
+            (0.25, 0.15, 'inout'),
+            (0.40, 0.30, 'in'),
+            (0.50, 0.40, 'in'),
+            (0.58, 0.60, 'out'),
+            (0.70, 0.62, 'out'),
+            (1.25, 1.20, 'out'),
         ],
         'dip': [(0.00, 0.0), (0.25, -0.03), (0.50, -0.01), (0.70, 0.0), (1.25, 0.0)],
         'settle': (0.70, 1.25),
@@ -259,14 +355,83 @@ CLIPS = [
         },
         'extras': {'impactos_s': [0.58], 'hit_stop_s': [0.58, 0.70]},
     },
+    {
+        # v3: preparación corta desde la postura, impacto a 0,32 s, pausa de 5 fotogramas,
+        # recuperación completa hasta la postura. Puede encadenarse desde 0,40 s.
+        'name': 'Golpe_Recto_v3',
+        'src': 'Golpe02_Cruzado',
+        'duration': 1.20,
+        'stance': True,
+        'timeline': [
+            (0.00, 0.00, 'inout'),
+            (0.18, 0.22, 'inout'),   # preparación
+            (0.26, 0.40, 'in'),      # avance
+            (0.32, 0.60, 'out'),     # impacto
+            (0.40, 0.62, 'out'),     # pausa de impacto (5 fotogramas)
+            (1.20, 1.20, 'out'),     # recuperación completa
+        ],
+        'dip': [(0.00, 0.0), (0.18, -0.03), (0.32, -0.01), (0.45, 0.0), (1.20, 0.0)],
+        'settle': (0.45, 1.10),
+        'gain_override': {
+            'mixamorig:LeftUpLeg': 1.5, 'mixamorig:RightUpLeg': 1.5,
+            'mixamorig:LeftLeg': 1.5, 'mixamorig:RightLeg': 1.5,
+        },
+        'extras': {'impactos_s': [0.32], 'hit_stop_s': [0.32, 0.40], 'cancelable_s': 0.40},
+    },
+    {
+        # v3: impacto a 0,40 s, pausa de 6 fotogramas, recuperación completa.
+        'name': 'Golpe_Pesado_v3',
+        'src': 'Punch2',
+        'duration': 1.30,
+        'stance': True,
+        'timeline': [
+            (0.00, 0.00, 'inout'),
+            (0.14, 0.30, 'inout'),
+            (0.24, 0.50, 'in'),
+            (0.32, 0.80, 'in'),
+            (0.40, 1.20, 'out'),     # impacto
+            (0.50, 1.26, 'out'),     # pausa de impacto (6 fotogramas)
+            (1.30, 2.05, 'out'),     # recuperación completa
+        ],
+        'dip': [(0.00, 0.0), (0.14, -0.03), (0.40, -0.01), (0.55, 0.0), (1.30, 0.0)],
+        'settle': (0.55, 1.20),
+        'extras': {'impactos_s': [0.40], 'hit_stop_s': [0.40, 0.50], 'cancelable_s': 0.50},
+    },
+    {
+        # v3: salto con el mismo perfil temporal que v2, cadera con 1,25 de altura en el
+        # vuelo (la referencia sube algo más de 0,6 veces la altura del personaje).
+        'name': 'Salto_Impacto_v3',
+        'src': 'Jump',
+        'duration': 1.70,
+        'stance': True,
+        'lift_gain': 1.25,
+        'timeline': [
+            (0.00, 0.00, 'inout'),
+            (0.35, 0.20, 'in'),
+            (0.50, 0.40, 'out'),
+            (0.95, 0.72, 'lin'),
+            (1.05, 0.90, 'in'),
+            (1.13, 0.95, 'out'),     # pausa de impacto (5 fotogramas)
+            (1.70, 1.00, 'out'),
+        ],
+        'dip': [(0.00, 0.0), (0.35, -0.06), (0.50, 0.05), (0.95, 0.05),
+                (1.05, -0.10), (1.20, -0.03), (1.70, 0.0)],
+        'settle': (1.13, 1.70),
+        'extras': {'impactos_s': [1.05], 'hit_stop_s': [1.05, 1.13], 'cancelable_s': 1.13},
+    },
 ]
 
 
 def main(src, out):
     g = Glb(src)
     w = Writer(g)
+    sources = stance_sources(g)
+    grid, rot, trn = build_stance_clip(g, sources)
+    w.add_animation('Postura_Combate', grid, rot, trn,
+                    extras={'bucle': True, 'duracion_s': STANCE_PERIOD_S})
+    print(f"Postura_Combate: {len(grid)} fotogramas, bucle de {STANCE_PERIOD_S:.2f}s")
     for spec in CLIPS:
-        grid, rot, trn = build_clip(g, spec)
+        grid, rot, trn = build_clip(g, spec, sources)
         w.add_animation(spec['name'], grid, rot, trn, extras=spec.get('extras'))
         print(f"{spec['name']}: {len(grid)} fotogramas, {spec['duration']:.2f}s")
     w.save(out)
