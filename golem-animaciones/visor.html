@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visor de animaciones del golem</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #20242b; color: #e8ebef; font-family: system-ui, sans-serif; }
+  body { display: flex; flex-direction: column; }
+  header { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: #2a2f38; }
+  select, button { font: inherit; padding: 6px 10px; border-radius: 6px; border: 1px solid #4a5260; background: #343b46; color: inherit; }
+  #tl { flex: 1; min-width: 160px; }
+  #info { font-variant-numeric: tabular-nums; font-size: 14px; opacity: .85; }
+  #stage { flex: 1; min-height: 0; }
+  canvas { display: block; width: 100%; height: 100%; }
+</style>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<header>
+  <select id="clip"></select>
+  <button id="play">Pausa</button>
+  <input id="tl" type="range" min="0" max="1000" value="0">
+  <span id="info"></span>
+</header>
+<div id="stage"></div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const stage = document.getElementById('stage');
+const select = document.getElementById('clip');
+const playBtn = document.getElementById('play');
+const tl = document.getElementById('tl');
+const info = document.getElementById('info');
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+stage.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x2b3038);
+const camera = new THREE.PerspectiveCamera(28, 1, 0.01, 100);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x556070, 1.5));
+const key = new THREE.DirectionalLight(0xffffff, 1.9);
+key.position.set(2, 3, 4);
+scene.add(key);
+
+const gltf = await new GLTFLoader().loadAsync('Golem_Piedra_Animaciones_v2.glb');
+const root = gltf.scene;
+scene.add(root);
+const mixer = new THREE.AnimationMixer(root);
+const actions = {};
+for (const clip of gltf.animations) {
+  actions[clip.name] = mixer.clipAction(clip);
+  const opt = document.createElement('option');
+  opt.value = clip.name;
+  opt.textContent = clip.name;
+  select.appendChild(opt);
+}
+
+// Encuadre fijo a partir de la pose Idle, igual para todos los clips.
+const jointBox = new THREE.Box3();
+const p = new THREE.Vector3();
+actions.Idle.play();
+mixer.setTime(0);
+root.updateMatrixWorld(true);
+root.traverse((o) => { if (o.isBone) { o.getWorldPosition(p); jointBox.expandByPoint(p); } });
+mixer.stopAllAction();
+const center = jointBox.getCenter(new THREE.Vector3());
+const height = jointBox.max.y - jointBox.min.y + 0.6;
+const dist = height / (2 * Math.tan(THREE.MathUtils.degToRad(14)) * 0.8);
+camera.position.set(center.x + dist * 0.5, center.y + dist * 0.08, center.z + dist * 0.87);
+camera.lookAt(center);
+
+let current = null;
+let playing = true;
+let t = 0;
+
+// Instantes de impacto de los clips nuevos (mismos valores que "impactos_s" en generar_animaciones.py).
+const IMPACTOS = { Golpe_Pesado_v2: [0.58], Salto_Impacto_v2: [1.05] };
+
+function play(name) {
+  current = actions[name];
+  mixer.stopAllAction();
+  current.setLoop(THREE.LoopOnce, 0);
+  current.clampWhenFinished = true;
+  current.reset().play();
+  t = 0;
+  const imp = IMPACTOS[name];
+  info.dataset.imp = imp ? ` · impacto ${imp.join(', ')} s` : '';
+}
+
+function resize() {
+  const w = stage.clientWidth;
+  const h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resize);
+resize();
+
+select.addEventListener('change', () => play(select.value));
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  playBtn.textContent = playing ? 'Pausa' : 'Reproducir';
+});
+tl.addEventListener('input', () => {
+  playing = false;
+  playBtn.textContent = 'Reproducir';
+  t = (tl.value / 1000) * current.getClip().duration;
+});
+
+play(select.value = 'Golpe_Pesado_v2');
+select.value = 'Golpe_Pesado_v2';
+
+const clock = new THREE.Clock();
+function tick() {
+  const dt = clock.getDelta();
+  if (playing && current) {
+    t += dt;
+    if (t > current.getClip().duration) t = 0;
+  }
+  if (current) {
+    mixer.setTime(t);
+    tl.value = (t / current.getClip().duration) * 1000;
+    info.textContent = `${t.toFixed(2)} / ${current.getClip().duration.toFixed(2)} s${info.dataset.imp || ''}`;
+  }
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body>
+</html>
