@@ -4,10 +4,12 @@
 The structure image fixes the geometry: the room faces, the openings (the
 transparent holes), and the candle positions. The theme image supplies the
 look: stone, hieroglyphs, torches, the lion emblem and the palette. Each room
-face is mapped from the structure to the theme with a homography, sampled, and
-snapped to a grid of CELL x CELL output pixels, so every block is one flat colour.
+face is mapped from the structure to the theme with a homography, stretched so
+the theme's side slots land on the structure's openings, sampled, and snapped
+to a grid of CELL x CELL output pixels, so every block is one flat colour.
 
-A reskin is a new theme image with its THEME_FACES quads measured on it.
+A reskin is a new theme image with its THEME_FACES, THEME_HOLES, HOLE_ALIGN and
+TORCHES measured on it.
 
 Usage:
     python3 render_room.py [structure.webp] [theme.webp] [out.png]
@@ -20,6 +22,7 @@ from PIL import Image, ImageDraw
 
 CELL = 3  # output pixels per art pixel: 1368 = 456 * 3, and 769 = 255 * 3 + 4
 PALETTE_SIZE = 32
+UNIT = [(0, 0), (1, 0), (1, 1), (0, 1)]
 LUMA = np.array([0.299, 0.587, 0.114])
 
 # Room faces as quads, in the same semantic corner order in both images.
@@ -42,8 +45,16 @@ THEME_FACES = {
 THEME_HOLES = [
     (411, 140, 571, 181), (754, 140, 916, 175), (1098, 140, 1260, 178),
     (409, 750, 571, 786), (753, 752, 917, 787), (1098, 750, 1261, 786),
-    (264, 378, 317, 561), (1355, 378, 1407, 561),
+    (266, 396, 316, 542), (1358, 396, 1406, 542),
 ]
+# Side openings per face: (structure hole box, theme slot box), both (x0, y0, x1, y1).
+# The face is stretched so the theme slot lands on the structure hole.
+HOLE_ALIGN = {
+    'left': ((240, 335, 282, 439), (266, 396, 316, 542)),
+    'right': ((1091, 333, 1126, 438), (1358, 396, 1406, 542)),
+}
+# Torch flame centres in the theme image (x, y). Their colours are added to the palette.
+TORCHES = [(245, 230), (1425, 230), (245, 690), (1425, 690)]
 # Candle flame centres in the structure image (x, y).
 CANDLES = [(452, 596), (683, 597), (914, 596)]
 
@@ -57,6 +68,29 @@ def homography(src, dst):
         rhs.extend([u, v])
     h = np.linalg.solve(np.array(rows, float), np.array(rhs, float))
     return np.append(h, 1).reshape(3, 3)
+
+
+def project(h, pts):
+    """Apply the homography h to points of shape (2, N); returns shape (2, N)."""
+    q = h @ np.vstack([pts, np.ones(pts.shape[1])])
+    return q[:2] / q[2]
+
+
+def uv_range(h, box):
+    """Return the (min, max) of the face coordinates of a pixel box, as two (u, v) pairs."""
+    x0, y0, x1, y1 = box
+    uv = project(h, np.array([[x0, x1, x1, x0], [y0, y0, y1, y1]], float))
+    return uv.min(axis=1), uv.max(axis=1)
+
+
+def stretch(x, src, dst):
+    """Piecewise-linear map of a face coordinate: src (lo, hi) lands on dst (lo, hi).
+
+    Outside the span the map keeps the original scale, so only the opening is stretched.
+    """
+    s0, s1 = src
+    t0, t1 = dst
+    return np.interp(x, [0, s0, s1, 1], [t0 - s0, t0, t1, t1 + 1 - s1])
 
 
 def fill_theme_holes(theme):
@@ -103,19 +137,54 @@ def block_sum(arr, ey, ex):
     return np.add.reduceat(rows, ex[:-1], axis=1)
 
 
+def flame_colours(theme):
+    """Core (the brightest) and body (the most saturated) colours of the torch flames."""
+    core, body = [], []
+    for cx, cy in TORCHES:
+        sub = theme[cy - 14:cy + 15, cx - 14:cx + 15].reshape(-1, 3)
+        core.append(sub[np.argsort(-(sub @ LUMA))[:8]].mean(axis=0))
+        body.append(sub[np.argsort(-(sub[:, 0] - sub[:, 2]))[:8]].mean(axis=0))
+    return np.array([np.mean(core, axis=0), np.mean(body, axis=0)])
+
+
 def snap_to_palette(colours, keep):
     """Quantise the kept cell colours to at most PALETTE_SIZE colours."""
     pix = np.clip(np.round(colours[keep]), 0, 255).astype(np.uint8)
     img = Image.fromarray(pix[None, :, :]).quantize(
         colors=PALETTE_SIZE, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
     table = np.array(img.getpalette()[:256 * 3], np.uint8).reshape(-1, 3)
-    palette = table[np.unique(np.array(img)[0])]
-    return palette
+    return table[np.unique(np.array(img)[0])]
 
 
 def nearest(palette, colour):
     d = ((palette - np.asarray(colour, float)) ** 2).sum(axis=1)
     return palette[d.argmin()]
+
+
+def despeckle(cells):
+    """Repaint a lone cell with the colour that holds at least 5 of its 8 neighbours.
+
+    A cell is lone when its colour differs from all four orthogonal neighbours, so
+    one-cell mortar lines survive. Decisions use the input grid, so changes do not cascade.
+    """
+    src = cells.copy()
+    for y in range(1, cells.shape[0] - 1):
+        for x in range(1, cells.shape[1] - 1):
+            if src[y, x, 3] == 0:
+                continue
+            c = src[y, x, :3]
+            ortho = (src[y - 1, x], src[y + 1, x], src[y, x - 1], src[y, x + 1])
+            if any(n[3] == 255 and (n[:3] == c).all() for n in ortho):
+                continue
+            ring = src[y - 1:y + 2, x - 1:x + 2].reshape(-1, 4)
+            ring = np.delete(ring, 4, axis=0)  # drop the centre cell
+            ring = ring[ring[:, 3] == 255][:, :3]
+            if len(ring) == 0:
+                continue
+            colours, counts = np.unique(ring, axis=0, return_counts=True)
+            if counts.max() >= 5:
+                cells[y, x, :3] = colours[counts.argmax()]
+    return cells
 
 
 def render(structure, theme):
@@ -129,11 +198,17 @@ def render(structure, theme):
     ys, xs = np.mgrid[0:sh, 0:sw]
     for i, (name, quad) in enumerate(STRUCTURE_FACES.items()):
         m = labels == i
-        h = homography(quad, THEME_FACES[name])
-        p = np.stack([xs[m] + 0.5, ys[m] + 0.5, np.ones(m.sum())])
-        q = h @ p
-        u = np.clip(np.floor(q[0] / q[2]).astype(int), 0, tw - 1)
-        v = np.clip(np.floor(q[1] / q[2]).astype(int), 0, th - 1)
+        to_uv = homography(quad, UNIT)
+        uv = project(to_uv, np.stack([xs[m] + 0.5, ys[m] + 0.5]))
+        if name in HOLE_ALIGN:
+            s_box, t_box = HOLE_ALIGN[name]
+            s_lo, s_hi = uv_range(to_uv, s_box)
+            t_lo, t_hi = uv_range(homography(THEME_FACES[name], UNIT), t_box)
+            for axis in (0, 1):
+                uv[axis] = stretch(uv[axis], (s_lo[axis], s_hi[axis]), (t_lo[axis], t_hi[axis]))
+        tp = project(homography(UNIT, THEME_FACES[name]), uv)
+        u = np.clip(np.floor(tp[0]).astype(int), 0, tw - 1)
+        v = np.clip(np.floor(tp[1]).astype(int), 0, th - 1)
         colour[m] = theme[v, u]
 
     ey = np.array(cell_edges(sh))
@@ -144,21 +219,19 @@ def render(structure, theme):
 
     keep = ~cell_hole
     palette = snap_to_palette(cell_colour, keep)
+    palette = np.vstack([palette, np.round(flame_colours(theme)).astype(np.uint8)])
     cells = np.zeros(cell_colour.shape[:2] + (4,), np.uint8)
     cells[keep, :3] = [nearest(palette, c) for c in cell_colour[keep]]
     cells[keep, 3] = 255
+    cells = despeckle(cells)
 
-    ranked = palette[np.argsort(-(palette.astype(float) @ LUMA))]
+    core, body = palette[-2], palette[-1]
     for cx, cy in CANDLES:
         gx, gy = int(cx) // CELL, int(cy) // CELL
-        for dy in range(-2, 3):
-            for dx in range(-2, 3):
-                d2 = dx * dx + dy * dy
-                if d2 > 5 or cell_hole[gy + dy, gx + dx]:
-                    continue
-                # Bright flame core, then a dark rounded outline so it reads on the lit wall.
-                rank = 0 if d2 == 0 else 1 if d2 == 1 else 3 if d2 == 2 else -1
-                cells[gy + dy, gx + dx, :3] = ranked[rank]
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                if not cell_hole[gy + dy, gx + dx]:
+                    cells[gy + dy, gx + dx, :3] = core if dx == dy == 0 else body
 
     out = np.repeat(np.repeat(cells, np.diff(ey), axis=0), np.diff(ex), axis=1)
     return out, palette
